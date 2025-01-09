@@ -52,10 +52,12 @@ const LoginForm = () => {
               <span className='text-[13px] font-semibold'>Remember Me</span>
             </button>
           </div>
-          <button className='text-white bg-zinc-700 font-medium w-full py-3 rounded-lg'>
+          <button className='text-white bg-zinc-700 shadow-2xl shadow-black/50 font-medium w-full py-3 rounded-lg hover:bg-tcblue transition-all duration-300 hover:scale-105 hover:shadow-sm'>
             Login
           </button>
-          <span className='text-sm font-semibold'>Forgot Your Password?</span>
+          <span className='text-sm font-semibold hover:scale-105 hover:underline transition-all duration-300 cursor-pointer'>
+            Forgot Your Password?
+          </span>
         </form>
       </div>
     </div>
