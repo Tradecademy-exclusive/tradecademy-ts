@@ -1,11 +1,5 @@
-import LoginForm from '@/components/LoginForm'
-
 const Home = () => {
-  return (
-    <>
-      <LoginForm />
-    </>
-  )
+  return <></>
 }
 
 export default Home

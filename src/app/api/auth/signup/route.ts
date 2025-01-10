@@ -46,17 +46,22 @@ export const POST = async (req: Request) => {
       },
     })
 
-    jwt.sign(
+    const token = jwt.sign(
       { id: user.id, email: user.email },
       process.env.JWT_SECRET!,
-      {},
-      (err) => {
-        if (err) {
-          return NextResponse.json({ error: err }, { status: 400 })
-        }
-        return NextResponse.json({ success: true }, { status: 200 })
-      }
+      { expiresIn: '7d' }
     )
+
+    return NextResponse.json(
+      { success: true, token },
+      { status: 200 }
+    ).cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60,
+    })
   } catch (err) {
     return NextResponse.json(
       { message: 'Failed to register the user', error: err },

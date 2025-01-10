@@ -1,12 +1,34 @@
 'use client'
+
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import { IoCheckmarkOutline } from 'react-icons/io5'
+import { toast } from 'react-toastify'
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [remember, setRemember] = useState<boolean>(false)
+
+  const login = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+      if (!email || !password) {
+        return toast.error('Please fill out all the fields!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (!emailRegex.test(email)) {
+        return toast.error('Please enter a valid email!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+    } catch (err) {
+      console.error('error:', err)
+    }
+  }
 
   return (
     <div className='w-full h-screen flex items-center justify-center'>
@@ -18,10 +40,13 @@ const LoginForm = () => {
           height={100}
           alt='tradecademy logo'
         />
-        <form className='flex flex-col items-center gap-2.5 z-[100] -translate-y-28 w-[270px]'>
+        <form
+          onSubmit={login}
+          className='flex flex-col items-center gap-2.5 z-[100] -translate-y-28 w-[270px]'
+        >
           <h2 className='text-[22px] font-semibold'>Login</h2>
           <input
-            type='email'
+            type='text'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className='outline-none px-4 py-2.5 rounded-lg bg-zinc-200 text-zinc-600 placeholder:text-zinc-600 w-full font-medium'
@@ -55,6 +80,13 @@ const LoginForm = () => {
           <button className='text-white bg-zinc-700 shadow-2xl shadow-black/50 font-medium w-full py-3 rounded-lg hover:bg-tcblue transition-all duration-300 hover:scale-105 hover:shadow-sm'>
             Login
           </button>
+          <Link
+            href='/signup'
+            className='text-tcblue hover:text-white border border-tcblue shadow-2xl shadow-black/50 font-medium w-full py-3 rounded-lg hover:bg-tcblue transition-all text-center duration-300 hover:scale-105 hover:shadow-sm'
+          >
+            Sign Up
+          </Link>
+
           <span className='text-sm font-semibold hover:scale-105 hover:underline transition-all duration-300 cursor-pointer'>
             Forgot Your Password?
           </span>
