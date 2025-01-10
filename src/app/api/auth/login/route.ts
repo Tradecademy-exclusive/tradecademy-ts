@@ -9,7 +9,7 @@ export const POST = async (req: Request) => {
 
     if (!email || !password) {
       return NextResponse.json(
-        { message: 'Please fill out all the fields' },
+        { message: 'Please fill out all the fields!' },
         { status: 400 }
       )
     }
@@ -22,8 +22,8 @@ export const POST = async (req: Request) => {
 
     if (!userExists) {
       return NextResponse.json(
-        { message: 'User with this email does not exist' },
-        { status: 400 }
+        { message: 'User does not exist!' },
+        { status: 200 }
       )
     }
 
@@ -31,8 +31,8 @@ export const POST = async (req: Request) => {
 
     if (!passwordMatches) {
       return NextResponse.json(
-        { message: 'Password does not match' },
-        { status: 400 }
+        { message: 'Password does not match!' },
+        { status: 200 }
       )
     }
 
@@ -42,16 +42,20 @@ export const POST = async (req: Request) => {
       { expiresIn: '7d' }
     )
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       { success: true, token },
       { status: 200 }
-    ).cookies.set('token', token, {
+    )
+
+    response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       path: '/',
       maxAge: 7 * 24 * 60 * 60,
     })
+
+    return response
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
   }

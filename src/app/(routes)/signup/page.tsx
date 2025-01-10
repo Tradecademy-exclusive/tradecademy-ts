@@ -7,16 +7,17 @@ import { useState } from 'react'
 import { IoCheckmarkOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 
-const LoginForm = () => {
+const SignupForm = () => {
   const [email, setEmail] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [remember, setRemember] = useState<boolean>(false)
 
-  const login = async (e: React.FormEvent) => {
+  const signup = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-      if (!email || !password) {
+      if (!email || !password || !username) {
         return toast.error('Please fill out all the fields!', {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
@@ -27,7 +28,29 @@ const LoginForm = () => {
         })
       }
 
-      const { data } = await axios.post('/api/auth/login', { email, password })
+      if (password.length < 3) {
+        return toast.error('Password must be at least 3 characters!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      if (username.length < 3) {
+        return toast.error('Username must be at least 3 characters!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      if (username.length > 15) {
+        return toast.error('Username must be less then 15 characters!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      const { data } = await axios.post('/api/auth/signup', {
+        email,
+        password,
+        username,
+      })
 
       if (data.message) {
         return toast.error(data.message, {
@@ -50,16 +73,23 @@ const LoginForm = () => {
           alt='tradecademy logo'
         />
         <form
-          onSubmit={login}
+          onSubmit={signup}
           className='flex flex-col items-center gap-2.5 z-[100] -translate-y-28 w-[270px]'
         >
-          <h2 className='text-[22px] font-semibold'>Login</h2>
+          <h2 className='text-[22px] font-semibold'>Sign Up</h2>
           <input
             type='text'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className='outline-none px-4 py-2.5 rounded-lg bg-zinc-200 text-zinc-600 placeholder:text-zinc-600 w-full font-medium'
             placeholder='Email'
+          />
+          <input
+            type='text'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className='outline-none px-4 py-2.5 rounded-lg bg-zinc-200 text-zinc-600 placeholder:text-zinc-600 w-full font-medium'
+            placeholder='Username'
           />
           <div className='flex flex-col items-start gap-2 w-full'>
             <input
@@ -87,13 +117,13 @@ const LoginForm = () => {
             </button>
           </div>
           <button className='text-white bg-zinc-700 shadow-2xl shadow-black/50 font-medium w-full py-3 rounded-lg hover:bg-tcblue transition-all duration-300 hover:scale-105 hover:shadow-sm'>
-            Login
+            Sign Up
           </button>
           <Link
-            href='/signup'
+            href='/login'
             className='text-tcblue hover:text-white border border-tcblue shadow-2xl shadow-black/50 font-medium w-full py-3 rounded-lg hover:bg-tcblue transition-all text-center duration-300 hover:scale-105 hover:shadow-sm'
           >
-            Sign Up
+            Login
           </Link>
 
           <span className='text-sm font-semibold hover:scale-105 hover:underline transition-all duration-300 cursor-pointer'>
@@ -105,4 +135,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default SignupForm

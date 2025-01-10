@@ -11,14 +11,14 @@ export const POST = async (req: Request) => {
 
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { message: 'Please provide a valid email' },
+        { message: 'Please provide a valid email!' },
         { status: 400 }
       )
     }
 
     if (!email || !password || !username) {
       return NextResponse.json(
-        { message: 'Please fill out every field.' },
+        { message: 'Please fill out every field!' },
         { status: 400 }
       )
     }
@@ -31,8 +31,8 @@ export const POST = async (req: Request) => {
 
     if (userExists) {
       return NextResponse.json(
-        { message: 'User already exists' },
-        { status: 500 }
+        { message: 'User already exists!' },
+        { status: 200 }
       )
     }
 
@@ -52,16 +52,20 @@ export const POST = async (req: Request) => {
       { expiresIn: '7d' }
     )
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       { success: true, token },
       { status: 200 }
-    ).cookies.set('token', token, {
+    )
+
+    response.cookies.set('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       path: '/',
       maxAge: 7 * 24 * 60 * 60,
     })
+
+    return response
   } catch (err) {
     return NextResponse.json(
       { message: 'Failed to register the user', error: err },
