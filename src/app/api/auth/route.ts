@@ -9,7 +9,7 @@ export const GET = async () => {
     const cookieStore = await cookies()
     const token = cookieStore.get('token')
 
-    if (!token) {
+    if (!token?.value) {
       return NextResponse.json({ session: null }, { status: 200 })
     }
 
@@ -36,6 +36,16 @@ export const GET = async () => {
       { session: { user, token: token.value } },
       { status: 200 }
     )
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
+}
+
+export const DELETE = async () => {
+  try {
+    const response = NextResponse.json({ success: true }, { status: 200 })
+    response.cookies.set('token', '')
+    return response
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
   }

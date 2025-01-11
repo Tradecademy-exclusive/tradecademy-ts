@@ -6,11 +6,26 @@ import NavLink from './navLink'
 import { usePathname } from 'next/navigation'
 import { BsJournalText } from 'react-icons/bs'
 import { MdOutlineLocalOffer } from 'react-icons/md'
+import { IoExitOutline, IoSettingsOutline } from 'react-icons/io5'
+import Link from 'next/link'
+import { useContext } from 'react'
+import { AuthContext } from '@/providers/AuthProvider'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 export const Sidebar = () => {
+  const router = useRouter()
+  const { setSession } = useContext(AuthContext)
   const pathname = usePathname()
+
+  const logout = async () => {
+    await axios.delete('/api/auth')
+    setSession(null)
+    router.replace('/')
+  }
+
   return (
-    <div className='bg-charcoal min-w-[300px] max-w-[300px] rounded-r-2xl py-6 px-7 flex flex-col items-center gap-8 min-h-screen h-full'>
+    <div className='bg-charcoal min-w-[300px] max-w-[300px] rounded-r-2xl py-9 px-12 flex flex-col items-center gap-8 min-h-screen h-full'>
       <Icons.icon />
       <nav className='w-fit flex flex-col items-start gap-6'>
         <NavLink
@@ -276,6 +291,22 @@ export const Sidebar = () => {
           href='/offers'
         />
       </nav>
+      <div className='flex flex-col items-start gap-4 mt-auto w-full'>
+        <Link
+          href='/settings'
+          className='flex items-center gap-3 w-full text-left text-lg  text-creme font-semibold'
+        >
+          <IoSettingsOutline className='text-[23px]' />
+          Settings
+        </Link>
+        <button
+          onClick={logout}
+          className='flex items-center gap-3 w-full text-left text-lg  text-creme font-semibold'
+        >
+          <IoExitOutline className='text-2xl' />
+          Log Out
+        </button>
+      </div>
     </div>
   )
 }

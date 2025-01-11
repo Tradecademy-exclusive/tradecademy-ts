@@ -1,10 +1,17 @@
 'use client'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
-import { notFound } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const Protected = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter()
   const { session, loading } = useContext(AuthContext)
+
+  useEffect(() => {
+    if (!loading && !session) {
+      return router.replace('/')
+    }
+  }, [loading, session, router])
 
   if (loading) {
     return (
@@ -13,10 +20,6 @@ const Protected = ({ children }: { children: React.ReactNode }) => {
         <div className='fixed left-0 top-0 w-full h-full z-[10] blur-xl'></div>
       </div>
     )
-  }
-
-  if (!loading && !session) {
-    return notFound()
   }
 
   return <>{children}</>
