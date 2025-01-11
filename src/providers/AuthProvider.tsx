@@ -1,10 +1,11 @@
 'use client'
+import { SessionType } from '@/types'
 import axios from 'axios'
 import { createContext, useState, useLayoutEffect } from 'react'
 
 interface AuthContextType {
-  session: null
-  setSession: React.Dispatch<React.SetStateAction<null>>
+  session: null | SessionType
+  setSession: React.Dispatch<React.SetStateAction<null | SessionType>>
   loading: boolean
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -17,7 +18,7 @@ export const AuthContext = createContext<AuthContextType>({
 })
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState<SessionType | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   useLayoutEffect(() => {
@@ -31,6 +32,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     getSession()
   }, [])
+
+  console.log(session)
 
   return (
     <AuthContext.Provider value={{ session, setSession, loading, setLoading }}>

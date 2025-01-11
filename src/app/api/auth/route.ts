@@ -1,19 +1,41 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
+import { CustomJwtPayload } from '@/types'
+import prisma from '@/db/prisma'
 
 export const GET = async () => {
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('token')
 
-    return NextResponse.json({ token }, { status: 200 })
-
     if (!token) {
-      return NextResponse.json({ user: null }, { status: 200 })
+      return NextResponse.json({ session: null }, { status: 200 })
     }
 
-    const { email } = jwt.verify(token, process.env.JWT_SECRET)
+    const { email } = jwt.verify(
+      token.value,
+      process.env.JWT_SECRET!
+    ) as CustomJwtPayload
+
+    if (!email) {
+      return NextResponse.json({ session: null }, { status: 200 })
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    })
+
+    if (!user) {
+      return NextResponse.json({ session: null }, { status: 200 })
+    }
+
+    return NextResponse.json(
+      { session: { user, token: token.value } },
+      { status: 200 }
+    )
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
   }
