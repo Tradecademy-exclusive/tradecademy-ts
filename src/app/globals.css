@@ -6,25 +6,45 @@
   font-family: var(--font-geist-sans) !important;
 }
 
-/* Customize the success toast */
 .Toastify__toast--success {
-  background-color: #d4edda; /* Light green background */
-  color: #155724; /* Dark green text */
+  background-color: #d4edda;
+  color: #155724;
 }
 
-/* Customize the error toast */
 .Toastify__toast--error {
-  background-color: #1336ea; /* Light red background */
-  color: white; /* Dark red text */
+  background-color: #1336ea;
+  color: white;
 }
 
-/* Customize the info toast */
 .Toastify__toast--info {
-  background-color: #d1ecf1; /* Light blue background */
-  color: #0c5460; /* Dark blue text */
+  background-color: #d1ecf1;
+  color: #0c5460;
 }
 
-/* Customize the progress bar */
 .Toastify__progress-bar {
-  background: white; /* Green progress bar */
+  background: white;
+}
+
+.loader {
+  width: fit-content;
+  font-size: 40px;
+  line-height: 1.5;
+  font-family: system-ui, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #1336ea;
+  background: radial-gradient(1.13em at 50% 1.6em, #1336ea 99%, #0000 101%)
+      calc(50% - 1.6em) 0/3.2em 100% text,
+    radial-gradient(1.13em at 50% -0.8em, #0000 99%, #1336ea 101%) 50% 0.8em/3.2em
+      100% repeat-x text;
+  animation: l9 2s linear infinite;
+}
+.loader:before {
+  content: 'Loading';
+}
+@keyframes l9 {
+  to {
+    background-position: calc(50% + 1.6em) 0, calc(50% + 3.2em) 0.8em;
+  }
 }

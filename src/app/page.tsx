@@ -2,14 +2,25 @@
 
 import axios from 'axios'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import { IoCheckmarkOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
+import { useContext } from 'react'
+import { AuthContext } from '@/providers/AuthProvider'
+import { useRouter } from 'next/navigation'
 
 const LoginForm = () => {
+  const router = useRouter()
+  const { session, loading, setSession } = useContext(AuthContext)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [remember, setRemember] = useState<boolean>(false)
+
+  useLayoutEffect(() => {
+    if (!loading && session) {
+      router.replace('/dashboard')
+    }
+  }, [session, loading, router])
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,9 +44,28 @@ const LoginForm = () => {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
       }
+
+      if (data.session) {
+        toast.error("You're now logged in.", {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+        setEmail('')
+        setPassword('')
+        setSession(data.session)
+        router.replace('/dashboard')
+      }
     } catch (err) {
       console.error('error:', err)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className='w-full h-screen flex items-center justify-center relative'>
+        <div className='loader z-[50]'></div>
+        <div className='fixed left-0 top-0 w-full h-full z-[10] blur-xl'></div>
+      </div>
+    )
   }
 
   return (
