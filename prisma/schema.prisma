@@ -20,3 +20,7 @@ model User {
   password String
   picture  String?
 }
+
+model signupToken {
+  id String @id @default(uuid())
+}
