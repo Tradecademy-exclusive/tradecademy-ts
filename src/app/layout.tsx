@@ -3,6 +3,7 @@ import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { ToastContainer } from 'react-toastify'
 import axios from 'axios'
+import AuthProvider from '@/providers/AuthProvider'
 
 const monsterrat = Montserrat({
   variable: '--font-geist-sans',
@@ -25,15 +26,17 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${monsterrat.variable} antialiased`}>
-        {children}
-        <ToastContainer
-          position='top-right'
-          autoClose={3500}
-          hideProgressBar={false}
-          closeOnClick={false}
-          draggable
-          theme='light'
-        />
+        <AuthProvider>
+          {children}
+          <ToastContainer
+            position='top-right'
+            autoClose={3500}
+            hideProgressBar={false}
+            closeOnClick={false}
+            draggable
+            theme='light'
+          />
+        </AuthProvider>
       </body>
     </html>
   )

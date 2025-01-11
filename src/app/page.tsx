@@ -2,7 +2,6 @@
 
 import axios from 'axios'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useState } from 'react'
 import { IoCheckmarkOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
