@@ -17,7 +17,7 @@ const Protected = ({ children }: { children: React.ReactNode }) => {
     return (
       <div className='w-full h-screen flex items-center justify-center relative'>
         <div className='loader z-[50]'></div>
-        <div className='fixed left-0 top-0 w-full h-full z-[10] blur-xl'></div>
+        <div className='fixed left-0 top-0 w-full h-full z-[10] blur-xl bg-transparent'></div>
       </div>
     )
   }

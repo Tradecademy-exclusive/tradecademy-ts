@@ -12,6 +12,7 @@ import { useContext } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { BsChat } from 'react-icons/bs'
 
 export const Sidebar = () => {
   const router = useRouter()
@@ -282,13 +283,24 @@ export const Sidebar = () => {
         <NavLink
           Icon={
             <MdOutlineLocalOffer
-              className={`text-[22px] group-hover:text-tcblue transition-all duration-300 ${
+              className={`text-[23px] group-hover:text-tcblue transition-all duration-300 ${
                 pathname === '/offers' ? 'text-tcblue' : 'text-creme'
               }`}
             />
           }
           label='Offers'
           href='/offers'
+        />
+        <NavLink
+          Icon={
+            <BsChat
+              className={`text-xl group-hover:text-tcblue transition-all duration-300 ${
+                pathname === '/offers' ? 'text-tcblue' : 'text-creme'
+              }`}
+            />
+          }
+          label='Chats'
+          href='/chats'
         />
       </nav>
       <div className='flex flex-col items-start gap-4 mt-auto w-full'>
