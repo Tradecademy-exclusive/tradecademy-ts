@@ -26,6 +26,9 @@ export const GET = async () => {
       where: {
         email: email,
       },
+      include: {
+        courses: true,
+      },
     })
 
     if (!user) {

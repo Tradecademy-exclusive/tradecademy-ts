@@ -6,6 +6,8 @@ export const POST = async (req: Request) => {
   try {
     const { title, description, cover } = await req.json()
 
+    console.log(title, description, cover)
+
     const { error } = validateCourseSchema({
       title,
       description,

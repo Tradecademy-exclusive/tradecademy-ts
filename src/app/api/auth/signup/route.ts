@@ -44,6 +44,9 @@ export const POST = async (req: Request) => {
         email: email,
         password: hashedPass,
       },
+      include: {
+        courses: true,
+      },
     })
 
     const token = jwt.sign(

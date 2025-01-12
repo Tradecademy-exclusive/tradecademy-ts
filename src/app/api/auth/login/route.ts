@@ -18,6 +18,9 @@ export const POST = async (req: Request) => {
       where: {
         email: email,
       },
+      include: {
+        courses: true,
+      },
     })
 
     if (!userExists) {
