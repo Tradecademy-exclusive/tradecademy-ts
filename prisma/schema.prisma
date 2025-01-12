@@ -13,6 +13,7 @@ model User {
   email     String   @unique
   password  String
   picture   String?
+  courses   Course[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -31,6 +32,8 @@ model Course {
   chapters    Chapter[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  User        User?     @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 model Chapter {

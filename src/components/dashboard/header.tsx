@@ -18,7 +18,7 @@ const Header = () => {
                 className='object-cover'
               />
             </div>
-            <p className='text-[13px] font-medium max-w-[150px]'>
+            <p className='text-[13px] font-medium max-w-[140px]'>
               Welcome back, {session?.user.username}
             </p>
           </div>
