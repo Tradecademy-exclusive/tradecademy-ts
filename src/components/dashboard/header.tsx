@@ -6,10 +6,10 @@ import Image from 'next/image'
 const Header = () => {
   const { session } = useContext(AuthContext)
   return (
-    <div className='w-full flex items-center h-[75px] justify-end px-6 py-4 border-b border-charcoal'>
+    <div className='w-full flex items-center h-[75px] justify-end px-6 py-4'>
       <div>
         {session && (
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-4'>
             <div className='w-[42px] h-[42px] relative rounded-full overflow-hidden'>
               <Image
                 src={session?.user.picture || '/default_image.png'}
