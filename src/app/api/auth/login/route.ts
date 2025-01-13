@@ -20,6 +20,9 @@ export const POST = async (req: Request) => {
       },
       include: {
         courses: true,
+        plan: true,
+        previousPlans: true,
+        focusPoint: true,
       },
     })
 

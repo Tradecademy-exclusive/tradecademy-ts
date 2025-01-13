@@ -38,14 +38,51 @@ export const POST = async (req: Request) => {
 
     const hashedPass = bcrypt.hashSync(password, 10)
 
+    const createdPlan = await prisma.plan.create({
+      data: {
+        steps: [
+          'Top down analysis ( you need to know all TF Story’s)',
+          'Identified where the money is laying',
+          'Search your higher TF POI',
+          'Make a sketch how your entry en tp will look like ( sl, entry , partials , last tp)',
+          'Go to lower TF to find Wyckoff , or CDL wait until we get the break of Wyckoff or CDL',
+          'Entry at the test of lps/ lpsy',
+          'Sl under the low , all trades risk no more then your willing to lose 1%-3% max',
+          'Let price come to your entry don’t fomo entry before , use limits if you like that better',
+          'If price in refined your entry go break even to protect your capital',
+          'Take partials on the way',
+        ],
+      },
+    })
+
+    const focusPoint = await prisma.focusPoint.create({
+      data: {
+        description:
+          'If you are lost always go back check the higher timeframe.',
+      },
+    })
+
     const user = await prisma.user.create({
       data: {
         username: username,
         email: email,
         password: hashedPass,
+        plan: {
+          connect: {
+            id: createdPlan.id,
+          },
+        },
+        focusPoint: {
+          connect: {
+            id: focusPoint.id,
+          },
+        },
       },
+
       include: {
         courses: true,
+        plan: true,
+        previousPlans: true,
       },
     })
 

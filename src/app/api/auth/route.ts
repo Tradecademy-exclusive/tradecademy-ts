@@ -28,6 +28,9 @@ export const GET = async () => {
       },
       include: {
         courses: true,
+        plan: true,
+        previousPlans: true,
+        focusPoint: true,
       },
     })
 
