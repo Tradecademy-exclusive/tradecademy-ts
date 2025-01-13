@@ -15,8 +15,8 @@ const NavLink = ({ Icon, label, href }: NavLinkProps) => {
   return (
     <Link
       href={href}
-      className={`flex items-center group gap-3 text-creme text-lg font-semibold hover:translate-x-3 transition-transform duration-300 group ${
-        pathname === href && 'translate-x-3'
+      className={`flex items-center group gap-3 text-white text-lg hover:translate-x-3 transition-transform duration-300 group ${
+        pathname === href && 'translate-x-3 font-semibold'
       }`}
     >
       {Icon}

@@ -8,11 +8,15 @@ export default {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        even: '0 5px 7px rgba(0, 0, 0, 0.1), 0 -4px 8px rgba(0, 0, 0, 0.1)',
+      },
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         tcblue: '#1336EA',
-        charcoal: '#333333',
+        lightblue: '#266CF7',
+        charcoal: '#1D1D1D',
         creme: '#E6E2DC',
       },
     },
