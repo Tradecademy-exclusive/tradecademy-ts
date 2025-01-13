@@ -39,10 +39,18 @@ model Course {
 model Chapter {
   id        String   @id @default(uuid())
   title     String
-  videos    String[]
-  Course    Course?  @relation(fields: [courseId], references: [id])
+  videos    Video[]
+  course    Course?  @relation(fields: [courseId], references: [id])
   courseId  String?
   chapter   Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Video {
+  id        String   @id @default(uuid())
+  title     String
+  order     Int
+  chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId String?
 }

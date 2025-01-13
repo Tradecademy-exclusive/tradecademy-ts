@@ -3,8 +3,8 @@
 import { useContext } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import Locked from './locked'
-
 import Image from 'next/image'
+import { trimText } from '@/lib/trimText'
 
 interface CourseCardProps {
   title: string
@@ -53,9 +53,13 @@ const BasicCard = ({
             </span>
           </div>
         </div>
-        <div className='w-1/2 flex flex-col items-start gap-1'>
-          <h2 className='text-lg font-semibold xl:text-[22px]'>{title}</h2>
-          <p className='text-[12px] text-black/60 xl:text-sm'>{description}</p>
+        <div className='w-1/2 flex flex-col items-start'>
+          <h2 className='text-[15px] lg:text-base xl:text-lg font-semibold xl:text-[22px] whitespace-nowrap'>
+            {title}
+          </h2>
+          <p className='text-[11px] text-black/60 xl:text-[13px] py-3'>
+            {trimText(description, 80)}
+          </p>
         </div>
       </div>
       <button className='text-[13px] w-full bg-lightblue py-2 rounded-[8px] text-white xl:text-[15px] xl:py-3'>
