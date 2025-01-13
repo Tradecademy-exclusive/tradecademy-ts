@@ -78,12 +78,12 @@ export const Sidebar = () => {
           Icon={
             <BsJournalText
               className={`text-xl group-hover:text-tcblue transition-all duration-300 ${
-                pathname === '/plan' ? 'text-tcblue' : 'text-white'
+                pathname === '/dashboard/plan' ? 'text-tcblue' : 'text-white'
               }`}
             />
           }
           label='Trading Plan'
-          href='/plan'
+          href='/dashboard/plan'
         />
         <NavLink
           Icon={
