@@ -1,5 +1,5 @@
 'use client'
-import { useContext, useEffect } from 'react'
+import { useContext, useLayoutEffect } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import { useRouter } from 'next/navigation'
 
@@ -7,7 +7,7 @@ const Protected = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
   const { session, loading } = useContext(AuthContext)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!loading && !session) {
       return router.replace('/')
     }

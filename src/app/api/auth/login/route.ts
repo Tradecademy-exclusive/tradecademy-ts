@@ -46,7 +46,7 @@ export const POST = async (req: Request) => {
     )
 
     const response = NextResponse.json(
-      { success: true, session: { userr: userExists, token } },
+      { success: true, session: { user: userExists, token } },
       { status: 200 }
     )
 

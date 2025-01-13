@@ -19,7 +19,7 @@ const Header = () => {
               />
             </div>
             <p className='text-[13px] font-medium max-w-[140px]'>
-              Welcome back, {session?.user.username}
+              Welcome back, {session?.user?.username}
             </p>
           </div>
         )}

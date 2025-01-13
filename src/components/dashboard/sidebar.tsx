@@ -314,14 +314,14 @@ export const Sidebar = () => {
       <div className='flex flex-col items-start gap-4 mt-auto w-full'>
         <Link
           href='/settings'
-          className='flex items-center gap-3 w-full text-left text-lg  text-white font-semibold'
+          className='flex items-center gap-3 w-full text-left text-lg  text-white'
         >
           <IoSettingsOutline className='text-[23px]' />
           Settings
         </Link>
         <button
           onClick={logout}
-          className='flex items-center gap-3 w-full text-left text-lg  text-white font-semibold'
+          className='flex items-center gap-3 w-full text-left text-lg  text-white'
         >
           <IoExitOutline className='text-2xl' />
           Log Out
