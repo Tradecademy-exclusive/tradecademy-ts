@@ -4,7 +4,7 @@ import { JwtPayload } from 'jsonwebtoken'
 interface UserType extends User {
   courses: Course[]
   plan: Plan
-  previousPlan: PreviousPlan
+  previousPlans: PreviousPlan[]
 }
 
 export interface SessionType {
