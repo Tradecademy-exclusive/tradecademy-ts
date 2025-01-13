@@ -1,8 +1,12 @@
-import { User } from '@prisma/client'
+import { Course, User } from '@prisma/client'
 import { JwtPayload } from 'jsonwebtoken'
 
+interface UserType extends User {
+  courses: Course[]
+}
+
 export interface SessionType {
-  user: User
+  user: UserType
   token: string
 }
 

@@ -1,4 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
+'use client'
+import { useContext } from 'react'
+import { AuthContext } from '@/providers/AuthProvider'
+import Locked from './locked'
+
 import Image from 'next/image'
 
 interface CourseCardProps {
@@ -14,10 +19,16 @@ const BasicCard = ({
   cover,
   percentage,
 }: CourseCardProps) => {
+  const { session } = useContext(AuthContext)
+
+  const ownsCourse = session?.user.courses.find((course) => {
+    return course.title === title
+  })
   return (
     <div
-      className={`w-full bg-[#E3E3E3] rounded-[23px] p-6 flex flex-col items-start gap-3`}
+      className={`w-full bg-[#E3E3E3] rounded-[23px] px-6 py-10 xl:px-8 xl:py-12 flex flex-col items-start gap-3 relative overflow-hidden`}
     >
+      {!ownsCourse && <Locked />}
       <div className='w-full flex items-start gap-4'>
         <div className='flex flex-col w-1/2 items-start gap-3'>
           <div className='w-full relative h-[80px] xl:h-[120px] 2xl:h-[170px] rounded-[10px] overflow-hidden'>
@@ -37,7 +48,7 @@ const BasicCard = ({
                 }}
               />
             </div>
-            <span className='text-[12px] text-[#606060]'>
+            <span className='text-[12px] text-[#606060] xl:text-sm'>
               {percentage}% Complete
             </span>
           </div>
@@ -47,7 +58,7 @@ const BasicCard = ({
           <p className='text-[12px] text-black/60 xl:text-sm'>{description}</p>
         </div>
       </div>
-      <button className='text-[13px] w-full bg-lightblue py-2 rounded-[8px] text-white xl:text-[15px]'>
+      <button className='text-[13px] w-full bg-lightblue py-2 rounded-[8px] text-white xl:text-[15px] xl:py-3'>
         Begin You're Course
       </button>
     </div>
