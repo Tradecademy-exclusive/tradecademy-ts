@@ -15,7 +15,7 @@ const Protected = ({ children }: { children: React.ReactNode }) => {
 
   if (loading) {
     return (
-      <div className='w-full h-[85vh] flex items-center justify-center relative'>
+      <div className='translate-x-[315px] w-[calc(100%-335px)] h-[85vh] flex items-center justify-center relative'>
         <div className='loader z-[50]'></div>
         <div className='fixed left-0 top-0 w-full h-full z-[10] blur-xl bg-transparent'></div>
       </div>

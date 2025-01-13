@@ -26,7 +26,7 @@ export const Sidebar = () => {
   }
 
   return (
-    <div className='bg-charcoal min-w-[300px] max-w-[300px] rounded-r-2xl py-9 px-12 flex flex-col items-center gap-8 min-h-screen h-full'>
+    <div className='bg-charcoal min-w-[300px] max-w-[300px] rounded-r-2xl py-9 px-12 fixed left-0 top-0 flex flex-col items-center gap-8 min-h-screen h-full'>
       <Icons.icon />
       <nav className='w-fit flex flex-col items-start gap-6'>
         <NavLink

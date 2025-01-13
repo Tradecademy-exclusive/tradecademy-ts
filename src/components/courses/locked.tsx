@@ -1,7 +1,13 @@
-const Locked = () => {
+const Locked = ({ premium }: { premium?: boolean }) => {
   return (
-    <div className='w-full top-0 left-0 h-full absolute z-[200] bg-[#C2C2C24D] flex items-center justify-center backdrop-blur-[4px]'>
-      <div className='px-4 py-1.5 rounded-full bg-gradient-to-r from-[#266CF7] to-[#6E92FF] text-white flex items-center gap-2'>
+    <div
+      className={`w-full top-0 left-0 h-full absolute z-[200] bg-[#C2C2C24D] flex items-center justify-center backdrop-blur-[4px]`}
+    >
+      <div
+        className={`px-4 py-2 rounded-full bg-gradient-to-r from-[#266CF7] to-[#6E92FF] text-white flex items-center gap-2 ${
+          premium && 'scale-125'
+        }`}
+      >
         <svg
           width='16'
           height='28'
