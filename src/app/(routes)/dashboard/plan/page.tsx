@@ -8,13 +8,23 @@ import axios from 'axios'
 const TradingPlan = () => {
   const { session, setSession } = useContext(AuthContext)
   const [edit, setEdit] = useState<boolean>(false)
+  const [editFocus, setEditFocus] = useState<boolean>(false)
   const firstInpRef = useRef<HTMLInputElement | null>(null)
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
   useEffect(() => {
     if (edit && firstInpRef.current) {
       firstInpRef.current.focus()
     }
   }, [edit])
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
+  }, [session?.user?.focusPoint?.description])
 
   const updatePlan = async () => {
     try {
@@ -48,7 +58,11 @@ const TradingPlan = () => {
 
   return (
     <div className='w-full p-10 flex flex-col gap-7'>
-      <div className='w-full flex flex-col gap-3 p-7 rounded-[21px] shadow-even'>
+      <div
+        className={`w-full flex flex-col gap-3 p-7 rounded-[21px]  transition-all duration-200 ease-in-out ${
+          edit ? 'shadow-evenblue' : 'shadow-even'
+        }`}
+      >
         <h2 className='text-xl font-bold'>Current Trading Plan</h2>
         <div className='flex flex-col items-start gap-1 w-full'>
           {session?.user.plan.steps.map((step, idx) => {
@@ -64,7 +78,7 @@ const TradingPlan = () => {
                     sessionInstance.user.plan.steps[idx] = e.target.value
                     setSession(sessionInstance)
                   }}
-                  className='w-full px-1 disabled:bg-transparent'
+                  className='w-full px-1 disabled:bg-transparent outline-lightblue'
                 />
               </div>
             )
@@ -79,7 +93,36 @@ const TradingPlan = () => {
           }}
           className='bg-lightblue text-white mt-16 rounded-[10px] w-[200px] py-2'
         >
-          {edit ? 'Confirm' : 'Edit'}
+          {edit ? 'Save' : 'Edit'}
+        </button>
+      </div>
+      <div
+        className={`w-full flex flex-col gap-3 p-7 rounded-[21px]  
+        transition-all duration-200 ease-in-out ${
+          editFocus ? 'shadow-evenblue' : 'shadow-even'
+        }`}
+      >
+        <h2 className='text-xl font-bold'>Focus Points</h2>
+        <textarea
+          ref={textareaRef}
+          disabled={!editFocus}
+          value={session?.user?.focusPoint?.description || ''}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            const sessionInstance = { ...session }
+            if (sessionInstance?.user?.focusPoint) {
+              sessionInstance.user.focusPoint.description = e.target.value
+              setSession(sessionInstance as typeof session)
+            }
+          }}
+          className='resize-none disabled:bg-transparent outline-lightblue overflow-hidden'
+        />
+        <button
+          onClick={async () => {
+            setEditFocus((prev) => !prev)
+          }}
+          className='bg-lightblue text-white mt-6 rounded-[10px] w-[200px] py-2'
+        >
+          {editFocus ? 'Save' : 'Edit'}
         </button>
       </div>
     </div>
