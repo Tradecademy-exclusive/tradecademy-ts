@@ -21,6 +21,7 @@ model User {
   updatedAt     DateTime       @updatedAt
   planId        String
   focusPointId  String
+  Note          Note[]
 }
 
 model signupToken {
@@ -53,11 +54,15 @@ model Chapter {
 }
 
 model Video {
-  id        String   @id @default(uuid())
-  title     String
-  order     Int
-  chapter   Chapter? @relation(fields: [chapterId], references: [id])
-  chapterId String?
+  id          String   @id @default(uuid())
+  title       String
+  url         String?
+  description String[] @default([])
+  order       Int
+  chapter     Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId   String?
+  Note        Note?    @relation(fields: [noteId], references: [id])
+  noteId      String?
 }
 
 model Plan {
@@ -77,4 +82,12 @@ model FocusPoint {
   id          String @id @default(uuid())
   description String
   User        User[]
+}
+
+model Note {
+  id          String  @id @default(uuid())
+  drawSession String
+  video       Video[]
+  user        User    @relation(fields: [userId], references: [id])
+  userId      String
 }

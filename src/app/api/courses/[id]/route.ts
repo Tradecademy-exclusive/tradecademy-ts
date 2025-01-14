@@ -7,7 +7,7 @@ export const GET = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    const { id } = params
+    const { id } = await params
     const course = await prisma.course.findUnique({
       where: {
         id,
@@ -28,7 +28,7 @@ export const PUT = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    const { id } = params
+    const { id } = await params
     const data: Course = await req.json()
     const updatedCourse = await prisma.course.update({
       where: {
