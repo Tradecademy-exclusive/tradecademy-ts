@@ -16,7 +16,10 @@ const TradingPlan = () => {
     if (edit && firstInpRef.current) {
       firstInpRef.current.focus()
     }
-  }, [edit])
+    if (editFocus && textareaRef.current) {
+      textareaRef.current.focus()
+    }
+  }, [edit, editFocus])
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -110,6 +113,9 @@ const TradingPlan = () => {
               await updatePlan()
             }
             setEdit((prev) => !prev)
+            if (editFocus) {
+              setEditFocus(false)
+            }
           }}
           className='bg-lightblue text-white mt-16 rounded-[10px] w-[200px] py-2'
         >
@@ -142,6 +148,9 @@ const TradingPlan = () => {
               await updateFocusPoint()
             }
             setEditFocus((prev) => !prev)
+            if (edit) {
+              setEdit(false)
+            }
           }}
           className='bg-lightblue text-white mt-6 rounded-[10px] w-[200px] py-2'
         >
