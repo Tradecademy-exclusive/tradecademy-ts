@@ -56,6 +56,26 @@ const TradingPlan = () => {
     }
   }
 
+  const updateFocusPoint = async () => {
+    try {
+      const { data } = await axios.put('/api/focus', {
+        focusId: session?.user.focusPointId,
+        description: session?.user.focusPoint.description,
+      })
+
+      if (data.updatedFocusPoint) {
+        toast.error('Update Successful', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+    } catch (err) {
+      toast.error('Something went wrong.', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+      console.error('error:', err)
+    }
+  }
+
   return (
     <div className='w-full p-10 flex flex-col gap-7'>
       <div
@@ -118,6 +138,9 @@ const TradingPlan = () => {
         />
         <button
           onClick={async () => {
+            if (editFocus) {
+              await updateFocusPoint()
+            }
             setEditFocus((prev) => !prev)
           }}
           className='bg-lightblue text-white mt-6 rounded-[10px] w-[200px] py-2'
