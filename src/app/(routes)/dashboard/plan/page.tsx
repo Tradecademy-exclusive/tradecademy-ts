@@ -4,6 +4,7 @@ import { AuthContext } from '@/providers/AuthProvider'
 import { toast } from 'react-toastify'
 import Image from 'next/image'
 import axios from 'axios'
+import Link from 'next/link'
 
 const TradingPlan = () => {
   const { session, setSession } = useContext(AuthContext)
@@ -11,6 +12,8 @@ const TradingPlan = () => {
   const [editFocus, setEditFocus] = useState<boolean>(false)
   const firstInpRef = useRef<HTMLInputElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+
+  console.log(session?.user.previousPlans)
 
   useEffect(() => {
     if (edit && firstInpRef.current) {
@@ -43,7 +46,7 @@ const TradingPlan = () => {
             user: {
               ...prev!.user,
               plan: data.updatedPlan,
-              previousPlans: data.updatedPlan,
+              previousPlans: [...prev!.user.previousPlans, data.previousPlan],
             },
           }))
         }
@@ -156,6 +159,45 @@ const TradingPlan = () => {
         >
           {editFocus ? 'Save' : 'Edit'}
         </button>
+      </div>
+      <div
+        className={`w-full flex flex-col gap-3 p-7 rounded-[21px] shadow-even`}
+      >
+        <h2 className='text-xl font-bold'>Previous Trading Plan</h2>
+        {session?.user.previousPlans &&
+        session.user.previousPlans.length > 0 ? (
+          <div className='flex flex-col items-start gap-1 w-full'>
+            {session?.user.previousPlans[
+              session.user.previousPlans.length - 1
+            ].steps.map((step, idx) => {
+              return (
+                <div key={idx} className='w-full flex items-center'>
+                  <span>{idx + 1}.</span>
+                  <input
+                    value={step}
+                    disabled={!edit}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const sessionInstance = { ...session }
+                      sessionInstance.user.plan.steps[idx] = e.target.value
+                      setSession(sessionInstance)
+                    }}
+                    className='w-full px-1 disabled:bg-transparent outline-lightblue'
+                  />
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div className='w-full flex items-center justify-start'>
+            <p>You yet haven&apos;t edited the current trading plan.</p>
+          </div>
+        )}
+        <Link
+          href='/dashboard/plan/previous'
+          className='bg-lightblue text-white text-center mt-16 rounded-[10px] w-[200px] py-2'
+        >
+          All My Plans
+        </Link>
       </div>
     </div>
   )

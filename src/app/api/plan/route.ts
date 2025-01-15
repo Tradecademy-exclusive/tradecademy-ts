@@ -45,6 +45,11 @@ export const PUT = async (req: Request) => {
     const previousPlan = await prisma.previousPlan.create({
       data: {
         steps: currentPlan?.steps,
+        User: {
+          connect: {
+            id: id,
+          },
+        },
       },
     })
 
