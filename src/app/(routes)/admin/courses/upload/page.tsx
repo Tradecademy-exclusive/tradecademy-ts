@@ -21,9 +21,16 @@ const UploadCourse = async () => {
           },
         ]}
       />
-      <div className='w-full flex items-center gap-8 h-full'>
-        <div className='w-full h-[77vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'>
-          <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2]'></div>
+      <div className='w-full flex flex-col items-start gap-10'>
+        <section className='w-full h-[77vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'>
+          <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2] px-10 flex items-center justify-start'>
+            <h2 className='text-lg font-bold'>Course Information</h2>
+          </div>
+        </section>
+        <section className='w-full h-[95vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'>
+          <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2] px-10 flex items-center justify-start'>
+            <h2 className='text-lg font-bold'>Course Builder</h2>
+          </div>
           <div className='w-full flex flex-col items-start gap-3 px-5'>
             {courses.map((course) => {
               return (
@@ -31,7 +38,7 @@ const UploadCourse = async () => {
               )
             })}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   )
