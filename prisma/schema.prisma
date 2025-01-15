@@ -31,15 +31,20 @@ model signupToken {
 }
 
 model Course {
-  id          String    @id @default(uuid())
-  title       String
-  description String
-  cover       String
-  chapters    Chapter[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  User        User?     @relation(fields: [userId], references: [id])
-  userId      String?
+  id              String    @id @default(uuid())
+  title           String
+  description     String
+  cover           String
+  chapters        Chapter[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  price           Int
+  discountedPrice Int
+  question        String?
+  materials       String?
+  duration        String
+  user            User?     @relation(fields: [userId], references: [id])
+  userId          String?
 }
 
 model Chapter {
