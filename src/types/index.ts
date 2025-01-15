@@ -1,4 +1,12 @@
-import { Course, FocusPoint, Plan, PreviousPlan, User } from '@prisma/client'
+import {
+  Course,
+  FocusPoint,
+  Plan,
+  PreviousPlan,
+  User,
+  Video,
+  Chapter,
+} from '@prisma/client'
 import { JwtPayload } from 'jsonwebtoken'
 
 interface UserType extends User {
@@ -11,6 +19,14 @@ interface UserType extends User {
 export interface SessionType {
   user: UserType
   token: string
+}
+
+interface ChapterType extends Chapter {
+  videos: Video[]
+}
+
+export interface CourseType extends Course {
+  chapters: ChapterType[]
 }
 
 export interface CustomJwtPayload extends JwtPayload {

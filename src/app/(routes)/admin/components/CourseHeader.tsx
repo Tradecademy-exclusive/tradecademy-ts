@@ -41,8 +41,8 @@ interface CourseHeaderProps {
 const CourseHeader = ({ page, path, buttons }: CourseHeaderProps) => {
   return (
     <>
-      <div className='absolute w-full top-0 left-0 h-[230px] bg-gradient-to-b from-[#6C91FF80] to-[#ffffff] z-[-1]' />
-      <div className='w-full flex flex-col items-start gap-2 mt-12'>
+      <div className='absolute w-full top-0 left-0 h-[250px] bg-gradient-to-b from-[#6C91FF80] to-[#ffffff] z-[-1]' />
+      <div className='w-full flex flex-col items-start gap-2 mt-16'>
         <div className='w-full flex items-center justify-between'>
           <div className='flex items-start gap-4'>
             <svg
@@ -62,7 +62,7 @@ const CourseHeader = ({ page, path, buttons }: CourseHeaderProps) => {
               />
             </svg>
             <div className='flex flex-col items-start gap-1'>
-              <h1 className='font-bold text-3xl'>{page}</h1>
+              <h1 className='font-bold text-2xl'>{page}</h1>
               <span className='text-sm text-black/90'>{path}</span>
             </div>
           </div>

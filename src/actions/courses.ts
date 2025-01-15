@@ -5,6 +5,13 @@ export const getCourses = async () => {
     orderBy: {
       createdAt: 'asc',
     },
+    include: {
+      chapters: {
+        include: {
+          videos: true,
+        },
+      },
+    },
   })
   return courses
 }
