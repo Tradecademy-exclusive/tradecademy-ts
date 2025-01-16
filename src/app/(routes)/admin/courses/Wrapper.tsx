@@ -8,14 +8,15 @@ import { CourseType } from '@/types'
 import { useState } from 'react'
 
 const Wrapper = ({ courses }: { courses: CourseType[] }) => {
-  const [lessonOpen, setLessonOpen] = useState<boolean>(true)
+  // chapter id
+  const [lessonOpen, setLessonOpen] = useState<string>('')
 
   const publishCourse = async () => {}
 
   return (
     <div className='w-full py-5 px-20 flex flex-col h-screen items-start gap-3 relative'>
-      <CreateLesson opened={lessonOpen} close={() => setLessonOpen(false)} />
-      <OpacityBackground opened={lessonOpen} />
+      <CreateLesson opened={lessonOpen} close={() => setLessonOpen('')} />
+      <OpacityBackground opened={!!lessonOpen} />
       <CourseHeader
         page='Create Course'
         path='Dashboard / My Course / Create Course'
@@ -42,7 +43,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
             {courses.map((course) => {
               return (
                 <EditCourse
-                  openLesson={() => setLessonOpen(true)}
+                  openLesson={setLessonOpen}
                   key={course.id}
                   course={course as CourseType}
                 />

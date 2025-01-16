@@ -16,7 +16,7 @@ export const POST = async (req: Request) => {
         title: title,
         PDF: PDF,
         thumbnail: thumbnail || null,
-        description: content || null,
+        content: content || null,
         url: video || null,
         order: order,
       },

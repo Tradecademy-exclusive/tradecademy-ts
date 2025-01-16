@@ -4,15 +4,18 @@ import { useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { PiWarningCircle } from 'react-icons/pi'
 import TextEditor from './TextEditor'
+import UploadImage from './UploadImage'
 
 const CreateLesson = ({
   opened,
   close,
 }: {
-  opened: boolean
+  opened: string
   close: () => void
 }) => {
   const [content, setContent] = useState<string>('')
+  const [image, setImage] = useState<string>('')
+
   return (
     <div
       className={`fixed top-1/2 left-1/2 -translate-y-[50%] transition-all duration-300 -translate-x-1/2 z-[999] rounded-t-[15px] h-[700px] w-[600px] overflow-hidden flex flex-col items-start gap-4 ${
@@ -21,7 +24,7 @@ const CreateLesson = ({
           : 'opacity-0 pointer-events-none'
       }`}
     >
-      <div className='w-full h-full flex flex-col items-center gap-5 bg-[#e4e8f1]'>
+      <div className='w-full h-full flex flex-col items-center gap-5 bg-[#e4e8f1] overflow-auto pb-5'>
         <div className='w-full bg-[#F0F0F0] flex items-center justify-between px-5 py-4'>
           <h3 className='font-semibold'>Lesson</h3>
           <IoMdClose onClick={close} className='text-2xl cursor-pointer' />
@@ -43,10 +46,16 @@ const CreateLesson = ({
         <div className='flex flex-col items-start gap-2 w-full px-8'>
           <h2 className='text-lg font-bold'>Lesson Content</h2>
           <TextEditor content={content} setContent={setContent} />
-          <div className='flex items-center gap-1 text-[12px] text-[#00000066]'>
-            <PiWarningCircle className='text-[13px]' />
-            Lesson titles are displayed publicly whenever required.
+          <div className='flex items-center mt-2 gap-1 text-[12px] text-[#00000066]'>
+            <PiWarningCircle className='text-[13px] min-w-[13px]' />
+            The idea of a summary is a short text to prepare students for the
+            activities within the topic or week. The text is shown on the course
+            page unde the topic name.
           </div>
+        </div>
+        <div className='flex flex-col items-start gap-2 w-full px-8'>
+          <h2 className='text-lg font-bold'>Feature Image</h2>
+          <UploadImage image={image} setImage={setImage} />
         </div>
       </div>
       <div className='w-full flex items-center justify-between px-5'>

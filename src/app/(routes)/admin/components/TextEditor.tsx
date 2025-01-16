@@ -21,13 +21,13 @@ const TextEditor = ({
   }
 
   return (
-    <div className='w-full'>
+    <div className='w-full p-4 bg-charcoal rounded-[15px]'>
       <Editor
         apiKey={process.env.NEXT_PUBLIC_TMC_API_KEY}
         value={content}
         init={{
           height: 300,
-          menubar: false,
+          menubar: true,
           plugins: ['link', 'image', 'lists'],
           toolbar:
             'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image',

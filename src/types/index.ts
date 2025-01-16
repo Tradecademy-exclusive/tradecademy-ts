@@ -33,3 +33,7 @@ export interface CustomJwtPayload extends JwtPayload {
   email: string
   id: string
 }
+
+export interface MulterRequest extends Request {
+  file: Express.Multer.File
+}

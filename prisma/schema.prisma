@@ -60,17 +60,17 @@ model Chapter {
 }
 
 model Lesson {
-  id          String   @id @default(uuid())
-  title       String
-  url         String?
-  description String?
-  PDF         String?
-  thumbnail   String?
-  order       Int
-  chapter     Chapter? @relation(fields: [chapterId], references: [id])
-  chapterId   String?
-  Note        Note?    @relation(fields: [noteId], references: [id])
-  noteId      String?
+  id        String   @id @default(uuid())
+  title     String
+  url       String?
+  content   String?
+  PDF       String?
+  thumbnail String?
+  order     Int
+  chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId String?
+  Note      Note?    @relation(fields: [noteId], references: [id])
+  noteId    String?
 }
 
 model Plan {
