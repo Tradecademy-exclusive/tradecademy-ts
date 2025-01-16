@@ -1,7 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { PiWarningCircle } from 'react-icons/pi'
+import TextEditor from './TextEditor'
 
 const CreateLesson = ({
   opened,
@@ -10,6 +12,7 @@ const CreateLesson = ({
   opened: boolean
   close: () => void
 }) => {
+  const [content, setContent] = useState<string>('')
   return (
     <div
       className={`fixed top-1/2 left-1/2 -translate-y-[50%] transition-all duration-300 -translate-x-1/2 z-[999] rounded-t-[15px] h-[700px] w-[600px] overflow-hidden flex flex-col items-start gap-4 ${
@@ -39,7 +42,7 @@ const CreateLesson = ({
         </div>
         <div className='flex flex-col items-start gap-2 w-full px-8'>
           <h2 className='text-lg font-bold'>Lesson Content</h2>
-
+          <TextEditor content={content} setContent={setContent} />
           <div className='flex items-center gap-1 text-[12px] text-[#00000066]'>
             <PiWarningCircle className='text-[13px]' />
             Lesson titles are displayed publicly whenever required.
