@@ -21,11 +21,9 @@ const VideoSource = ({
     setDropdownOpen(false)
   }, [type])
 
-  console.log(dropdownOpen)
-
   return (
     <div className='w-full flex items-center bg-charcoal p-4 rounded-[15px] relative gap-5'>
-      <button
+      <div
         onClick={() => setDropdownOpen((prev) => !prev)}
         className='w-full px-3 h-[33px] flex items-center justify-between bg-[#E4E8F1] rounded-[5px] border border-[#B9B0B0B2] relative'
       >
@@ -75,7 +73,7 @@ const VideoSource = ({
             setCurrValue={setType}
           />
         </div>
-      </button>
+      </div>
       <input
         type='text'
         className='w-full border border-[#1D1D1D80] h-[33px] rounded-[5px] outline-none px-3 placeholder:text-sm text-sm bg-[#E4E8F1] text-[#1D1D1D80] placeholder:text-[#1D1D1D80]'

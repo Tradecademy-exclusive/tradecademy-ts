@@ -6,6 +6,7 @@ import { PiWarningCircle } from 'react-icons/pi'
 import TextEditor from './TextEditor'
 import UploadImage from './UploadImage'
 import VideoSource from './VideoSource'
+import UploadAttachments from './UploadAttachments'
 
 const CreateLesson = ({
   opened,
@@ -18,6 +19,7 @@ const CreateLesson = ({
   const [image, setImage] = useState<string>('')
   const [type, setType] = useState<string>('Youtube')
   const [source, setSource] = useState<string>('')
+  const [attachments, setAttachments] = useState<string[]>([])
 
   return (
     <div
@@ -67,6 +69,15 @@ const CreateLesson = ({
             setType={setType}
             source={source}
             setSource={setSource}
+          />
+        </div>
+        <div className='flex flex-col items-start gap-2 w-full px-8 relative'>
+          <h2 className='text-lg font-bold'>
+            Upload exercise files to the Lesson
+          </h2>
+          <UploadAttachments
+            attachments={attachments}
+            setAttachments={setAttachments}
           />
         </div>
       </div>
