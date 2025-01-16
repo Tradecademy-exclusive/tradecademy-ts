@@ -32,7 +32,7 @@ const EditCourse = ({
         </div>
       </div>
       <div
-        className={`bg-[#D3DBF366] w-full transition-all duration-[400ms] border border-[#B9B0B0B2] border-t-0 overflow-hidden rounded-b-[15px] border-b-0 ${
+        className={`bg-[#D3DBF366] w-full transition-all duration-300 border border-[#B9B0B0B2] border-t-0 overflow-hidden rounded-b-[15px] border-b-0 ${
           modalOpen ? 'h-[400px] !border-b-[1px] shadow-even' : 'h-[0px]'
         }`}
       >

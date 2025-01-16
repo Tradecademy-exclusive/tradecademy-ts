@@ -5,6 +5,7 @@ import { IoMdClose } from 'react-icons/io'
 import { PiWarningCircle } from 'react-icons/pi'
 import TextEditor from './TextEditor'
 import UploadImage from './UploadImage'
+import VideoSource from './VideoSource'
 
 const CreateLesson = ({
   opened,
@@ -15,10 +16,12 @@ const CreateLesson = ({
 }) => {
   const [content, setContent] = useState<string>('')
   const [image, setImage] = useState<string>('')
+  const [type, setType] = useState<string>('Youtube')
+  const [source, setSource] = useState<string>('')
 
   return (
     <div
-      className={`fixed top-1/2 left-1/2 -translate-y-[50%] transition-all duration-300 -translate-x-1/2 z-[999] rounded-t-[15px] h-[700px] w-[600px] overflow-hidden flex flex-col items-start gap-4 ${
+      className={`fixed top-1/2 left-1/2 -translate-y-[50%] transition-all duration-300 -translate-x-1/2 z-[999] rounded-t-[15px] h-[900px] w-[800px] overflow-hidden flex flex-col items-start gap-4 ${
         opened
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
@@ -56,6 +59,15 @@ const CreateLesson = ({
         <div className='flex flex-col items-start gap-2 w-full px-8'>
           <h2 className='text-lg font-bold'>Feature Image</h2>
           <UploadImage image={image} setImage={setImage} />
+        </div>
+        <div className='flex flex-col items-start gap-2 w-full px-8 relative'>
+          <h2 className='text-lg font-bold'>Video Source</h2>
+          <VideoSource
+            type={type}
+            setType={setType}
+            source={source}
+            setSource={setSource}
+          />
         </div>
       </div>
       <div className='w-full flex items-center justify-between px-5'>

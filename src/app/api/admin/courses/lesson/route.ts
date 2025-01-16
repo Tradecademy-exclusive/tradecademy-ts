@@ -3,8 +3,16 @@ import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
   try {
-    const { PDF, thumbnail, content, video, title, chapterId, order } =
-      await req.json()
+    const {
+      attachments,
+      thumbnail,
+      content,
+      source,
+      title,
+      chapterId,
+      order,
+      type,
+    } = await req.json()
 
     const createdLesson = await prisma.lesson.create({
       data: {
@@ -14,10 +22,11 @@ export const POST = async (req: Request) => {
           },
         },
         title: title,
-        PDF: PDF,
+        attachments: attachments || [],
         thumbnail: thumbnail || null,
         content: content || null,
-        url: video || null,
+        source: source || null,
+        type: type || null,
         order: order,
       },
     })
