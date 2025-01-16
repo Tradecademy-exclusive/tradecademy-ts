@@ -40,29 +40,32 @@ model Course {
   updatedAt       DateTime  @updatedAt
   price           Int
   discountedPrice Int
-  question        String?
   materials       String?
   duration        String
   user            User?     @relation(fields: [userId], references: [id])
   userId          String?
+  published       Boolean   @default(false)
 }
 
 model Chapter {
   id        String   @id @default(uuid())
   title     String
-  videos    Video[]
+  lessons   Lesson[]
   course    Course?  @relation(fields: [courseId], references: [id])
   courseId  String?
+  quiz      String?
   chapter   Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Video {
+model Lesson {
   id          String   @id @default(uuid())
   title       String
   url         String?
-  description String[] @default([])
+  description String?
+  PDF         String?
+  thumbnail   String?
   order       Int
   chapter     Chapter? @relation(fields: [chapterId], references: [id])
   chapterId   String?
@@ -90,9 +93,9 @@ model FocusPoint {
 }
 
 model Note {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   drawSession String
-  video       Video[]
-  user        User    @relation(fields: [userId], references: [id])
+  video       Lesson[]
+  user        User     @relation(fields: [userId], references: [id])
   userId      String
 }

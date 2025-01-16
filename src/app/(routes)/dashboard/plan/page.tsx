@@ -13,8 +13,6 @@ const TradingPlan = () => {
   const firstInpRef = useRef<HTMLInputElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
-  console.log(session?.user.previousPlans)
-
   useEffect(() => {
     if (edit && firstInpRef.current) {
       firstInpRef.current.focus()

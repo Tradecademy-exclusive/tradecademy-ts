@@ -3,8 +3,15 @@ import { CourseType } from '@/types'
 import { useState } from 'react'
 import { Icons } from '@/components/icons'
 
-const EditCourse = ({ course }: { course: CourseType }) => {
+const EditCourse = ({
+  course,
+  openLesson,
+}: {
+  course: CourseType
+  openLesson: () => void
+}) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+
   return (
     <div className='w-full flex flex-col items-start'>
       <div
@@ -30,7 +37,7 @@ const EditCourse = ({ course }: { course: CourseType }) => {
         }`}
       >
         {course.chapters.length > 0 ? (
-          <div className='w-full flex flex-col items-start mt-10 px-5'>
+          <div className='w-full flex flex-col gap-5 items-start mt-10 px-5'>
             {course.chapters.map((chapter) => {
               return (
                 <div
@@ -55,17 +62,17 @@ const EditCourse = ({ course }: { course: CourseType }) => {
                     </div>
                   </div>
                   <div className='flex flex-col items-start gap-2.5 w-full pl-8'>
-                    {chapter.videos.map((video) => {
+                    {chapter.lessons.map((lesson) => {
                       return (
                         <div
-                          key={video.id}
+                          key={lesson.id}
                           className='w-full bg-white border border-[#BBB6B9] rounded-[5px] py-3 px-3 flex items-center justify-between'
                         >
                           <div className='flex items-center gap-2.5'>
                             <Icons.menu />
                             <h3 className='flex items-center gap-1 text-[15px] font-semibold'>
-                              <span>Lesson {video.order}:</span>
-                              <span>{video.title}</span>
+                              <span>Lesson {lesson.order}:</span>
+                              <span>{lesson.title}</span>
                             </h3>
                           </div>
                           <div className='flex items-center gap-4'>
@@ -80,6 +87,19 @@ const EditCourse = ({ course }: { course: CourseType }) => {
                       )
                     })}
                   </div>
+                  <div className='w-full flex items-center px-[52px] gap-5'>
+                    <button
+                      onClick={openLesson}
+                      className='flex items-center gap-2 bg-white w-[120px] px-3 py-2 rounded-[6px] text-[15px]'
+                    >
+                      <Icons.plusBlack />
+                      Lesson
+                    </button>
+                    <button className='flex items-center gap-2 bg-lightblue py-2 px-3 w-[120px] rounded-[6px] text-white text-[15px]'>
+                      <Icons.plusWhite />
+                      Quiz
+                    </button>
+                  </div>
                 </div>
               )
             })}
@@ -87,16 +107,6 @@ const EditCourse = ({ course }: { course: CourseType }) => {
         ) : (
           <p className='mt-10 px-[52px]'>This course has no chapters.</p>
         )}
-        <div className='w-full flex items-center px-[52px] mt-5 gap-5'>
-          <button className='flex items-center gap-2 bg-white w-[120px] px-3 py-2 rounded-[6px] text-[15px]'>
-            <Icons.plusBlack />
-            Lesson
-          </button>
-          <button className='flex items-center gap-2 bg-lightblue py-2 px-3 w-[120px] rounded-[6px] text-white text-[15px]'>
-            <Icons.plusWhite />
-            Quiz
-          </button>
-        </div>
       </div>
     </div>
   )

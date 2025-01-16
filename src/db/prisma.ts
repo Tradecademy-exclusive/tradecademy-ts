@@ -7,10 +7,14 @@ declare global {
 let prisma: PrismaClient
 
 if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient()
+  prisma = new PrismaClient({
+    log: ['error', 'info'],
+  })
 } else {
   if (!global.cachedPrisma) {
-    global.cachedPrisma = new PrismaClient()
+    global.cachedPrisma = new PrismaClient({
+      log: ['error', 'info'],
+    })
   }
 
   prisma = global.cachedPrisma

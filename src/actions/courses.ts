@@ -8,7 +8,7 @@ export const getCourses = async () => {
     include: {
       chapters: {
         include: {
-          videos: true,
+          lessons: true,
         },
       },
     },

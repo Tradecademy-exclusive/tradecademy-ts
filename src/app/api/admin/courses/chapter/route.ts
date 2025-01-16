@@ -9,14 +9,9 @@ export const POST = async (req: Request) => {
       return NextResponse.json({ message: 'Invalid payload' }, { status: 400 })
     }
 
-    const { title, courseId, chapter, videos } = body
+    const { title, courseId, chapter, lessons } = body
 
-    if (
-      !title ||
-      !courseId ||
-      !Number.isInteger(chapter) ||
-      !Array.isArray(videos)
-    ) {
+    if (!title || !courseId || !Number.isInteger(chapter)) {
       return NextResponse.json(
         { message: 'Please provide all required fields' },
         { status: 400 }
@@ -34,30 +29,32 @@ export const POST = async (req: Request) => {
         },
       },
       include: {
-        videos: true,
+        lessons: true,
       },
     })
 
-    const videoData = videos.map((video) => {
-      if (
-        !video.title ||
-        !Array.isArray(video.description) ||
-        typeof video.order !== 'number'
-      ) {
-        throw new Error('Invalid video data provided')
-      }
-      return {
-        title: video.title,
-        description: video.description,
-        url: video.url || null,
-        order: video.order,
-        chapterId: createdChapter.id,
-      }
-    })
+    if (lessons && Array.isArray(lessons)) {
+      const lessonsData = lessons.map((lesson) => {
+        if (
+          !lesson.title ||
+          !lesson.description ||
+          typeof lesson.order !== 'number'
+        ) {
+          throw new Error('Invalid lesson data provided')
+        }
+        return {
+          title: lesson.title,
+          description: lesson.description,
+          url: lesson.url || null,
+          order: lesson.order,
+          chapterId: createdChapter.id,
+        }
+      })
 
-    await prisma.video.createMany({
-      data: videoData,
-    })
+      await prisma.lesson.createMany({
+        data: lessonsData,
+      })
+    }
 
     return NextResponse.json({ createdChapter }, { status: 201 })
   } catch (err) {

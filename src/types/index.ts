@@ -4,7 +4,7 @@ import {
   Plan,
   PreviousPlan,
   User,
-  Video,
+  Lesson,
   Chapter,
 } from '@prisma/client'
 import { JwtPayload } from 'jsonwebtoken'
@@ -22,7 +22,7 @@ export interface SessionType {
 }
 
 interface ChapterType extends Chapter {
-  videos: Video[]
+  lessons: Lesson[]
 }
 
 export interface CourseType extends Course {

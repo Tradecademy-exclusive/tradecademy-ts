@@ -4,7 +4,15 @@ import prisma from '@/db/prisma'
 
 export const POST = async (req: Request) => {
   try {
-    const { title, description, cover } = await req.json()
+    const {
+      title,
+      description,
+      cover,
+      price,
+      discountedPrice,
+      materials,
+      duration,
+    } = await req.json()
 
     const { error } = validateCourseSchema({
       title,
@@ -21,6 +29,10 @@ export const POST = async (req: Request) => {
         title,
         description,
         cover,
+        price: price,
+        discountedPrice: discountedPrice,
+        materials: materials,
+        duration: duration,
       },
     })
 
