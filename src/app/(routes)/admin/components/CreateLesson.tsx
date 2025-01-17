@@ -7,19 +7,63 @@ import TextEditor from './TextEditor'
 import UploadImage from './UploadImage'
 import VideoSource from './VideoSource'
 import UploadAttachments from './UploadAttachments'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
+import axios from 'axios'
+import { ImSpinner3 } from 'react-icons/im'
 
 const CreateLesson = ({
   opened,
   close,
+  order,
 }: {
   opened: string
   close: () => void
+  order: number
 }) => {
+  const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
   const [image, setImage] = useState<string>('')
   const [type, setType] = useState<string>('Youtube')
   const [source, setSource] = useState<string>('')
   const [attachments, setAttachments] = useState<string[]>([])
+  const [uploading, setUploading] = useState<boolean>(false)
+
+  const uploadLesson = async () => {
+    try {
+      setUploading(true)
+      const { data } = await axios.post('/api/admin/courses/lesson', {
+        title,
+        chapterId: opened,
+        content,
+        thumbnail: image,
+        source,
+        type,
+        attachments: attachments,
+        order,
+      })
+
+      if (data.createdLesson) {
+        setTitle('')
+        setContent('')
+        setImage('')
+        setType('')
+        setSource('')
+        setAttachments([])
+        close()
+        toast.error('Lesson has been uploaded.', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      setUploading(false)
+    } catch (err) {
+      console.log(err)
+      toast.error('Could not upload the lesson.', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+      setUploading(false)
+    }
+  }
 
   return (
     <div
@@ -40,6 +84,8 @@ const CreateLesson = ({
           </label>
           <input
             id='title'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             type='text'
             className='w-full rounded-[5px] border py-1.5 px-3 border-[#0000004D] text-[#00000066] font-semibold outline-none text-[15px]'
           />
@@ -88,8 +134,17 @@ const CreateLesson = ({
         >
           Cancel
         </button>
-        <button className='bg-lightblue border border-lightblue text-[15px] text-white py-1.5 px-7 rounded-[6px]'>
-          Upload Lesson
+        <button
+          onClick={uploadLesson}
+          className='bg-lightblue border w-[170px] border-lightblue text-[15px] text-white py-1.5 px-7 rounded-[6px]'
+        >
+          {!uploading ? (
+            'Upload Lesson'
+          ) : (
+            <div className='flex items-center gap-3'>
+              Loading <ImSpinner3 className='text-base animate-spin' />
+            </div>
+          )}
         </button>
       </div>
     </div>

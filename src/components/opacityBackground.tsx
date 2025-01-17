@@ -1,6 +1,13 @@
-const OpacityBackground = ({ opened }: { opened: boolean }) => {
+const OpacityBackground = ({
+  opened,
+  close,
+}: {
+  opened: boolean
+  close: () => void
+}) => {
   return (
     <div
+      onClick={close}
       className={`fixed w-screen h-screen left-0 top-0 bg-black z-[400] transition-opacity duration-300 ease-linear ${
         opened
           ? 'opacity-80 pointer-events-auto'

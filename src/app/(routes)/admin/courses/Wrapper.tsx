@@ -10,13 +10,21 @@ import { useState } from 'react'
 const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   // chapter id
   const [lessonOpen, setLessonOpen] = useState<string>('')
+  const [order, setOrder] = useState<number>(1)
 
   const publishCourse = async () => {}
 
   return (
     <div className='w-full py-5 px-20 flex flex-col h-screen items-start gap-3 relative'>
-      <CreateLesson opened={lessonOpen} close={() => setLessonOpen('')} />
-      <OpacityBackground opened={!!lessonOpen} />
+      <CreateLesson
+        order={order}
+        opened={lessonOpen}
+        close={() => setLessonOpen('')}
+      />
+      <OpacityBackground
+        opened={!!lessonOpen}
+        close={() => setLessonOpen('')}
+      />
       <CourseHeader
         page='Create Course'
         path='Dashboard / My Course / Create Course'
@@ -46,6 +54,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
                   openLesson={setLessonOpen}
                   key={course.id}
                   course={course as CourseType}
+                  setOrder={setOrder}
                 />
               )
             })}

@@ -1,5 +1,6 @@
 import prisma from '@/db/prisma'
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 
 export const POST = async (req: Request) => {
   try {
@@ -30,6 +31,8 @@ export const POST = async (req: Request) => {
         order: order,
       },
     })
+
+    revalidatePath('/admin/courses')
 
     return NextResponse.json({ createdLesson }, { status: 201 })
   } catch (err) {

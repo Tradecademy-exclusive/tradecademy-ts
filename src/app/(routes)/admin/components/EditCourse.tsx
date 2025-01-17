@@ -6,9 +6,11 @@ import { Icons } from '@/components/icons'
 const EditCourse = ({
   course,
   openLesson,
+  setOrder,
 }: {
   course: CourseType
   openLesson: React.Dispatch<React.SetStateAction<string>>
+  setOrder: React.Dispatch<React.SetStateAction<number>>
 }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
@@ -89,7 +91,10 @@ const EditCourse = ({
                   </div>
                   <div className='w-full flex items-center px-[52px] gap-5'>
                     <button
-                      onClick={() => openLesson(chapter.id)}
+                      onClick={() => {
+                        openLesson(chapter.id)
+                        setOrder(chapter.lessons.length + 1)
+                      }}
                       className='flex items-center gap-2 bg-white w-[120px] px-3 py-2 rounded-[6px] text-[15px]'
                     >
                       <Icons.plusBlack />
