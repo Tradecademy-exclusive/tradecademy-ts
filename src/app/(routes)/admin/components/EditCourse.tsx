@@ -7,10 +7,12 @@ const EditCourse = ({
   course,
   openLesson,
   setOrder,
+  setLessonId,
 }: {
   course: CourseType
   openLesson: React.Dispatch<React.SetStateAction<string>>
   setOrder: React.Dispatch<React.SetStateAction<number>>
+  setLessonId: React.Dispatch<React.SetStateAction<string>>
 }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
@@ -34,12 +36,12 @@ const EditCourse = ({
         </div>
       </div>
       <div
-        className={`bg-[#D3DBF366] w-full transition-all duration-300 border border-[#B9B0B0B2] border-t-0 overflow-hidden rounded-b-[15px] border-b-0 ${
+        className={`bg-[#D3DBF366] w-full transition-all duration-300 border border-[#B9B0B0B2] border-t-0 overflow-auto rounded-b-[15px] border-b-0 ${
           modalOpen ? 'h-[400px] !border-b-[1px] shadow-even' : 'h-[0px]'
         }`}
       >
         {course.chapters.length > 0 ? (
-          <div className='w-full flex flex-col gap-5 items-start mt-10 px-5'>
+          <div className='w-full flex flex-col gap-5 items-start mt-10 px-5 mb-5'>
             {course.chapters.map((chapter) => {
               return (
                 <div
@@ -78,7 +80,7 @@ const EditCourse = ({
                             </h3>
                           </div>
                           <div className='flex items-center gap-4'>
-                            <button>
+                            <button onClick={() => setLessonId(lesson.id)}>
                               <Icons.edit />
                             </button>
                             <button>

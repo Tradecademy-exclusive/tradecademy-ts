@@ -6,10 +6,12 @@ import CreateLesson from '../components/CreateLesson'
 import EditCourse from '../components/EditCourse'
 import { CourseType } from '@/types'
 import { useState } from 'react'
+import EditLesson from '../components/EditLesson'
 
 const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   // chapter id
   const [lessonOpen, setLessonOpen] = useState<string>('')
+  const [lessonId, setLessonId] = useState<string>('')
   const [order, setOrder] = useState<number>(1)
 
   const publishCourse = async () => {}
@@ -21,8 +23,9 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
         opened={lessonOpen}
         close={() => setLessonOpen('')}
       />
+      <EditLesson opened={lessonId} close={() => setLessonId('')} />
       <OpacityBackground
-        opened={!!lessonOpen}
+        opened={!!lessonOpen || !!lessonId}
         close={() => setLessonOpen('')}
       />
       <CourseHeader
@@ -55,6 +58,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
                   key={course.id}
                   course={course as CourseType}
                   setOrder={setOrder}
+                  setLessonId={setLessonId}
                 />
               )
             })}

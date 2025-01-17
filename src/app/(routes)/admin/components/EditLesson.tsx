@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { PiWarningCircle } from 'react-icons/pi'
 import TextEditor from './TextEditor'
@@ -11,15 +11,14 @@ import { toast } from 'react-toastify'
 import Image from 'next/image'
 import axios from 'axios'
 import { ImSpinner3 } from 'react-icons/im'
+import { Lesson } from '@prisma/client'
 
-const CreateLesson = ({
+const EditLesson = ({
   opened,
   close,
-  order,
 }: {
   opened: string
   close: () => void
-  order: number
 }) => {
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
@@ -29,21 +28,40 @@ const CreateLesson = ({
   const [attachments, setAttachments] = useState<string[]>([])
   const [uploading, setUploading] = useState<boolean>(false)
 
-  const uploadLesson = async () => {
+  useEffect(() => {
+    if (opened) {
+      const getLesson = async () => {
+        const { data } = await axios.get(`/api/courses/lesson?id=${opened}`)
+        if (data.lesson) {
+          const { lesson }: { lesson: Lesson } = data
+          setTitle(lesson.title)
+          setContent(lesson.content || '')
+          setImage(lesson.thumbnail || '')
+          setType(lesson.type || 'Youtube')
+          setSource(lesson.source || '')
+          setAttachments(lesson.attachments)
+        }
+      }
+      getLesson()
+    }
+  }, [opened])
+
+  const updateLesson = async () => {
     try {
       setUploading(true)
-      const { data } = await axios.post('/api/admin/courses/lesson', {
-        title,
-        chapterId: opened,
-        content,
-        thumbnail: image,
-        source,
-        type,
-        attachments: attachments,
-        order,
-      })
+      const { data } = await axios.put(
+        `/api/admin/courses/lesson?id=${opened}`,
+        {
+          title,
+          content,
+          thumbnail: image,
+          source,
+          type,
+          attachments: attachments,
+        }
+      )
 
-      if (data.createdLesson) {
+      if (data.updatedLesson) {
         setTitle('')
         setContent('')
         setImage('')
@@ -51,7 +69,7 @@ const CreateLesson = ({
         setSource('')
         setAttachments([])
         close()
-        toast.error('Lesson has been uploaded.', {
+        toast.error('Lesson has been updated.', {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
       }
@@ -59,7 +77,7 @@ const CreateLesson = ({
       window.location.reload()
     } catch (err) {
       console.log(err)
-      toast.error('Could not upload the lesson.', {
+      toast.error('Could not update the lesson.', {
         icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
       })
       setUploading(false)
@@ -137,11 +155,11 @@ const CreateLesson = ({
         </button>
         <button
           disabled={uploading}
-          onClick={uploadLesson}
+          onClick={updateLesson}
           className='bg-lightblue border w-[170px] border-lightblue text-[15px] text-white py-1.5 px-7 rounded-[6px]'
         >
           {!uploading ? (
-            'Upload Lesson'
+            'Update Lesson'
           ) : (
             <div className='flex items-center gap-3'>
               Loading <ImSpinner3 className='text-base animate-spin' />
@@ -153,4 +171,4 @@ const CreateLesson = ({
   )
 }
 
-export default CreateLesson
+export default EditLesson
