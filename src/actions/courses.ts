@@ -8,7 +8,11 @@ export const getCourses = async () => {
     include: {
       chapters: {
         include: {
-          lessons: true,
+          lessons: {
+            include: {
+              completed: true,
+            },
+          },
         },
       },
     },
@@ -24,7 +28,11 @@ export const getCourseById = async (id: string) => {
     include: {
       chapters: {
         include: {
-          lessons: true,
+          lessons: {
+            include: {
+              completed: true,
+            },
+          },
         },
       },
     },

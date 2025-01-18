@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
-import { CourseType } from '@/types'
+import { ChapterType, CourseType } from '@/types'
 import { useRouter } from 'next/navigation'
 import { useLayoutEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
+import CourseSelector from '@/components/courses/courseSelector'
 
 const Wrapper = ({ course }: { course: CourseType }) => {
   const router = useRouter()
@@ -27,8 +28,8 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   if (!hasAccess) return <div></div>
   return (
     <div className='w-full flex items-start'>
-      <div className='w-full p-6'></div>
-      <div className='min-w-[200px] max-w-[200px] bg-[#1D1D1D]'>s</div>
+      <div className='w-[calc(100%-250px)] p-6'></div>
+      <CourseSelector chapters={course.chapters as unknown as ChapterType[]} />
     </div>
   )
 }

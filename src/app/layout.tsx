@@ -7,7 +7,7 @@ import AuthProvider from '@/providers/AuthProvider'
 
 const monsterrat = Montserrat({
   variable: '--font-geist-sans',
-  subsets: ['latin'],
+  subsets: ['cyrillic'],
 })
 
 export const metadata: Metadata = {

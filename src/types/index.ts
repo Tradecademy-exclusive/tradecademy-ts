@@ -21,8 +21,12 @@ export interface SessionType {
   token: string
 }
 
-interface ChapterType extends Chapter {
-  lessons: Lesson[]
+export interface LessonType extends Lesson {
+  completed: true
+}
+
+export interface ChapterType extends Chapter {
+  lessons: LessonType[]
 }
 
 export interface CourseType extends Course {

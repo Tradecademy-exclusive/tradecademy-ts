@@ -5,8 +5,10 @@ import { AuthContext } from '@/providers/AuthProvider'
 import Locked from './locked'
 import Image from 'next/image'
 import { trimText } from '@/lib/trimText'
+import Link from 'next/link'
 
 interface CourseCardProps {
+  id: string
   title: string
   description: string
   cover: string
@@ -14,6 +16,7 @@ interface CourseCardProps {
 }
 
 const BasicCard = ({
+  id,
   title,
   description,
   cover,
@@ -62,9 +65,12 @@ const BasicCard = ({
           </p>
         </div>
       </div>
-      <button className='text-[13px] w-full bg-lightblue py-2 rounded-[8px] text-white xl:text-[15px] xl:py-3'>
+      <Link
+        href={`/dashboard/courses/${id}`}
+        className='text-[13px] text-center w-full bg-lightblue py-2 rounded-[8px] text-white xl:text-[15px] xl:py-3'
+      >
         Begin You're Course
-      </button>
+      </Link>
     </div>
   )
 }
