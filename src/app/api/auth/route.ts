@@ -27,7 +27,15 @@ export const GET = async () => {
         email: email,
       },
       include: {
-        courses: true,
+        courses: {
+          include: {
+            chapters: {
+              include: {
+                lessons: true,
+              },
+            },
+          },
+        },
         plan: true,
         previousPlans: true,
         focusPoint: true,

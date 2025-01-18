@@ -1,9 +1,10 @@
 import prisma from '@/db/prisma'
 import { NextResponse } from 'next/server'
 
-export const GET = async (_: Request, params: { id: string }) => {
+export const GET = async (req: Request) => {
   try {
-    const { id } = await params
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id')
     if (!id) {
       return NextResponse.json(
         { message: 'Please provide an id' },

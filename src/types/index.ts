@@ -6,11 +6,12 @@ import {
   User,
   Lesson,
   Chapter,
+  Note,
 } from '@prisma/client'
 import { JwtPayload } from 'jsonwebtoken'
 
 interface UserType extends User {
-  courses: Course[]
+  courses: CourseType[]
   plan: Plan
   previousPlans: PreviousPlan[]
   focusPoint: FocusPoint
@@ -23,6 +24,8 @@ export interface SessionType {
 
 export interface LessonType extends Lesson {
   completed: true
+  chapter: Chapter
+  note: Note
 }
 
 export interface ChapterType extends Chapter {
