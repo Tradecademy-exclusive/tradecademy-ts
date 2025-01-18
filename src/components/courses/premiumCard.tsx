@@ -5,6 +5,7 @@ import { AuthContext } from '@/providers/AuthProvider'
 import Locked from './locked'
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface CourseCardProps {
   title: string
@@ -84,15 +85,16 @@ const PremiumCard = ({
               {description}
             </p>
           </div>
-          <button
-            className={`text-[13px] mt-auto w-full ${
+          <Link
+            href={`/dashboard/courses/${ownsCourse?.id}`}
+            className={`text-[13px] mt-auto w-full text-center ${
               title === 'Ultimate Course'
                 ? 'bg-white text-lightblue'
                 : 'bg-lightblue text-white'
             } py-2 rounded-[8px] xl:text-[15px] xl:py-3`}
           >
             Begin You're Course
-          </button>
+          </Link>
         </div>
       </div>
     </div>

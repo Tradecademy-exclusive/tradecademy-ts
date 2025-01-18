@@ -15,3 +15,13 @@ export const getCourses = async () => {
   })
   return courses
 }
+
+export const getCourseById = async (id: string) => {
+  const course = await prisma.course.findMany({
+    where: {
+      id: id,
+    },
+  })
+
+  return course
+}
