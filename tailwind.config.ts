@@ -11,8 +11,8 @@ export default {
     extend: {
       animation: {
         spin: 'spin 0.8s linear infinite',
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        'accordion-down': 'accordion-down 0.4s',
+        'accordion-up': 'accordion-up 0.4s',
       },
       keyframes: {
         spin: {

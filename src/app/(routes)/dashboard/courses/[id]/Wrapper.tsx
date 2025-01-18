@@ -2,12 +2,13 @@
 'use client'
 
 import { ChapterType, CourseType } from '@/types'
-import { useRouter } from 'next/navigation'
-import { useLayoutEffect, useState, useContext } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useLayoutEffect, useEffect, useState, useContext } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import CourseSelector from '@/components/courses/courseSelector'
 
 const Wrapper = ({ course }: { course: CourseType }) => {
+  const searchParams = useSearchParams()
   const router = useRouter()
   const { session } = useContext(AuthContext)
   const [hasAccess, setHasAccess] = useState<boolean>(false)
@@ -24,6 +25,11 @@ const Wrapper = ({ course }: { course: CourseType }) => {
       }
     }
   }, [session, course])
+
+  useEffect(() => {
+    const lesson = searchParams.get('lesson')
+    console.log(lesson)
+  }, [searchParams])
 
   if (!hasAccess) return <div></div>
   return (

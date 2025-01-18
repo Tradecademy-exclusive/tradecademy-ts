@@ -66,30 +66,32 @@ const EditCourse = ({
                     </div>
                   </div>
                   <div className='flex flex-col items-start gap-2.5 w-full pl-8'>
-                    {chapter.lessons.map((lesson) => {
-                      return (
-                        <div
-                          key={lesson.id}
-                          className='w-full bg-white border border-[#BBB6B9] rounded-[5px] py-3 px-3 flex items-center justify-between'
-                        >
-                          <div className='flex items-center gap-2.5'>
-                            <Icons.menu />
-                            <h3 className='flex items-center gap-1 text-[15px] font-semibold'>
-                              <span>Lesson {lesson.order}:</span>
-                              <span>{lesson.title}</span>
-                            </h3>
+                    {chapter.lessons
+                      .sort((a, b) => a.order - b.order)
+                      .map((lesson) => {
+                        return (
+                          <div
+                            key={lesson.id}
+                            className='w-full bg-white border border-[#BBB6B9] rounded-[5px] py-3 px-3 flex items-center justify-between'
+                          >
+                            <div className='flex items-center gap-2.5'>
+                              <Icons.menu />
+                              <h3 className='flex items-center gap-1 text-[15px] font-semibold'>
+                                <span>Lesson {lesson.order}:</span>
+                                <span>{lesson.title}</span>
+                              </h3>
+                            </div>
+                            <div className='flex items-center gap-4'>
+                              <button onClick={() => setLessonId(lesson.id)}>
+                                <Icons.edit />
+                              </button>
+                              <button>
+                                <Icons.delete />
+                              </button>
+                            </div>
                           </div>
-                          <div className='flex items-center gap-4'>
-                            <button onClick={() => setLessonId(lesson.id)}>
-                              <Icons.edit />
-                            </button>
-                            <button>
-                              <Icons.delete />
-                            </button>
-                          </div>
-                        </div>
-                      )
-                    })}
+                        )
+                      })}
                   </div>
                   <div className='w-full flex items-center px-[52px] gap-5'>
                     <button
