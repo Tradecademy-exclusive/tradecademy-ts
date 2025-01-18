@@ -38,7 +38,7 @@ const Wrapper = ({ course }: { course: CourseType }) => {
         router.push('/dashboard')
       }
     }
-    if (!session || !course) return
+    if (!session || !course || !searchParams) return
     const lesson = searchParams.get('lesson')
     if (!lesson) {
       const firstLesson = session?.user.courses
@@ -52,7 +52,7 @@ const Wrapper = ({ course }: { course: CourseType }) => {
         const newUrl = new URL(window.location.href)
         newUrl.searchParams.set('lesson', firstLesson.id)
         window.history.pushState({}, '', newUrl)
-        getLessonById(firstLesson.id)
+        window.location.reload()
       } else {
         return router.replace('/dashboard')
       }
@@ -64,7 +64,7 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   if (!hasAccess) return <div></div>
   return (
     <div className='w-full flex items-start'>
-      <div className='w-[calc(100%-250px)] p-6'>
+      <div className='w-[calc(100%-300px)] max-lg:w-[calc(100%-310px)] p-6'>
         {lesson &&
           (lesson.source ? <WatchLesson lesson={lesson} /> : <div></div>)}
       </div>

@@ -50,6 +50,9 @@ importers:
       plyr:
         specifier: ^3.7.8
         version: 3.7.8
+      plyr-react:
+        specifier: ^5.3.0
+        version: 5.3.0(plyr@3.7.8)(react@19.0.0)
       prisma:
         specifier: ^6.2.1
         version: 6.2.1
@@ -1843,6 +1846,16 @@ packages:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
 
+  plyr-react@5.3.0:
+    resolution: {integrity: sha512-m36/HrpHwg1N2rq3E31E8/kpAH55vk6qHUg17MG4uu9jbWYxnkN39lLmZQwxW7/qpDPfW5aGUJ6R3u23V0R3zA==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      plyr: ^3.7.7
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+
   plyr@3.7.8:
     resolution: {integrity: sha512-yG/EHDobwbB/uP+4Bm6eUpJ93f8xxHjjk2dYcD1Oqpe1EcuQl5tzzw9Oq+uVAzd2lkM11qZfydSiyIpiB8pgdA==}
 
@@ -1919,6 +1932,15 @@ packages:
 
   rangetouch@2.0.1:
     resolution: {integrity: sha512-sln+pNSc8NGaHoLzwNBssFSf/rSYkqeBXzX1AtJlkJiUaVSJSbRAWJk+4omsXkN+EJalzkZhWQ3th1m0FpR5xA==}
+
+  react-aptor@2.0.0:
+    resolution: {integrity: sha512-YnCayokuhAwmBBP4Oc0bbT2l6ApfsjbY3DEEVUddIKZEBlGl1npzjHHzWnSqWuboSbMZvRqUM01Io9yiIp1wcg==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      react: '>=16.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   react-dom@19.0.0:
     resolution: {integrity: sha512-4GV5sHFG0e/0AD4X+ySy6UJd3jVl1iNsNHdpad0qhABJ11twS3TTBnseqsKurKcsNqCEFeGL3uLpVChpIO3QfQ==}
@@ -4195,6 +4217,13 @@ snapshots:
 
   pirates@4.0.6: {}
 
+  plyr-react@5.3.0(plyr@3.7.8)(react@19.0.0):
+    dependencies:
+      plyr: 3.7.8
+      react-aptor: 2.0.0(react@19.0.0)
+    optionalDependencies:
+      react: 19.0.0
+
   plyr@3.7.8:
     dependencies:
       core-js: 3.40.0
@@ -4269,6 +4298,10 @@ snapshots:
   queue-microtask@1.2.3: {}
 
   rangetouch@2.0.1: {}
+
+  react-aptor@2.0.0(react@19.0.0):
+    optionalDependencies:
+      react: 19.0.0
 
   react-dom@19.0.0(react@19.0.0):
     dependencies:
