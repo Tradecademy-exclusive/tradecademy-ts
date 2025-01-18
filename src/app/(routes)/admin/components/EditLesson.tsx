@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -16,16 +17,22 @@ import { Lesson } from '@prisma/client'
 const EditLesson = ({
   opened,
   close,
+  image,
+  attachments,
+  setAttachments,
+  setImage,
 }: {
   opened: string
   close: () => void
+  image: string
+  attachments: string[]
+  setAttachments: React.Dispatch<React.SetStateAction<string[]>>
+  setImage: React.Dispatch<React.SetStateAction<string>>
 }) => {
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
-  const [image, setImage] = useState<string>('')
   const [type, setType] = useState<string>('Youtube')
   const [source, setSource] = useState<string>('')
-  const [attachments, setAttachments] = useState<string[]>([])
   const [uploading, setUploading] = useState<boolean>(false)
 
   useEffect(() => {

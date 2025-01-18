@@ -16,17 +16,23 @@ const CreateLesson = ({
   opened,
   close,
   order,
+  image,
+  setAttachments,
+  setImage,
+  attachments,
 }: {
   opened: string
   close: () => void
   order: number
+  image: string
+  attachments: string[]
+  setAttachments: React.Dispatch<React.SetStateAction<string[]>>
+  setImage: React.Dispatch<React.SetStateAction<string>>
 }) => {
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
-  const [image, setImage] = useState<string>('')
   const [type, setType] = useState<string>('Youtube')
   const [source, setSource] = useState<string>('')
-  const [attachments, setAttachments] = useState<string[]>([])
   const [uploading, setUploading] = useState<boolean>(false)
 
   const uploadLesson = async () => {
