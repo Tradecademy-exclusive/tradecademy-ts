@@ -2,9 +2,20 @@
 import { useContext } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 
 const Header = () => {
+  const pathname = usePathname()
   const { session } = useContext(AuthContext)
+
+  if (
+    pathname.includes('/dashboard/courses/') &&
+    pathname !== '/dashboard/courses' &&
+    pathname !== '/dashboard/courses/'
+  ) {
+    return
+  }
+
   return (
     <div className='w-full flex items-center h-[75px] justify-end px-6 py-4'>
       <div>

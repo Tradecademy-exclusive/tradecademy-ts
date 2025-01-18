@@ -17,9 +17,16 @@ export const getCourses = async () => {
 }
 
 export const getCourseById = async (id: string) => {
-  const course = await prisma.course.findMany({
+  const course = await prisma.course.findUnique({
     where: {
       id: id,
+    },
+    include: {
+      chapters: {
+        include: {
+          lessons: true,
+        },
+      },
     },
   })
 
