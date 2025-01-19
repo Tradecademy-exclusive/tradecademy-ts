@@ -1,5 +1,5 @@
 import { Note as NoteType } from '@prisma/client'
-import CanvasSketch from './canvas'
+import TldrawSketch from './tldraw'
 
 interface NoteProps {
   note: NoteType
@@ -15,7 +15,9 @@ const Note = ({ note, lessonId }: NoteProps) => {
           We all know making notes is one of the most important steps.
         </p>
       </div>
-      <CanvasSketch />
+      <div className='relative w-full h-[70vh] md:h-[45vh] overflow-auto'>
+        <TldrawSketch />
+      </div>
     </div>
   )
 }
