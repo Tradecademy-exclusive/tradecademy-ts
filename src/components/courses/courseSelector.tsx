@@ -8,7 +8,7 @@ import { ChapterType } from '@/types'
 
 const CourseSelector = ({ chapters }: { chapters: ChapterType[] }) => {
   return (
-    <div className='min-w-[310px] max-w-[310px] bg-[#1D1D1D] h-screen fixed right-0 top-0  flex flex-col lg:-right-5 items-start pt-5 pb-2 overflow-y-auto'>
+    <div className='min-w-[310px] max-w-[310px] bg-[#1D1D1D] h-full fixed right-0 top-0  flex flex-col lg:-right-5 items-start pt-5 pb-2 overflow-y-auto'>
       <h2 className='text-lg text-white font-semibold px-5'>Course Content</h2>
       <div className='w-full flex flex-col items-start mt-5'>
         {chapters.map((chapter) => {

@@ -4,7 +4,6 @@ import { LuLayoutGrid } from 'react-icons/lu'
 
 export const Icons = {
   grid: () => <LuLayoutGrid className='text-xl group-hover:text-tcblue' />,
-
   iconMobile: () => (
     <svg
       width='21'
