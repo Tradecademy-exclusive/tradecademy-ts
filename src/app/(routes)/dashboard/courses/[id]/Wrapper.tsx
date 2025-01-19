@@ -65,8 +65,10 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   return (
     <div className='w-full flex items-start'>
       <div className='w-[calc(100%-300px)] max-lg:w-[calc(100%-310px)] p-6'>
-        {lesson &&
-          (lesson.source ? <WatchLesson lesson={lesson} /> : <div></div>)}
+        <div className='w-full flex flex-col items-center'>
+          {lesson &&
+            (lesson.source ? <WatchLesson lesson={lesson} /> : <div></div>)}
+        </div>
       </div>
       <CourseSelector chapters={course.chapters as unknown as ChapterType[]} />
     </div>

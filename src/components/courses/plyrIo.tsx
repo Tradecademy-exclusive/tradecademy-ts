@@ -1,8 +1,10 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import 'plyr-react/plyr.css'
-import Plyr, { PlyrProps } from 'plyr-react'
+import dynamic from 'next/dynamic'
+import { PlyrProps } from 'plyr-react'
+const Plyr = dynamic(() => import('plyr-react'), { ssr: false })
 
 const PlyrIo = ({
   source,
@@ -11,6 +13,14 @@ const PlyrIo = ({
   source: string
   type: 'youtube' | 'vimeo' | 'html5'
 }) => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) return null
+
   const videoOptions: PlyrProps = {
     source: {
       type: 'video',
