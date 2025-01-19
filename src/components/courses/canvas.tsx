@@ -46,6 +46,24 @@ const CanvasSketch = () => {
     setContent(newContent)
   }
 
+  const handleUndoClick = () => {
+    canvasRef.current?.undo()
+  }
+
+  const handleRedoClick = () => {
+    canvasRef.current?.redo()
+  }
+
+  const handleClearClick = () => {
+    canvasRef.current?.clearCanvas()
+  }
+
+  const handleResetClick = () => {
+    canvasRef.current?.resetCanvas()
+    setStrokeWidth(5)
+    setEraserWidth(5)
+  }
+
   return (
     <div className='w-full p-4 bg-charcoal rounded-[15px]'>
       <Editor
@@ -67,9 +85,34 @@ const CanvasSketch = () => {
           strokeWidth={strokeWidth}
           eraserWidth={eraserWidth}
         />
-        <div className='w-full flex flex-col items-start gap-3'>
+        <div className='w-full flex flex-col items-start gap-5'>
           <div className='w-full flex items-center justify-between'>
-            <div className='flex items-center gap-5'></div>
+            <div className='flex items-center gap-3'>
+              <button
+                onClick={handleUndoClick}
+                className='text-white px-5 py-1 rounded-[5px] bg-[#3D3D3D] hover:bg-[#333333] transition-all duration-200'
+              >
+                Undo
+              </button>
+              <button
+                onClick={handleRedoClick}
+                className='text-white px-5 py-1 rounded-[5px] bg-[#3D3D3D] hover:bg-[#333333] transition-all duration-200'
+              >
+                Redo
+              </button>
+              <button
+                onClick={handleClearClick}
+                className='text-white px-5 py-1 rounded-[5px] bg-[#3D3D3D] hover:bg-[#333333] transition-all duration-200'
+              >
+                Clear
+              </button>
+              <button
+                onClick={handleResetClick}
+                className='text-white px-5 py-1 rounded-[5px] bg-[#3D3D3D] hover:bg-[#333333] transition-all duration-200'
+              >
+                Reset
+              </button>
+            </div>
           </div>
           <div className='w-full flex flex-col items-start gap-3'>
             <div className='w-full flex items-center gap-3'>
