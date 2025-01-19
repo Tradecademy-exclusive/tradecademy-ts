@@ -5,9 +5,10 @@ import {
   ReactSketchCanvas,
   type ReactSketchCanvasRef,
 } from 'react-sketch-canvas'
-import { type ChangeEvent, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { LuPenTool } from 'react-icons/lu'
 import { FaEraser } from 'react-icons/fa'
+import { Slider } from '../ui/slider'
 
 const Editor = dynamic(
   () => import('@tinymce/tinymce-react').then((mod) => mod.Editor),
@@ -21,7 +22,7 @@ const CanvasSketch = () => {
   const canvasRef = useRef<ReactSketchCanvasRef>(null)
   const [eraseMode, setEraseMode] = useState(false)
   const [strokeWidth, setStrokeWidth] = useState(5)
-  const [eraserWidth, setEraserWidth] = useState(10)
+  const [eraserWidth, setEraserWidth] = useState(5)
 
   const handleEraserClick = () => {
     setEraseMode(true)
@@ -33,12 +34,12 @@ const CanvasSketch = () => {
     canvasRef.current?.eraseMode(false)
   }
 
-  const handleStrokeWidthChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setStrokeWidth(+event.target.value)
+  const handleStrokeWidthChange = (value: number[]) => {
+    setStrokeWidth(value[0])
   }
 
-  const handleEraserWidthChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEraserWidth(+event.target.value)
+  const handleEraserWidthChange = (value: number[]) => {
+    setEraserWidth(value[0])
   }
 
   const handleEditorChange = (newContent: string) => {
@@ -66,21 +67,44 @@ const CanvasSketch = () => {
           strokeWidth={strokeWidth}
           eraserWidth={eraserWidth}
         />
-        <div className='w-full flex items-center justify-start gap-5'>
-          <button
-            disabled={!eraseMode}
-            onClick={handlePenClick}
-            className='p-1.5 rounded-[3px] text-white disabled:bg-[#3D3D3D] transition-all duration-200'
-          >
-            <LuPenTool className='text-xl' />
-          </button>
-          <button
-            disabled={eraseMode}
-            onClick={handleEraserClick}
-            className='p-1.5 rounded-[3px] text-white disabled:bg-[#3D3D3D] transition-all duration-200'
-          >
-            <FaEraser className='text-lg' />
-          </button>
+        <div className='w-full flex flex-col items-start gap-3'>
+          <div className='w-full flex items-center justify-between'>
+            <div className='flex items-center gap-5'></div>
+          </div>
+          <div className='w-full flex flex-col items-start gap-3'>
+            <div className='w-full flex items-center gap-3'>
+              <button
+                disabled={!eraseMode}
+                onClick={handlePenClick}
+                className='p-1.5 rounded-[3px] text-white disabled:bg-[#3D3D3D] transition-all duration-200'
+              >
+                <LuPenTool className='text-xl' />
+              </button>
+              <Slider
+                min={1}
+                value={[strokeWidth]}
+                onValueChange={handleStrokeWidthChange}
+                max={25}
+              />
+              <span className='text-gray-100 text-[15px]'>{strokeWidth}px</span>
+            </div>
+            <div className='w-full flex items-center gap-3'>
+              <button
+                disabled={eraseMode}
+                onClick={handleEraserClick}
+                className='p-1.5 rounded-[3px] text-white disabled:bg-[#3D3D3D] transition-all duration-200'
+              >
+                <FaEraser className='text-lg' />
+              </button>
+              <Slider
+                min={1}
+                value={[eraserWidth]}
+                onValueChange={handleEraserWidthChange}
+                max={25}
+              />
+              <span className='text-gray-100 text-[15px]'>{eraserWidth}px</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
