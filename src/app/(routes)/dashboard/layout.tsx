@@ -5,7 +5,7 @@ import { SidebarMobile } from '@/components/dashboard/sidebarMobile'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='w-full flex items-start gap-5 min-h-screen relative'>
+    <div className='w-full flex items-start gap-5 min-h-screen relative overflow-x-hidden'>
       <div className='w-full h-full flex items-start gap-0'>
         <div className='hidden lg:block'>
           <Sidebar />

@@ -4,6 +4,23 @@ import { LuLayoutGrid } from 'react-icons/lu'
 
 export const Icons = {
   grid: () => <LuLayoutGrid className='text-xl group-hover:text-tcblue' />,
+  arrowRight: () => (
+    <svg
+      width='10'
+      height='17'
+      viewBox='0 0 10 17'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M1 1L8.5 8.5L1 16'
+        stroke='white'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+      />
+    </svg>
+  ),
   iconMobile: () => (
     <svg
       width='21'

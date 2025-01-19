@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import 'plyr-react/plyr.css'
 import dynamic from 'next/dynamic'
-import { PlyrProps } from 'plyr-react'
+import { APITypes, PlyrInstance, PlyrProps } from 'plyr-react'
+
 const Plyr = dynamic(() => import('plyr-react'), { ssr: false })
 
 const PlyrIo = ({
@@ -13,33 +14,38 @@ const PlyrIo = ({
   source: string
   type: 'youtube' | 'vimeo' | 'html5'
 }) => {
-  const [isClient, setIsClient] = useState(false)
+  const plyrRef = useRef<PlyrInstance | null>(null)
+
+  // Memoize video options to prevent unnecessary re-creation
+  const videoOptions = useMemo<PlyrProps>(
+    () => ({
+      source: {
+        type: 'video',
+        sources: [
+          {
+            src: source,
+            type: 'video/mp4',
+            provider: type,
+          },
+        ],
+      },
+      options: {
+        controls: ['play', 'progress', 'mute', 'volume', 'fullscreen'],
+      },
+    }),
+    [source, type]
+  )
 
   useEffect(() => {
-    setIsClient(true)
+    return () => {
+      plyrRef.current?.destroy()
+      plyrRef.current = null
+    }
   }, [])
-
-  if (!isClient) return null
-
-  const videoOptions: PlyrProps = {
-    source: {
-      type: 'video',
-      sources: [
-        {
-          src: source,
-          type: 'video/mp4',
-          provider: type,
-        },
-      ],
-    },
-    options: {
-      controls: ['play', 'progress', 'mute', 'volume', 'fullscreen'],
-    },
-  }
 
   return (
     <div className='w-full'>
-      <Plyr {...videoOptions} />
+      <Plyr ref={plyrRef as React.Ref<APITypes>} {...videoOptions} />
     </div>
   )
 }

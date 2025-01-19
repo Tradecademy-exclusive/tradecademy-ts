@@ -8,6 +8,7 @@ import { AuthContext } from '@/providers/AuthProvider'
 import CourseSelector from '@/components/courses/courseSelector'
 import axios from 'axios'
 import WatchLesson from '@/components/courses/watchLesson'
+import OpacityBackground from '@/components/opacityBackground'
 
 const Wrapper = ({ course }: { course: CourseType }) => {
   const searchParams = useSearchParams()
@@ -15,6 +16,7 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   const { session } = useContext(AuthContext)
   const [hasAccess, setHasAccess] = useState<boolean>(false)
   const [lesson, setLesson] = useState<null | LessonType>()
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   useLayoutEffect(() => {
     if (session && course) {
@@ -64,13 +66,18 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   if (!hasAccess) return <div></div>
   return (
     <div className='w-full flex items-start'>
-      <div className='w-[calc(100%-300px)] max-lg:w-[calc(100%-310px)] p-6'>
+      <div className='w-full p-6'>
         <div className='w-full flex flex-col items-center'>
           {lesson &&
             (lesson.source ? <WatchLesson lesson={lesson} /> : <div></div>)}
         </div>
       </div>
-      <CourseSelector chapters={course.chapters as unknown as ChapterType[]} />
+      <CourseSelector
+        chapters={course.chapters as unknown as ChapterType[]}
+        open={modalOpen}
+        setOpen={setModalOpen}
+      />
+      <OpacityBackground opened={modalOpen} close={() => setModalOpen(false)} />
     </div>
   )
 }
