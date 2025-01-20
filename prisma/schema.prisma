@@ -97,11 +97,11 @@ model FocusPoint {
 }
 
 model Note {
-  id      String   @id @default(uuid())
-  content String
-  lesson  Lesson[]
-  user    User     @relation(fields: [userId], references: [id])
-  userId  String
+  id        String   @id @default(uuid())
+  sessionId String
+  lesson    Lesson[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }
 
 enum videoType {

@@ -1,5 +1,8 @@
+'use client'
+
 import { Note as NoteType } from '@prisma/client'
 import TldrawSketch from './tldraw'
+import { useEffect, useState } from 'react'
 
 interface NoteProps {
   note: NoteType
@@ -7,6 +10,16 @@ interface NoteProps {
 }
 
 const Note = ({ note, lessonId }: NoteProps) => {
+  const [sessionId, setSessionId] = useState<string>('')
+
+  useEffect(() => {
+    const generateSessionId = () => {
+      return 'session-' + new Date().getTime()
+    }
+    const generatedId = generateSessionId()
+    setSessionId(generatedId)
+  }, [])
+
   return (
     <div className='w-full p-5 rounded-[30px] bg-charcoal flex flex-col items-start gap-2.5'>
       <div className='flex flex-col items-start gap-0.5'>
@@ -16,7 +29,7 @@ const Note = ({ note, lessonId }: NoteProps) => {
         </p>
       </div>
       <div className='relative w-full h-[70vh] md:h-[45vh] overflow-auto'>
-        <TldrawSketch />
+        <TldrawSketch sessionId={sessionId} />
       </div>
     </div>
   )

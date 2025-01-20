@@ -8,7 +8,6 @@ import { AuthContext } from '@/providers/AuthProvider'
 import CourseSelector from '@/components/courses/courseSelector'
 import axios from 'axios'
 import WatchLesson from '@/components/courses/watchLesson'
-import OpacityBackground from '@/components/opacityBackground'
 
 const Wrapper = ({ course }: { course: CourseType }) => {
   const searchParams = useSearchParams()
@@ -77,7 +76,6 @@ const Wrapper = ({ course }: { course: CourseType }) => {
         open={modalOpen}
         setOpen={setModalOpen}
       />
-      <OpacityBackground opened={modalOpen} close={() => setModalOpen(false)} />
     </div>
   )
 }

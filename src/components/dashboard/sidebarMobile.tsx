@@ -173,7 +173,7 @@ export const SidebarMobile = () => {
                       ? 'stroke-tcblue'
                       : 'stroke-white'
                   }
-                   group-hover:stroke-tcblue transition-all duration-300`}
+                    transition-all duration-300`}
             />
             <line
               x1='1'
@@ -182,7 +182,7 @@ export const SidebarMobile = () => {
               y2='9.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='2'
@@ -191,7 +191,7 @@ export const SidebarMobile = () => {
               y2='8.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='4'
@@ -200,7 +200,7 @@ export const SidebarMobile = () => {
               y2='8.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='11'
@@ -209,7 +209,7 @@ export const SidebarMobile = () => {
               y2='5.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='10'
@@ -218,7 +218,7 @@ export const SidebarMobile = () => {
               y2='4.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='9'
@@ -227,7 +227,7 @@ export const SidebarMobile = () => {
               y2='5.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='8'
@@ -235,8 +235,9 @@ export const SidebarMobile = () => {
               x2='9'
               y2='6.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+  ${
+    pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'
+  } transition-all duration-300`}
             />
             <line
               x1='7'
@@ -247,7 +248,7 @@ export const SidebarMobile = () => {
                 pathname === '/dashboard/analysis'
                   ? 'stroke-tcblue'
                   : 'stroke-white'
-              }group-hover:stroke-tcblue transition-all duration-300`}
+              } transition-all duration-300`}
             />
             <line
               x1='5.99788'
@@ -256,7 +257,7 @@ export const SidebarMobile = () => {
               y2='6.546'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='5'
@@ -265,7 +266,7 @@ export const SidebarMobile = () => {
               y2='7.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
             <line
               x1='3'
@@ -274,7 +275,7 @@ export const SidebarMobile = () => {
               y2='7.5'
               className={`
   ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
-   group-hover:stroke-tcblue transition-all duration-300`}
+    transition-all duration-300`}
             />
           </svg>
         </Link>

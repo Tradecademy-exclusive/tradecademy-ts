@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { Tldraw } from 'tldraw'
 import 'tldraw/tldraw.css'
 
-const TldrawSketch = () => {
+const TldrawSketch = ({ sessionId }: { sessionId: string }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const TldrawSketch = () => {
 
   return (
     <div ref={containerRef} className='w-full h-full'>
-      <Tldraw />
+      <Tldraw sessionId={sessionId} />
     </div>
   )
 }
