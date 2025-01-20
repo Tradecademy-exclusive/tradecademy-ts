@@ -5,17 +5,21 @@ import React, { useEffect, useRef } from 'react'
 import { FiLoader } from 'react-icons/fi'
 import { Tldraw } from 'tldraw'
 import 'tldraw/tldraw.css'
+import Image from 'next/image'
+import { toast } from 'react-toastify'
 
 const TldrawSketch = ({
   sessionId,
   saveSession,
   note,
   saving,
+  setSaving,
 }: {
   sessionId: string
   saveSession: (sessionData: string) => void
   note: Note | null
   saving: boolean
+  setSaving: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -45,6 +49,16 @@ const TldrawSketch = ({
         onClick={async () => {
           if (!note) {
             saveSession(sessionId)
+          } else {
+            setSaving(true)
+            setTimeout(() => {
+              setSaving(false)
+              return toast.error('Your note has been saved', {
+                icon: (
+                  <Image src='/tc_icon.svg' alt='' height={25} width={25} />
+                ),
+              })
+            }, 200)
           }
         }}
         disabled={saving}
