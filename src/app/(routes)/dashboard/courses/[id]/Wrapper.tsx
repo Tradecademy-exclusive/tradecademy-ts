@@ -14,7 +14,7 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   const router = useRouter()
   const { session } = useContext(AuthContext)
   const [hasAccess, setHasAccess] = useState<boolean>(false)
-  const [lesson, setLesson] = useState<null | LessonType>()
+  const [lesson, setLesson] = useState<null | LessonType>(null)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
   useLayoutEffect(() => {
@@ -64,11 +64,15 @@ const Wrapper = ({ course }: { course: CourseType }) => {
 
   if (!hasAccess) return <div></div>
   return (
-    <div className='w-full flex items-start'>
+    <div className='w-full flex items-start min-h-screen'>
       <div className='w-full p-6'>
         <div className='w-full flex flex-col items-center'>
           {lesson &&
-            (lesson.source ? <WatchLesson lesson={lesson} /> : <div></div>)}
+            (lesson.source ? (
+              <WatchLesson lesson={lesson} />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: lesson.content! }} />
+            ))}
         </div>
       </div>
       <CourseSelector
