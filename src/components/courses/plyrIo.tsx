@@ -16,7 +16,6 @@ const PlyrIo = ({
 }) => {
   const plyrRef = useRef<PlyrInstance | null>(null)
 
-  // Memoize video options to prevent unnecessary re-creation
   const videoOptions = useMemo<PlyrProps>(
     () => ({
       source: {

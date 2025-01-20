@@ -20,7 +20,7 @@ const WatchLesson = ({ lesson }: { lesson: LessonType }) => {
           </button>
         </div>
       </div>
-      <Note lessonId={lesson.id} note={lesson.note} />
+      <Note lessonId={lesson.id} />
     </div>
   )
 }

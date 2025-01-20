@@ -16,6 +16,13 @@ export const GET = async (req: Request) => {
       where: {
         id,
       },
+      include: {
+        Note: {
+          include: {
+            user: true,
+          },
+        },
+      },
     })
 
     return NextResponse.json({ lesson }, { status: 200 })
