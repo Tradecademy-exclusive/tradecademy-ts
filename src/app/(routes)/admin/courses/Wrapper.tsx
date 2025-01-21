@@ -8,6 +8,7 @@ import EditCourse from '../components/EditCourse'
 import { CourseType } from '@/types'
 import { useMemo, useState } from 'react'
 import EditLesson from '../components/EditLesson'
+import UploadCourse from '../components/UploadCourse'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -22,6 +23,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   const [order, setOrder] = useState<number>(1)
   const [attachments, setAttachments] = useState<string[]>([])
   const [image, setImage] = useState<string>('')
+  const [published, setPublished] = useState<boolean>(true)
 
   const lessonComponents = useMemo<LessonComponentsObj[]>(() => {
     return [
@@ -91,29 +93,31 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
         ]}
       />
       <div className='w-full flex flex-col items-start gap-10 relative'>
-        <section className='w-full h-[77vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'>
-          <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2] px-10 flex items-center justify-start'>
-            <h2 className='text-lg font-bold'>Course Information</h2>
-          </div>
-        </section>
-        <section className='w-full h-[95vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'>
-          <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2] px-10 flex items-center justify-start'>
-            <h2 className='text-lg font-bold'>Course Builder</h2>
-          </div>
-          <div className='w-full flex flex-col items-start gap-3 px-5'>
-            {courses.map((course) => {
-              return (
-                <EditCourse
-                  openLesson={setLessonOpen}
-                  key={course.id}
-                  course={course as CourseType}
-                  setOrder={setOrder}
-                  setLessonId={setLessonId}
-                />
-              )
-            })}
-          </div>
-        </section>
+        <UploadCourse published={published} setPublished={setPublished} />
+        <div className='w-full flex items-start gap-7'>
+          <section
+            id='builder'
+            className='w-full h-[96vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'
+          >
+            <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2] px-10 flex items-center justify-start'>
+              <h2 className='text-lg font-bold'>Course Builder</h2>
+            </div>
+            <div className='w-full flex flex-col items-start gap-3 px-5'>
+              {courses.map((course) => {
+                return (
+                  <EditCourse
+                    openLesson={setLessonOpen}
+                    key={course.id}
+                    course={course as CourseType}
+                    setOrder={setOrder}
+                    setLessonId={setLessonId}
+                  />
+                )
+              })}
+            </div>
+          </section>
+          <div className='min-w-[250px] max-w-[250px]'></div>
+        </div>
       </div>
     </div>
   )

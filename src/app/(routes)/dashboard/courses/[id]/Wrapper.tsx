@@ -178,11 +178,14 @@ const Wrapper = ({ course }: { course: CourseType }) => {
           </div>
         </div>
       </div>
-      <CourseSelector
-        chapters={course.chapters as unknown as ChapterType[]}
-        open={modalOpen}
-        setOpen={setModalOpen}
-      />
+      {lesson && (
+        <CourseSelector
+          chapters={course.chapters as unknown as ChapterType[]}
+          open={modalOpen}
+          setOpen={setModalOpen}
+          lesson={lesson}
+        />
+      )}
     </div>
   )
 }

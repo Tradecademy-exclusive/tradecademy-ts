@@ -6,17 +6,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { ChapterType } from '@/types'
+import { ChapterType, LessonType } from '@/types'
 import { Icons } from '../icons'
 
 const CourseSelector = ({
   chapters,
   open,
   setOpen,
+  lesson: selectedLesson,
 }: {
   chapters: ChapterType[]
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  lesson: LessonType
 }) => {
   return (
     <div
@@ -78,12 +80,16 @@ const CourseSelector = ({
                               newUrl.searchParams.set('lesson', lesson.id)
 
                               window.history.pushState({}, '', newUrl)
+                              setOpen(false)
                             }}
                             className='w-full flex items-center justify-between px-3 py-3.5 group bg-[#292929]'
                           >
                             <div className='flex items-center gap-2'>
                               <div
-                                className={`w-[30px] h-[20px] rounded-[6px] flex items-center justify-center bg-[#4D4D4D] group-hover:bg-tcblue transition-all duration-500`}
+                                className={`w-[30px] h-[20px] rounded-[6px] flex items-center justify-center bg-[#4D4D4D] group-hover:bg-tcblue transition-all duration-500 ${
+                                  lesson.id === selectedLesson.id &&
+                                  '!bg-tcblue'
+                                }`}
                               >
                                 <svg
                                   width='7'
@@ -108,6 +114,11 @@ const CourseSelector = ({
                                 {lesson.title}
                               </h4>
                             </div>
+                            <div
+                              className={`h-[14px] w-[14px] rounded-full border border-white group-hover:bg-tcblue transition-all duration-200 ${
+                                lesson.id === selectedLesson.id && '!bg-tcblue'
+                              }`}
+                            />
                           </button>
                         )
                       })}
