@@ -9,6 +9,7 @@ import { CourseType } from '@/types'
 import { useMemo, useState } from 'react'
 import EditLesson from '../components/EditLesson'
 import UploadCourse from '../components/UploadCourse'
+import { publicType } from '@prisma/client'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -24,6 +25,11 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   const [attachments, setAttachments] = useState<string[]>([])
   const [image, setImage] = useState<string>('')
   const [published, setPublished] = useState<boolean>(true)
+  const [title, setTitle] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
+  const [maxStudents, setMaxStudents] = useState<string>('')
+  const [learn, setLearn] = useState<string>('')
+  const [courseStatus, setCourseStatus] = useState<publicType>('Published')
 
   const lessonComponents = useMemo<LessonComponentsObj[]>(() => {
     return [
@@ -58,7 +64,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   const publishCourse = async () => {}
 
   return (
-    <div className='w-full py-5 px-20 flex flex-col h-screen items-start gap-3 relative'>
+    <div className='w-full py-5 px-20 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
       <OpacityBackground
         opened={!!lessonOpen || !!lessonId}
         close={() => {
@@ -92,8 +98,22 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
           },
         ]}
       />
-      <div className='w-full flex flex-col items-start gap-10 relative'>
-        <UploadCourse published={published} setPublished={setPublished} />
+
+      <div className='w-full flex flex-col items-start gap-10 relative pt-[250px]'>
+        <UploadCourse
+          publicCourse={published}
+          setPublicCourse={setPublished}
+          title={title}
+          setTitle={setTitle}
+          description={description}
+          setDescription={setDescription}
+          learn={learn}
+          setLearn={setLearn}
+          courseStatus={courseStatus}
+          setCourseStatus={setCourseStatus}
+          maxStudents={maxStudents}
+          setMaxStudents={setMaxStudents}
+        />
         <div className='w-full flex items-start gap-7'>
           <section
             id='builder'

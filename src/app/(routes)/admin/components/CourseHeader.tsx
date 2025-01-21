@@ -1,47 +1,24 @@
 import Link from 'next/link'
 
 const ROUTES = [
-  {
-    label: 'Plan Course',
-    path: '/admin/courses/plan',
-  },
-  {
-    label: 'Create Your Course',
-    path: '/admin/courses/upload',
-  },
-  {
-    label: 'Edit Course',
-    path: '/admin/courses/edit',
-  },
-  {
-    label: 'Pricing Plan',
-    path: '/admin/courses/pricing',
-  },
-  {
-    label: 'Course Website',
-    path: '/admin/courses/website',
-  },
-  {
-    label: 'Create Quiz',
-    path: '/admin/courses/quizzes',
-  },
+  { label: 'Plan Course', path: '/admin/courses/plan' },
+  { label: 'Create Your Course', path: '/admin/courses/upload' },
+  { label: 'Edit Course', path: '/admin/courses/edit' },
+  { label: 'Pricing Plan', path: '/admin/courses/pricing' },
+  { label: 'Course Website', path: '/admin/courses/website' },
+  { label: 'Create Quiz', path: '/admin/courses/quizzes' },
 ]
 
 interface CourseHeaderProps {
   page: string
   path: string
-  buttons?: {
-    label: string
-    action: () => void
-    color: string
-    bg: string
-  }[]
+  buttons?: { label: string; action: () => void; color: string; bg: string }[]
 }
 
 const CourseHeader = ({ page, path, buttons }: CourseHeaderProps) => {
   return (
-    <>
-      <div className='absolute w-full top-0 left-0 h-[250px] bg-gradient-to-b from-[#6C91FF80] to-[#ffffff] z-[-1]' />
+    <div className='w-full fixed top-0 left-0 px-10 h-[250px] bg-gradient-to-b from-[#90a7ee] to-transparent  z-50'>
+      <div className='absolute w-full top-0 left-0' />
       <div className='w-full flex flex-col items-start gap-2 mt-16'>
         <div className='w-full flex items-center justify-between'>
           <div className='flex items-start gap-4'>
@@ -71,6 +48,7 @@ const CourseHeader = ({ page, path, buttons }: CourseHeaderProps) => {
               {buttons.map((button) => (
                 <button
                   key={button.label}
+                  onClick={button.action}
                   className='text-sm px-3 py-2.5 font-medium rounded-[5px]'
                   style={{
                     background: button.bg,
@@ -88,14 +66,14 @@ const CourseHeader = ({ page, path, buttons }: CourseHeaderProps) => {
             <Link
               key={route.path}
               href={route.path}
-              className='bg-white px-4 py-2.5 rounded-[5px] text-sm font-medium'
+              className='bg-white px-4 py-2.5 rounded-[5px] text-sm font-medium shadow-sm'
             >
               {route.label}
             </Link>
           ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

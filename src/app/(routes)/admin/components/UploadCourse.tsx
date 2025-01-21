@@ -4,19 +4,58 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import CourseForm from './CourseForm'
+import { publicType } from '@prisma/client'
 
 interface UploadCourseProps {
-  published: boolean
-  setPublished: React.Dispatch<React.SetStateAction<boolean>>
+  title: string
+  setTitle: React.Dispatch<React.SetStateAction<string>>
+  description: string
+  setDescription: React.Dispatch<React.SetStateAction<string>>
+  learn: string
+  setLearn: React.Dispatch<React.SetStateAction<string>>
+  maxStudents: string
+  setMaxStudents: React.Dispatch<React.SetStateAction<string>>
+  publicCourse: boolean
+  setPublicCourse: React.Dispatch<React.SetStateAction<boolean>>
+  courseStatus: publicType
+  setCourseStatus: React.Dispatch<React.SetStateAction<publicType>>
 }
 
-const UploadCourse = ({ published, setPublished }: UploadCourseProps) => {
+const UploadCourse = ({
+  publicCourse,
+  setPublicCourse,
+  title,
+  setTitle,
+  description,
+  setCourseStatus,
+  setDescription,
+  learn,
+  setLearn,
+  courseStatus,
+  maxStudents,
+  setMaxStudents,
+}: UploadCourseProps) => {
   return (
     <section className='w-full flex items-start gap-7'>
       <div className='w-full h-[77vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'>
         <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2] px-10 flex items-center justify-start'>
           <h2 className='text-lg font-bold'>Course Information</h2>
         </div>
+        <CourseForm
+          publicCourse={publicCourse}
+          setPublicCourse={setPublicCourse}
+          title={title}
+          setTitle={setTitle}
+          description={description}
+          setDescription={setDescription}
+          learn={learn}
+          setLearn={setLearn}
+          courseStatus={courseStatus}
+          setCourseStatus={setCourseStatus}
+          maxStudents={maxStudents}
+          setMaxStudents={setMaxStudents}
+        />
       </div>
       <div className='min-w-[250px] max-w-[250x] border rounded-[15px] border-[#B9B0B0B2] p-3'>
         <div className='bg-lightblue/10 rounded-[10px] flex flex-col items-start p-3'>
@@ -25,32 +64,26 @@ const UploadCourse = ({ published, setPublished }: UploadCourseProps) => {
             <div className='flex items-center gap-2'>
               <span>Status:</span>
               <DropdownMenu>
-                <DropdownMenuTrigger className='!outline-none'>
-                  <button>
-                    <span
-                      className={`${
-                        published ? 'text-lightblue' : 'text-[#F44337]'
-                      }`}
-                    >
-                      {published ? 'Publish' : 'Private'}
-                    </span>
-                  </button>
+                <DropdownMenuTrigger id='status' className='!outline-none'>
+                  <div>
+                    <span className='text-lightblue'>{courseStatus}</span>
+                  </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setPublished(true)}>
-                    Publish
+                  <DropdownMenuItem
+                    onClick={() => setCourseStatus('Published')}
+                  >
+                    Published
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setPublished(false)}>
+                  <DropdownMenuItem onClick={() => setCourseStatus('Private')}>
                     Private
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setCourseStatus('Draft')}>
+                    Draft
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-          </div>
-          <div className='w-full flex justify-end mt-5'>
-            <button className='bg-lightblue text-[15px] text-white px-3 py-1.5 rounded-[7px]'>
-              Update
-            </button>
           </div>
         </div>
       </div>

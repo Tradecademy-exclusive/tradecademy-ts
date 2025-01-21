@@ -32,21 +32,23 @@ model signupToken {
 }
 
 model Course {
-  id              String    @id @default(uuid())
+  id              String     @id @default(uuid())
   title           String
   description     String
   cover           String
   chapters        Chapter[]
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
   price           Int
   discountedPrice Int
   materials       String?
   duration        String
-  user            User?     @relation(fields: [userId], references: [id])
+  user            User?      @relation(fields: [userId], references: [id])
   userId          String?
-  published       Boolean   @default(true)
-  maxStudents     Int       @default(0)
+  learn           String     @default("")
+  published       Boolean    @default(true)
+  publishedCourse publicType @default(Published)
+  maxStudents     Int        @default(0)
 }
 
 model Chapter {
@@ -110,4 +112,10 @@ enum videoType {
   External
   Youtube
   Vimeo
+}
+
+enum publicType {
+  Draft
+  Private
+  Published
 }
