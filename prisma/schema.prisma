@@ -46,7 +46,6 @@ model Course {
   user            User?      @relation(fields: [userId], references: [id])
   userId          String?
   learn           String     @default("")
-  published       Boolean    @default(true)
   publishedCourse publicType @default(Published)
   maxStudents     Int        @default(0)
 }

@@ -16,15 +16,11 @@ interface UploadCourseProps {
   setLearn: React.Dispatch<React.SetStateAction<string>>
   maxStudents: string
   setMaxStudents: React.Dispatch<React.SetStateAction<string>>
-  publicCourse: boolean
-  setPublicCourse: React.Dispatch<React.SetStateAction<boolean>>
   courseStatus: publicType
   setCourseStatus: React.Dispatch<React.SetStateAction<publicType>>
 }
 
 const UploadCourse = ({
-  publicCourse,
-  setPublicCourse,
   title,
   setTitle,
   description,
@@ -43,8 +39,6 @@ const UploadCourse = ({
           <h2 className='text-lg font-bold'>Course Information</h2>
         </div>
         <CourseForm
-          publicCourse={publicCourse}
-          setPublicCourse={setPublicCourse}
           title={title}
           setTitle={setTitle}
           description={description}

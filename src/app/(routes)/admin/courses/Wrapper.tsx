@@ -24,7 +24,6 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   const [order, setOrder] = useState<number>(1)
   const [attachments, setAttachments] = useState<string[]>([])
   const [image, setImage] = useState<string>('')
-  const [published, setPublished] = useState<boolean>(true)
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [maxStudents, setMaxStudents] = useState<string>('')
@@ -88,7 +87,6 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
 
       <CourseHeader
         page='Create Course'
-        path='Dashboard / My Course / Create Course'
         buttons={[
           {
             label: 'Publish Course',
@@ -99,10 +97,8 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
         ]}
       />
 
-      <div className='w-full flex flex-col items-start gap-10 relative pt-[250px]'>
+      <div className='w-full flex flex-col items-start gap-10 relative pt-[200px]'>
         <UploadCourse
-          publicCourse={published}
-          setPublicCourse={setPublished}
           title={title}
           setTitle={setTitle}
           description={description}
@@ -136,7 +132,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
               })}
             </div>
           </section>
-          <div className='min-w-[250px] max-w-[250px]'></div>
+          <div className='min-w-[250px] max-w-[250px]' />
         </div>
       </div>
     </div>

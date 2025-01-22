@@ -11,15 +11,14 @@ const ROUTES = [
 
 interface CourseHeaderProps {
   page: string
-  path: string
   buttons?: { label: string; action: () => void; color: string; bg: string }[]
 }
 
-const CourseHeader = ({ page, path, buttons }: CourseHeaderProps) => {
+const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
   return (
-    <div className='w-full fixed top-0 left-0 px-10 h-[250px] bg-gradient-to-b from-[#90a7ee] to-transparent  z-50'>
+    <div className='w-full fixed top-0 left-0 px-10 h-[200px] bg-gradient-to-b from-[#90a7ee] to-transparent z-50'>
       <div className='absolute w-full top-0 left-0' />
-      <div className='w-full flex flex-col items-start gap-2 mt-16'>
+      <div className='w-full flex flex-col items-start gap-5 mt-16'>
         <div className='w-full flex items-center justify-between'>
           <div className='flex items-start gap-4'>
             <svg
@@ -38,10 +37,8 @@ const CourseHeader = ({ page, path, buttons }: CourseHeaderProps) => {
                 fillOpacity='0.7'
               />
             </svg>
-            <div className='flex flex-col items-start gap-1'>
-              <h1 className='font-bold text-2xl'>{page}</h1>
-              <span className='text-sm text-black/90'>{path}</span>
-            </div>
+
+            <h1 className='font-bold text-2xl'>{page}</h1>
           </div>
           {buttons && (
             <div className='flex items-center gap-3'>
