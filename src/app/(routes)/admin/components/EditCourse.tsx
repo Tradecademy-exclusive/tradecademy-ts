@@ -14,7 +14,7 @@ const EditCourse = ({
   setOrder: React.Dispatch<React.SetStateAction<number>>
   setLessonId: React.Dispatch<React.SetStateAction<string>>
 }) => {
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState<boolean>(true)
 
   return (
     <div className='w-full flex flex-col items-start'>
