@@ -17,7 +17,7 @@ interface LessonComponentsObj {
   active: boolean
 }
 
-const Wrapper = ({ courses }: { courses: CourseType[] }) => {
+const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   // chapter id
   const [lessonOpen, setLessonOpen] = useState<string>('')
   const [lessonId, setLessonId] = useState<string>('')
@@ -29,6 +29,9 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   const [maxStudents, setMaxStudents] = useState<string>('')
   const [learn, setLearn] = useState<string>('')
   const [courseStatus, setCourseStatus] = useState<publicType>('Published')
+  const [paid, setPaid] = useState<boolean>(true)
+  const [price, setPrice] = useState<string>('')
+  const [discountedPrice, setDiscountedPrice] = useState<string>('')
 
   const lessonComponents = useMemo<LessonComponentsObj[]>(() => {
     return [
@@ -109,6 +112,12 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
           setCourseStatus={setCourseStatus}
           maxStudents={maxStudents}
           setMaxStudents={setMaxStudents}
+          paid={paid}
+          setPaid={setPaid}
+          price={price}
+          setPrice={setPrice}
+          discountedPrice={discountedPrice}
+          setDiscountedPrice={setDiscountedPrice}
         />
         <div className='w-full flex items-start gap-7'>
           <section
@@ -119,17 +128,18 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
               <h2 className='text-lg font-bold'>Course Builder</h2>
             </div>
             <div className='w-full flex flex-col items-start gap-3 px-5'>
-              {courses.map((course) => {
-                return (
-                  <EditCourse
-                    openLesson={setLessonOpen}
-                    key={course.id}
-                    course={course as CourseType}
-                    setOrder={setOrder}
-                    setLessonId={setLessonId}
-                  />
-                )
-              })}
+              {courses &&
+                courses.map((course) => {
+                  return (
+                    <EditCourse
+                      openLesson={setLessonOpen}
+                      key={course.id}
+                      course={course as CourseType}
+                      setOrder={setOrder}
+                      setLessonId={setLessonId}
+                    />
+                  )
+                })}
             </div>
           </section>
           <div className='min-w-[250px] max-w-[250px]' />

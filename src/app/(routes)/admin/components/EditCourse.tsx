@@ -37,7 +37,7 @@ const EditCourse = ({
       </div>
       <div
         className={`bg-[#D3DBF366] w-full transition-all duration-300 border border-[#B9B0B0B2] border-t-0 overflow-auto rounded-b-[15px] border-b-0 ${
-          modalOpen ? 'h-[400px] !border-b-[1px] shadow-even' : 'h-[0px]'
+          modalOpen ? 'h-[500px] !border-b-[1px] shadow-even' : 'h-[0px]'
         }`}
       >
         {course.chapters.length > 0 ? (
