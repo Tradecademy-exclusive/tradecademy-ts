@@ -12,6 +12,8 @@ export const POST = async (req: Request) => {
       discountedPrice,
       materials,
       duration,
+      maxStudents,
+      learn,
     } = await req.json()
 
     const { error } = validateCourseSchema({
@@ -33,6 +35,8 @@ export const POST = async (req: Request) => {
         discountedPrice: discountedPrice,
         materials: materials,
         duration: duration,
+        maxStudents,
+        learn: learn,
       },
     })
 

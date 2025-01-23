@@ -28,7 +28,7 @@ const CourseForm = ({
   return (
     <form className='h-full w-full pb-5 flex flex-col items-start gap-5 px-5 z-'>
       <div className='w-full flex flex-col items-start gap-1'>
-        <label htmlFor='title' className='text-lg font-semibold'>
+        <label htmlFor='title' className='text-lg font-bold'>
           Course Title
         </label>
         <input
@@ -36,11 +36,11 @@ const CourseForm = ({
           type='text'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className='w-full outline-none py-1.5 text-[15px] px-5 font-semibold border border-[#0000004D] rounded-[5px]'
+          className='w-full outline-none py-1.5 text-[15px] px-5 font-bold border border-[#0000004D] rounded-[5px]'
         />
       </div>
       <div className='w-full flex flex-col items-start gap-1'>
-        <label htmlFor='description' className='text-lg font-semibold'>
+        <label htmlFor='description' className='text-lg font-bold'>
           Course Description
         </label>
         <textarea
@@ -51,7 +51,7 @@ const CourseForm = ({
         />
       </div>
       <div className='flex items-start gap-8 w-full'>
-        <label htmlFor='students' className='text-lg font-semibold w-[200px]'>
+        <label htmlFor='students' className='text-lg font-bold w-[200px]'>
           Maximum Students
         </label>
         <div className='flex flex-col items-start gap-5 w-[250px]'>
@@ -73,7 +73,7 @@ const CourseForm = ({
         </div>
       </div>
       <div className='w-full flex flex-col items-start gap-1'>
-        <label htmlFor='learn' className='text-lg font-semibold'>
+        <label htmlFor='learn' className='text-lg font-bold'>
           What Will I Learn?
         </label>
         <textarea

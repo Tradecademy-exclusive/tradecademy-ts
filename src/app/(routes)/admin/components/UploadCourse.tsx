@@ -6,6 +6,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import CourseForm from './CourseForm'
 import { publicType } from '@prisma/client'
+import Image from 'next/image'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 interface UploadCourseProps {
   title: string
@@ -24,6 +27,8 @@ interface UploadCourseProps {
   setPrice: React.Dispatch<React.SetStateAction<string>>
   discountedPrice: string
   setDiscountedPrice: React.Dispatch<React.SetStateAction<string>>
+  cover: string
+  setCover: React.Dispatch<React.SetStateAction<string>>
 }
 
 const UploadCourse = ({
@@ -43,7 +48,33 @@ const UploadCourse = ({
   setDiscountedPrice,
   price,
   setPrice,
+  cover,
+  setCover,
 }: UploadCourseProps) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0]
+    if (!selectedFile) return
+    const formData = new FormData()
+    formData.append('image', selectedFile)
+    try {
+      const { data } = await axios.post('/api/admin/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      if (data.image) {
+        setCover(data.image)
+      } else {
+        throw new Error('No image URL returned from server')
+      }
+    } catch (err) {
+      console.error('Error uploading file:', err)
+      toast.error('Could not upload the file.', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
+
   return (
     <section className='w-full flex items-start gap-7'>
       <div className='w-full flex flex-col items-start gap-3'>
@@ -139,8 +170,8 @@ const UploadCourse = ({
           </div>
         </div>
       </div>
-      <div className='min-w-[250px] max-w-[250x] border rounded-[15px] border-[#B9B0B0B2] p-3'>
-        <div className='bg-lightblue/10 rounded-[10px] flex flex-col items-start p-3'>
+      <div className='min-w-[250px] max-w-[250px] border rounded-[15px] border-[#B9B0B0B2] p-3 flex flex-col items-center gap-4'>
+        <div className='bg-lightblue/10 rounded-[10px] w-full flex flex-col items-start p-3'>
           <div className='flex flex-col items-start gap-1'>
             <h4 className='font-semibold'>Publish</h4>
             <div className='flex items-center gap-2'>
@@ -166,6 +197,36 @@ const UploadCourse = ({
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+          </div>
+        </div>
+        <div className='bg-lightblue/10 rounded-[10px] w-full flex flex-col items-start p-3 gap-3'>
+          <h4 className='font-semibold'>Featured Image</h4>
+          <div className='w-full h-[100px] rounded-[10px] overflow-hidden relative'>
+            {cover ? (
+              <Image
+                src={cover}
+                fill
+                alt='course cover'
+                className='object-cover'
+              />
+            ) : (
+              <span className=''>No Image</span>
+            )}
+          </div>
+          <div className='w-full flex justify-end'>
+            <label
+              htmlFor='cover'
+              className='text-white cursor-pointer bg-lightblue text-sm px-5 py-1.5 rounded-[5px]'
+            >
+              Upload Image
+            </label>
+
+            <input
+              id='cover'
+              type='file'
+              className='hidden absolute pointer-events-none opacity-0'
+              onChange={handleImageChange}
+            />
           </div>
         </div>
       </div>

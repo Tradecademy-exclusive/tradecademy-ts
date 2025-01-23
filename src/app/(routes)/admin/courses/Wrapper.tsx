@@ -10,6 +10,9 @@ import { useMemo, useState } from 'react'
 import EditLesson from '../components/EditLesson'
 import UploadCourse from '../components/UploadCourse'
 import { publicType } from '@prisma/client'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
+import axios from 'axios'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -32,6 +35,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [paid, setPaid] = useState<boolean>(true)
   const [price, setPrice] = useState<string>('')
   const [discountedPrice, setDiscountedPrice] = useState<string>('')
+  const [cover, setCover] = useState('')
 
   const lessonComponents = useMemo<LessonComponentsObj[]>(() => {
     return [
@@ -63,8 +67,23 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
     ]
   }, [lessonId, lessonOpen, attachments, image, order])
 
-  const publishCourse = async () => {}
-
+  const publishCourse = async () => {
+    try {
+      const {} = await axios.post('/admin/courses', {
+        title,
+        description,
+        maxStudents,
+        learn,
+        price,
+        discountedPrice
+      })
+    } catch (err) {
+      console.log(err)
+      return toast.error('Please fill out all the fields!', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
   return (
     <div className='w-full py-5 px-20 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
       <OpacityBackground
@@ -89,7 +108,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
         ))}
 
       <CourseHeader
-        page='Create Course'
+        page={!courses ? 'Create Course' : 'Update Course'}
         buttons={[
           {
             label: 'Publish Course',
@@ -118,6 +137,8 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
           setPrice={setPrice}
           discountedPrice={discountedPrice}
           setDiscountedPrice={setDiscountedPrice}
+          cover={cover}
+          setCover={setCover}
         />
         <div className='w-full flex items-start gap-7'>
           <section
