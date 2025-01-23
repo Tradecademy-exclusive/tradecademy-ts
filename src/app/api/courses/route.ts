@@ -7,7 +7,7 @@ export const GET = async () => {
       include: {
         chapters: {
           include: {
-            videos: true,
+            lessons: true,
           },
         },
       },

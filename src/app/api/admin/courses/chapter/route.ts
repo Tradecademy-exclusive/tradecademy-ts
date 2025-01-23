@@ -62,3 +62,39 @@ export const POST = async (req: Request) => {
     return NextResponse.json({ error: err }, { status: 500 })
   }
 }
+
+export const PUT = async (req: Request) => {
+  try {
+    const body = await req.json()
+
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json({ message: 'Invalid payload' }, { status: 400 })
+    }
+
+    const { title, summary, id } = body
+
+    if (!title) {
+      return NextResponse.json(
+        { message: 'Please provide all required fields' },
+        { status: 400 }
+      )
+    }
+
+    const updatedChapter = await prisma.chapter.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+        summary: summary || null,
+      },
+      include: {
+        lessons: true,
+      },
+    })
+
+    return NextResponse.json({ updatedChapter }, { status: 201 })
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
+}

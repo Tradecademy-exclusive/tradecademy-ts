@@ -8,11 +8,13 @@ const EditCourse = ({
   openLesson,
   setOrder,
   setLessonId,
+  setChapterId,
 }: {
   course: CourseType
   openLesson: React.Dispatch<React.SetStateAction<string>>
   setOrder: React.Dispatch<React.SetStateAction<number>>
   setLessonId: React.Dispatch<React.SetStateAction<string>>
+  setChapterId: React.Dispatch<React.SetStateAction<string>>
 }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(true)
 
@@ -57,7 +59,7 @@ const EditCourse = ({
                       </div>
                     </div>
                     <div className='flex items-center gap-4'>
-                      <button>
+                      <button onClick={() => setChapterId(chapter.id)}>
                         <Icons.edit />
                       </button>
                       <button>

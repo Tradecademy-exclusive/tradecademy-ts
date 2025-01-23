@@ -16,6 +16,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { Icons } from '@/components/icons'
 import CreateChapter from '../components/CreateChapter'
+import UpdateChapter from '../components/EditChapter'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -43,6 +44,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [duration, setDuration] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [chapterOpen, setChapterOpen] = useState<boolean>(false)
+  const [chapterId, setChapterId] = useState<string>('')
 
   useEffect(() => {
     if (courses && courses[0]) {
@@ -190,21 +192,29 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   return (
     <div className='w-full py-5 px-20 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
       <OpacityBackground
-        opened={!!lessonOpen || !!lessonId || chapterOpen}
+        opened={!!lessonOpen || !!lessonId || chapterOpen || !!chapterId}
         close={() => {
           setLessonId('')
           setLessonOpen('')
+          setChapterId('')
           setChapterOpen(false)
         }}
       />
 
       {courses && courses[0] && (
-        <CreateChapter
-          opened={chapterOpen}
-          setOpened={setChapterOpen}
-          length={courses[0].chapters.length}
-          courseId={courses[0].id}
-        />
+        <>
+          <CreateChapter
+            opened={chapterOpen}
+            setOpened={setChapterOpen}
+            length={courses[0].chapters.length}
+            courseId={courses[0].id}
+          />
+          <UpdateChapter
+            id={chapterId}
+            opened={chapterId}
+            setOpened={setChapterId}
+          />
+        </>
       )}
 
       {lessonComponents
@@ -275,6 +285,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
                       course={course as CourseType}
                       setOrder={setOrder}
                       setLessonId={setLessonId}
+                      setChapterId={setChapterId}
                     />
                   )
                 })}
