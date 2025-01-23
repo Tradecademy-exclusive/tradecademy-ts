@@ -29,6 +29,8 @@ interface UploadCourseProps {
   setDiscountedPrice: React.Dispatch<React.SetStateAction<string>>
   cover: string
   setCover: React.Dispatch<React.SetStateAction<string>>
+  duration: string
+  setDuration: React.Dispatch<React.SetStateAction<string>>
 }
 
 const UploadCourse = ({
@@ -50,6 +52,8 @@ const UploadCourse = ({
   setPrice,
   cover,
   setCover,
+  duration,
+  setDuration,
 }: UploadCourseProps) => {
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
@@ -89,10 +93,10 @@ const UploadCourse = ({
             setDescription={setDescription}
             learn={learn}
             setLearn={setLearn}
-            courseStatus={courseStatus}
-            setCourseStatus={setCourseStatus}
             maxStudents={maxStudents}
             setMaxStudents={setMaxStudents}
+            duration={duration}
+            setDuration={setDuration}
           />
         </div>
         <div className='w-full flex-col items-start gap-3.5 rounded-[15px] border border-[#B9B0B0B2]'>

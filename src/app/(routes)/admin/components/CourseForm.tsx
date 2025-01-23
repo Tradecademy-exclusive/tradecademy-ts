@@ -1,4 +1,3 @@
-import { publicType } from '@prisma/client'
 import { PiWarningOctagon } from 'react-icons/pi'
 
 interface CourseFormProps {
@@ -10,8 +9,8 @@ interface CourseFormProps {
   setLearn: React.Dispatch<React.SetStateAction<string>>
   maxStudents: string
   setMaxStudents: React.Dispatch<React.SetStateAction<string>>
-  courseStatus: publicType
-  setCourseStatus: React.Dispatch<React.SetStateAction<publicType>>
+  duration: string
+  setDuration: React.Dispatch<React.SetStateAction<string>>
 }
 
 const CourseForm = ({
@@ -21,7 +20,8 @@ const CourseForm = ({
   setDescription,
   maxStudents,
   setMaxStudents,
-
+  duration,
+  setDuration,
   learn,
   setLearn,
 }: CourseFormProps) => {
@@ -70,6 +70,22 @@ const CourseForm = ({
             Number of students that can enrol in this course, set 0 for no
             limits.
           </p>
+        </div>
+      </div>
+      <div className='flex items-start gap-8 w-full mb-8'>
+        <label htmlFor='duration' className='text-lg font-bold w-[200px]'>
+          Course Duration
+        </label>
+        <div className='flex flex-col items-start gap-5 w-[250px]'>
+          <input
+            id='duration'
+            type='text'
+            value={duration}
+            onChange={(e) => {
+              setDuration(e.target.value)
+            }}
+            className='w-[250px] outline-none py-1.5 text-[15px] px-5 border border-[#0000004D] rounded-[5px]'
+          />
         </div>
       </div>
       <div className='w-full flex flex-col items-start gap-1'>

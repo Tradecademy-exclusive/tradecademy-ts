@@ -13,6 +13,7 @@ import { publicType } from '@prisma/client'
 import { toast } from 'react-toastify'
 import Image from 'next/image'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -21,6 +22,7 @@ interface LessonComponentsObj {
 }
 
 const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
+  const router = useRouter()
   // chapter id
   const [lessonOpen, setLessonOpen] = useState<string>('')
   const [lessonId, setLessonId] = useState<string>('')
@@ -35,7 +37,9 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [paid, setPaid] = useState<boolean>(true)
   const [price, setPrice] = useState<string>('')
   const [discountedPrice, setDiscountedPrice] = useState<string>('')
-  const [cover, setCover] = useState('')
+  const [cover, setCover] = useState<string>('')
+  const [duration, setDuration] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   const lessonComponents = useMemo<LessonComponentsObj[]>(() => {
     return [
@@ -69,15 +73,24 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
 
   const publishCourse = async () => {
     try {
-      const {} = await axios.post('/admin/courses', {
+      setLoading(true)
+      const { data } = await axios.post('/api/admin/courses', {
         title,
         description,
-        maxStudents,
+        maxStudents: Number(maxStudents),
         learn,
-        price,
-        discountedPrice
+        price: Number(price),
+        discountedPrice: Number(discountedPrice),
+        cover: cover,
+        publishedCourse: courseStatus,
+        duration: duration,
       })
+      if (data.course) {
+        setLoading(false)
+        router.push('/admin')
+      }
     } catch (err) {
+      setLoading(false)
       console.log(err)
       return toast.error('Please fill out all the fields!', {
         icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
@@ -114,9 +127,10 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
             label: 'Publish Course',
             color: 'white',
             bg: '#266CF7',
-            action: publishCourse,
+            action: courses && courses?.length > 0 ? () => '' : publishCourse,
           },
         ]}
+        loading={loading}
       />
 
       <div className='w-full flex flex-col items-start gap-10 relative pt-[200px]'>
@@ -139,6 +153,8 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
           setDiscountedPrice={setDiscountedPrice}
           cover={cover}
           setCover={setCover}
+          duration={duration}
+          setDuration={setDuration}
         />
         <div className='w-full flex items-start gap-7'>
           <section

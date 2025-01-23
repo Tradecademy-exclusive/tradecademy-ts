@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { LuLoader } from 'react-icons/lu'
 
 const ROUTES = [
   { label: 'Plan Course', path: '/admin/courses/plan' },
@@ -12,9 +13,10 @@ const ROUTES = [
 interface CourseHeaderProps {
   page: string
   buttons?: { label: string; action: () => void; color: string; bg: string }[]
+  loading?: boolean
 }
 
-const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
+const CourseHeader = ({ page, buttons, loading }: CourseHeaderProps) => {
   return (
     <div className='w-full fixed top-0 left-0 px-10 h-[200px] bg-gradient-to-b from-[#90a7ee] to-transparent z-50'>
       <div className='absolute w-full top-0 left-0' />
@@ -44,6 +46,7 @@ const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
             <div className='flex items-center gap-3'>
               {buttons.map((button) => (
                 <button
+                  disabled={loading}
                   key={button.label}
                   onClick={button.action}
                   className='text-sm px-3 py-2.5 font-medium rounded-[5px]'
@@ -52,7 +55,14 @@ const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
                     color: button.color,
                   }}
                 >
-                  {button.label}
+                  {!loading ? (
+                    button.label
+                  ) : (
+                    <div className='flex items-center gap-2'>
+                      <LuLoader className='text-[15px] animate-spin' />
+                      Proccessing
+                    </div>
+                  )}
                 </button>
               ))}
             </div>

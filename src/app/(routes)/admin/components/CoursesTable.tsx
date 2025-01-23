@@ -73,7 +73,7 @@ const CoursesTable = ({ courses }: { courses: CourseType[] }) => {
               </TableCell>
               <TableCell className='font-bold'>0</TableCell>
               <TableCell
-                className='w-[120px] rounded-full font-bold py-1.5 px-3 flex items-center justify-between gap-1'
+                className='w-[120px] rounded-full font-bold py-1.5 px-3 flex items-center gap-2'
                 style={{
                   color: statusStyles.color,
                   background: statusStyles.bg,

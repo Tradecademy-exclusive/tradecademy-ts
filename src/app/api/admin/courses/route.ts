@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { validateCourseSchema } from '../../_validators/courses'
 import prisma from '@/db/prisma'
 
 export const POST = async (req: Request) => {
@@ -14,29 +13,21 @@ export const POST = async (req: Request) => {
       duration,
       maxStudents,
       learn,
+      publishedCourse,
     } = await req.json()
-
-    const { error } = validateCourseSchema({
-      title,
-      description,
-      cover,
-    })
-
-    if (error) {
-      return NextResponse.json({ error }, { status: 400 })
-    }
 
     const course = await prisma.course.create({
       data: {
         title,
         description,
         cover,
-        price: price,
-        discountedPrice: discountedPrice,
-        materials: materials,
+        price: price || 0,
+        discountedPrice: discountedPrice || 0,
+        materials: materials || null,
         duration: duration,
         maxStudents,
         learn: learn,
+        publishedCourse,
       },
     })
 
