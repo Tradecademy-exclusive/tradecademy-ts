@@ -8,10 +8,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { CourseType } from '@/types'
-import { TbCurrencyEuro } from 'react-icons/tb'
 import { IoEyeSharp } from 'react-icons/io5'
 import { FaLock } from 'react-icons/fa'
 import Link from 'next/link'
+import { formatToEuro } from '@/lib/utils'
 
 const CoursesTable = ({ courses }: { courses: CourseType[] }) => {
   const returnStatusStyles = (course: CourseType) => {
@@ -67,9 +67,8 @@ const CoursesTable = ({ courses }: { courses: CourseType[] }) => {
                 {course.chapters.length}
               </TableCell>
               <TableCell className='font-bold'>{lessonsLength}</TableCell>
-              <TableCell className='flex items-center font-bold'>
-                <TbCurrencyEuro />
-                {course.price}
+              <TableCell className='font-bold'>
+                {formatToEuro(course.discountedPrice || course.price)}
               </TableCell>
               <TableCell className='font-bold'>0</TableCell>
               <TableCell

@@ -6,7 +6,7 @@ import CourseHeader from '../components/CourseHeader'
 import CreateLesson from '../components/CreateLesson'
 import EditCourse from '../components/EditCourse'
 import { CourseType } from '@/types'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import EditLesson from '../components/EditLesson'
 import UploadCourse from '../components/UploadCourse'
 import { publicType } from '@prisma/client'
@@ -14,6 +14,8 @@ import { toast } from 'react-toastify'
 import Image from 'next/image'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { Icons } from '@/components/icons'
+import CreateChapter from '../components/CreateChapter'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -40,6 +42,23 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [cover, setCover] = useState<string>('')
   const [duration, setDuration] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const [chapterOpen, setChapterOpen] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (courses && courses[0]) {
+      const course = courses[0]
+      setTitle(course.title)
+      setDescription(course.description)
+      setMaxStudents(course.maxStudents.toString())
+      setLearn(course.learn)
+      setCourseStatus(course.publishedCourse)
+      setPaid(() => (course.price ? true : false))
+      setPrice(course.price.toString())
+      setDiscountedPrice(course.discountedPrice.toString())
+      setCover(course.cover)
+      setDuration(course.duration)
+    }
+  }, [courses])
 
   const lessonComponents = useMemo<LessonComponentsObj[]>(() => {
     return [
@@ -73,14 +92,32 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
 
   const publishCourse = async () => {
     try {
+      if (
+        !title ||
+        !description ||
+        !learn ||
+        !price ||
+        !discountedPrice ||
+        !cover ||
+        !duration
+      ) {
+        return toast.error('Please fill out all the fields!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (paid && Number(price) <= Number(discountedPrice)) {
+        return toast.error('Sales price must be less than regular price!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
       setLoading(true)
       const { data } = await axios.post('/api/admin/courses', {
         title,
         description,
         maxStudents: Number(maxStudents),
         learn,
-        price: Number(price),
-        discountedPrice: Number(discountedPrice),
+        price: paid ? Number(price) : 0,
+        discountedPrice: paid ? Number(discountedPrice) : 0,
         cover: cover,
         publishedCourse: courseStatus,
         duration: duration,
@@ -88,24 +125,80 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
       if (data.course) {
         setLoading(false)
         router.push('/admin')
+        toast.error('Course has been published', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
       }
     } catch (err) {
       setLoading(false)
       console.log(err)
-      return toast.error('Please fill out all the fields!', {
+      return toast.error('Something went wrong!', {
         icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
       })
     }
   }
+
+  const updateCourse = async () => {
+    try {
+      if (
+        !title ||
+        !description ||
+        !learn ||
+        !price ||
+        !discountedPrice ||
+        !cover ||
+        !duration
+      ) {
+        return toast.error('Please fill out all the fields!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (paid && Number(price) <= Number(discountedPrice)) {
+        return toast.error('Sales price must be less than regular price!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      setLoading(true)
+      const { data } = await axios.put('/api/admin/courses', {
+        id: courses![0].id,
+        title,
+        description,
+        maxStudents: Number(maxStudents),
+        learn,
+        price: paid ? Number(price) : 0,
+        discountedPrice: paid ? Number(discountedPrice) : 0,
+        cover: cover,
+        publishedCourse: courseStatus,
+        duration: duration,
+      })
+      if (data.course) {
+        setLoading(false)
+        router.push('/admin')
+        toast.error('Course has been published', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+      return toast.error('Something went wrong!', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
+
   return (
     <div className='w-full py-5 px-20 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
       <OpacityBackground
-        opened={!!lessonOpen || !!lessonId}
+        opened={!!lessonOpen || !!lessonId || chapterOpen}
         close={() => {
           setLessonId('')
           setLessonOpen('')
+          setChapterOpen(false)
         }}
       />
+
+      <CreateChapter opened={chapterOpen} setOpened={setChapterOpen} />
 
       {lessonComponents
         .filter((lesson) => lesson.active)
@@ -127,7 +220,8 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
             label: 'Publish Course',
             color: 'white',
             bg: '#266CF7',
-            action: courses && courses?.length > 0 ? () => '' : publishCourse,
+            action:
+              courses && courses?.length > 0 ? updateCourse : publishCourse,
           },
         ]}
         loading={loading}
@@ -178,6 +272,13 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
                   )
                 })}
             </div>
+            <button
+              onClick={() => setChapterOpen(true)}
+              className='mt-auto mb-3 ml-3 flex items-center gap-2 bg-lightblue px-2.5 py-2.5 text-sm rounded-[5px] text-white'
+            >
+              <Icons.plusWhite />
+              Add New Chapter
+            </button>
           </section>
           <div className='min-w-[250px] max-w-[250px]' />
         </div>
