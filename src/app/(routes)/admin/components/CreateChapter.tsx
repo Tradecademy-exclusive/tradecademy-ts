@@ -3,16 +3,61 @@
 import { useState } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
 import { PiWarningOctagon } from 'react-icons/pi'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { FiLoader } from 'react-icons/fi'
 
 const CreateChapter = ({
   opened,
   setOpened,
+  length,
+  courseId,
 }: {
   opened: boolean
   setOpened: React.Dispatch<React.SetStateAction<boolean>>
+  length: number
+  courseId: string
 }) => {
+  const router = useRouter()
   const [title, setTitle] = useState<string>('')
   const [summary, setSummary] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const createChapter = async () => {
+    try {
+      if (!title) {
+        return toast.error('Title is required!', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      setLoading(true)
+      const { data } = await axios.post('/api/admin/courses/chapter', {
+        courseId,
+        title,
+        summary,
+        chapter: length + 1,
+      })
+      if (data.createdChapter) {
+        toast.error('Chapter has been created', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+        setTitle('')
+        setSummary('')
+        setLoading(false)
+        setOpened(false)
+        router.refresh()
+      }
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+      return toast.error('Something went wrong', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
+
   return (
     <div
       className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col transition-all duration-100 items-center w-[500px] rounded-t-[10px] z-[999] overflow-hidden ${
@@ -69,8 +114,19 @@ const CreateChapter = ({
         >
           Cancel
         </button>
-        <button className='px-6 py-1.5 rounded-[5px] bg-lightblue border border-lightblue text-white text-[15px]'>
-          Create Chapter
+        <button
+          disabled={loading}
+          onClick={createChapter}
+          className='px-6 py-1.5 rounded-[5px] bg-lightblue border border-lightblue text-white text-[15px]'
+        >
+          {loading ? (
+            <div className='flex items-center gap-2'>
+              <FiLoader className='animate-spin' />
+              Loading
+            </div>
+          ) : (
+            'Create Chapter'
+          )}
         </button>
       </div>
     </div>

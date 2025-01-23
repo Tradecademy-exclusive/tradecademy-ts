@@ -13,6 +13,7 @@ import Image from 'next/image'
 import axios from 'axios'
 import { ImSpinner3 } from 'react-icons/im'
 import { Lesson } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 
 const EditLesson = ({
   opened,
@@ -29,6 +30,7 @@ const EditLesson = ({
   setAttachments: React.Dispatch<React.SetStateAction<string[]>>
   setImage: React.Dispatch<React.SetStateAction<string>>
 }) => {
+  const router = useRouter()
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
   const [type, setType] = useState<string>('Youtube')
@@ -81,7 +83,7 @@ const EditLesson = ({
         })
       }
       setUploading(false)
-      window.location.reload()
+      router.refresh()
     } catch (err) {
       console.log(err)
       toast.error('Could not update the lesson.', {

@@ -198,7 +198,14 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
         }}
       />
 
-      <CreateChapter opened={chapterOpen} setOpened={setChapterOpen} />
+      {courses && courses[0] && (
+        <CreateChapter
+          opened={chapterOpen}
+          setOpened={setChapterOpen}
+          length={courses[0].chapters.length}
+          courseId={courses[0].id}
+        />
+      )}
 
       {lessonComponents
         .filter((lesson) => lesson.active)

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import Image from 'next/image'
 import axios from 'axios'
 import { ImSpinner3 } from 'react-icons/im'
+import { useRouter } from 'next/navigation'
 
 const CreateLesson = ({
   opened,
@@ -29,6 +30,7 @@ const CreateLesson = ({
   setAttachments: React.Dispatch<React.SetStateAction<string[]>>
   setImage: React.Dispatch<React.SetStateAction<string>>
 }) => {
+  const router = useRouter()
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
   const [type, setType] = useState<string>('Youtube')
@@ -62,7 +64,7 @@ const CreateLesson = ({
         })
       }
       setUploading(false)
-      window.location.reload()
+      router.refresh()
     } catch (err) {
       console.log(err)
       toast.error('Could not upload the lesson.', {

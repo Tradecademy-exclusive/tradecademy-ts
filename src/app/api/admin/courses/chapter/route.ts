@@ -9,7 +9,7 @@ export const POST = async (req: Request) => {
       return NextResponse.json({ message: 'Invalid payload' }, { status: 400 })
     }
 
-    const { title, courseId, chapter, lessons } = body
+    const { title, courseId, chapter, lessons, summary } = body
 
     if (!title || !courseId || !Number.isInteger(chapter)) {
       return NextResponse.json(
@@ -22,6 +22,7 @@ export const POST = async (req: Request) => {
       data: {
         title,
         chapter,
+        summary: summary || null,
         course: {
           connect: {
             id: courseId,
