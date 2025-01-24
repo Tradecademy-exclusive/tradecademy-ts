@@ -111,17 +111,6 @@ export const DELETE = async (req: Request) => {
       )
     }
 
-    const chapter = await prisma.chapter.findUnique({
-      where: { id: id },
-    })
-
-    if (!chapter) {
-      return NextResponse.json(
-        { message: 'Invalid chapter ID provided.' },
-        { status: 404 }
-      )
-    }
-
     const deletedChapter = await prisma.chapter.delete({
       where: {
         id,

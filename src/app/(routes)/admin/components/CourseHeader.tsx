@@ -12,11 +12,16 @@ const ROUTES = [
 
 interface CourseHeaderProps {
   page: string
-  buttons?: { label: string; action: () => void; color: string; bg: string }[]
-  loading?: boolean
+  buttons?: {
+    label: string
+    action: () => void
+    color: string
+    bg: string
+    loading?: boolean
+  }[]
 }
 
-const CourseHeader = ({ page, buttons, loading }: CourseHeaderProps) => {
+const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
   return (
     <div className='w-full fixed top-0 left-0 px-10 h-[200px] bg-gradient-to-b from-[#90a7ee] to-transparent z-50'>
       <div className='absolute w-full top-0 left-0' />
@@ -46,7 +51,7 @@ const CourseHeader = ({ page, buttons, loading }: CourseHeaderProps) => {
             <div className='flex items-center gap-3'>
               {buttons.map((button) => (
                 <button
-                  disabled={loading}
+                  disabled={button.loading}
                   key={button.label}
                   onClick={button.action}
                   className='text-sm px-3 py-2.5 font-medium rounded-[5px]'
@@ -55,7 +60,7 @@ const CourseHeader = ({ page, buttons, loading }: CourseHeaderProps) => {
                     color: button.color,
                   }}
                 >
-                  {!loading ? (
+                  {!button.loading ? (
                     button.label
                   ) : (
                     <div className='flex items-center gap-2'>

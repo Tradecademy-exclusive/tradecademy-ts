@@ -49,6 +49,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [chapterId, setChapterId] = useState<string>('')
   const [deleteLessonId, setDeleteLessonId] = useState<string>('')
   const [deleteChapterId, setDeleteChapterId] = useState<string>('')
+  const [deleting, setDeleting] = useState<boolean>(false)
 
   useEffect(() => {
     if (courses && courses[0]) {
@@ -193,6 +194,28 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
     }
   }
 
+  const deleteCourse = async () => {
+    try {
+      setDeleting(true)
+      const { data } = await axios.delete(
+        `/api/admin/courses/?id=${courses![0].id}`
+      )
+      if (data.deletedCourse) {
+        setDeleting(false)
+        router.replace('/admin')
+        toast.error('Course has been deleted', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+    } catch (err) {
+      setDeleting(false)
+      console.log(err)
+      return toast.error('Something went wrong!', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
+
   return (
     <div className='w-full py-5 px-20 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
       <OpacityBackground
@@ -252,7 +275,19 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
       <CourseHeader
         page={!courses ? 'Create Course' : 'Update Course'}
         buttons={[
+          ...(courses && courses[0]
+            ? [
+                {
+                  label: 'Delete Course',
+                  color: 'white',
+                  bg: '#F44337',
+                  action: deleteCourse,
+                  loading: deleting,
+                },
+              ]
+            : []),
           {
+            loading: loading,
             label: 'Publish Course',
             color: 'white',
             bg: '#266CF7',
@@ -260,7 +295,6 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
               courses && courses?.length > 0 ? updateCourse : publishCourse,
           },
         ]}
-        loading={loading}
       />
 
       <div className='w-full flex flex-col items-start gap-10 relative pt-[200px]'>
