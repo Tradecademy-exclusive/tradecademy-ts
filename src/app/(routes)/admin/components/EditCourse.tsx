@@ -10,6 +10,7 @@ const EditCourse = ({
   setLessonId,
   setChapterId,
   setDeleteLessonId,
+  setDeleteChapterId,
 }: {
   course: CourseType
   openLesson: React.Dispatch<React.SetStateAction<string>>
@@ -67,7 +68,7 @@ const EditCourse = ({
                         <button onClick={() => setChapterId(chapter.id)}>
                           <Icons.edit />
                         </button>
-                        <button>
+                        <button onClick={() => setDeleteChapterId(chapter.id)}>
                           <Icons.delete />
                         </button>
                       </div>

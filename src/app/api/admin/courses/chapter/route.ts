@@ -98,3 +98,39 @@ export const PUT = async (req: Request) => {
     return NextResponse.json({ error: err }, { status: 500 })
   }
 }
+
+export const DELETE = async (req: Request) => {
+  try {
+    const { searchParams } = new URL(req.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return NextResponse.json(
+        { message: 'Please provide a chapter id' },
+        { status: 400 }
+      )
+    }
+
+    const chapter = await prisma.chapter.findUnique({
+      where: { id: id },
+    })
+
+    if (!chapter) {
+      return NextResponse.json(
+        { message: 'Invalid chapter ID provided.' },
+        { status: 404 }
+      )
+    }
+
+    const deletedChapter = await prisma.chapter.delete({
+      where: {
+        id,
+      },
+    })
+
+    return NextResponse.json({ deletedChapter }, { status: 200 })
+  } catch (err) {
+    console.log(err || 'Something went wrong')
+    return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
+  }
+}

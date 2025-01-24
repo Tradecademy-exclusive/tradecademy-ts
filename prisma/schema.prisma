@@ -72,7 +72,7 @@ model Lesson {
   attachments String[]   @default([])
   thumbnail   String?
   order       Int
-  chapter     Chapter?   @relation(fields: [chapterId], references: [id])
+  chapter     Chapter?   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   chapterId   String?
   Note        Note?      @relation(fields: [noteId], references: [id])
   noteId      String?
@@ -103,7 +103,7 @@ model Note {
   id        String   @id @default(uuid())
   sessionId String
   lesson    Lesson[]
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }
 

@@ -18,6 +18,7 @@ import { Icons } from '@/components/icons'
 import CreateChapter from '../components/CreateChapter'
 import UpdateChapter from '../components/EditChapter'
 import DeleteLesson from '../components/DeleteLesson'
+import DeleteChapter from '../components/DeleteChapter'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -243,6 +244,10 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
         ))}
 
       <DeleteLesson lessonId={deleteLessonId} setLessonId={setDeleteLessonId} />
+      <DeleteChapter
+        chapterId={deleteChapterId}
+        setChapterId={setDeleteChapterId}
+      />
 
       <CourseHeader
         page={!courses ? 'Create Course' : 'Update Course'}
