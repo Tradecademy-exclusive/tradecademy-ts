@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation'
 import { Icons } from '@/components/icons'
 import CreateChapter from '../components/CreateChapter'
 import UpdateChapter from '../components/EditChapter'
+import DeleteLesson from '../components/DeleteLesson'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -45,6 +46,8 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [chapterOpen, setChapterOpen] = useState<boolean>(false)
   const [chapterId, setChapterId] = useState<string>('')
+  const [deleteLessonId, setDeleteLessonId] = useState<string>('')
+  const [deleteChapterId, setDeleteChapterId] = useState<string>('')
 
   useEffect(() => {
     if (courses && courses[0]) {
@@ -192,12 +195,21 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   return (
     <div className='w-full py-5 px-20 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
       <OpacityBackground
-        opened={!!lessonOpen || !!lessonId || chapterOpen || !!chapterId}
+        opened={
+          !!lessonOpen ||
+          !!lessonId ||
+          chapterOpen ||
+          !!chapterId ||
+          !!deleteLessonId ||
+          !!deleteChapterId
+        }
         close={() => {
           setLessonId('')
           setLessonOpen('')
           setChapterId('')
+          setLessonId('')
           setChapterOpen(false)
+          setDeleteChapterId('')
         }}
       />
 
@@ -229,6 +241,8 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
             <Component {...props} />
           </div>
         ))}
+
+      <DeleteLesson lessonId={deleteLessonId} setLessonId={setDeleteLessonId} />
 
       <CourseHeader
         page={!courses ? 'Create Course' : 'Update Course'}
@@ -286,17 +300,21 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
                       setOrder={setOrder}
                       setLessonId={setLessonId}
                       setChapterId={setChapterId}
+                      setDeleteLessonId={setDeleteLessonId}
+                      setDeleteChapterId={setDeleteChapterId}
                     />
                   )
                 })}
             </div>
-            <button
-              onClick={() => setChapterOpen(true)}
-              className='mt-auto mb-3 ml-3 flex items-center gap-2 bg-lightblue px-2.5 py-2.5 text-sm rounded-[5px] text-white'
-            >
-              <Icons.plusWhite />
-              Add New Chapter
-            </button>
+            {courses && courses[0] && (
+              <button
+                onClick={() => setChapterOpen(true)}
+                className='mt-auto mb-3 ml-3 flex items-center gap-2 bg-lightblue px-2.5 py-2.5 text-sm rounded-[5px] text-white'
+              >
+                <Icons.plusWhite />
+                Add New Chapter
+              </button>
+            )}
           </section>
           <div className='min-w-[250px] max-w-[250px]' />
         </div>
