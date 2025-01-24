@@ -3,6 +3,7 @@ import { CourseType } from '@/types'
 import CourseHeader from './components/CourseHeader'
 import { FiPlus } from 'react-icons/fi'
 import CoursesTable from './components/CoursesTable'
+import RevenueChart from './components/RevenueChart'
 
 const Wrapper = ({ courses }: { courses: CourseType[] }) => {
   return (
@@ -23,6 +24,9 @@ const Wrapper = ({ courses }: { courses: CourseType[] }) => {
           <div className='p-5 w-full'>
             <CoursesTable courses={courses} />
           </div>
+        </div>
+        <div className='w-[80%] flex items-center gap-7'>
+          <RevenueChart />
         </div>
       </div>
     </>

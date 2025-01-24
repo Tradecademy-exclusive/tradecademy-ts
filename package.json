@@ -33,6 +33,7 @@
     "react-konva": "^19.0.2",
     "react-sketch-canvas": "^6.2.0",
     "react-toastify": "^11.0.2",
+    "recharts": "^2.15.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tldraw": "^3.7.2"
