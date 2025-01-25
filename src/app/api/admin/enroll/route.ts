@@ -3,12 +3,12 @@ import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
   try {
-    const { email, courseId } = await req.json()
-    let enroll
+    const { email, courseId, status } = await req.json()
 
     await prisma.$transaction([
-      (enroll = prisma.enroll.create({
+      prisma.enroll.create({
         data: {
+          status: status || null,
           user: {
             connect: {
               email: email,
@@ -24,11 +24,12 @@ export const POST = async (req: Request) => {
           user: true,
           course: true,
         },
-      })),
+      }),
       prisma.user.update({
         where: {
           email,
         },
+
         data: {
           courses: {
             connect: {
@@ -39,7 +40,10 @@ export const POST = async (req: Request) => {
       }),
     ])
 
-    return NextResponse.json({ enroll }, { status: 201 })
+    return NextResponse.json(
+      { message: 'Enroll has been created' },
+      { status: 201 }
+    )
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
   }

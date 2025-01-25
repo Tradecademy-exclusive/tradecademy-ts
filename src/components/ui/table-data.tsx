@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import * as React from 'react'
@@ -31,14 +32,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { EnrollType } from '@/types'
+import { CourseType, EnrollType } from '@/types'
+import CalendarDropdown from './calendar-dropdown'
 
 export function DataTableDemo({
   columns,
   data,
+  courses,
 }: {
   columns: ColumnDef<EnrollType>[]
   data: EnrollType[]
+  courses: CourseType[]
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [dataCopy, setDataCopy] = React.useState<EnrollType[]>(data)
@@ -48,6 +52,11 @@ export function DataTableDemo({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const [course, setCourse] = React.useState<string>('')
+  const [search, setSearch] = React.useState<string>('')
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
+    new Date()
+  )
 
   const table = useReactTable({
     data: dataCopy,
@@ -74,6 +83,32 @@ export function DataTableDemo({
     },
   })
 
+  const filters = [
+    {
+      key: 'search',
+      filterFn: (item: EnrollType) =>
+        item.user.email.toLowerCase().includes(search.toLowerCase()),
+    },
+    {
+      key: 'course',
+      filterFn: (item: EnrollType) => item.course.title === course,
+    },
+  ]
+
+  React.useEffect(() => {
+    let filteredData = data
+
+    filters.forEach((filter) => {
+      if (filter.key === 'search' && search) {
+        filteredData = filteredData.filter(filter.filterFn)
+      } else if (filter.key === 'course' && course) {
+        filteredData = filteredData.filter(filter.filterFn)
+      }
+    })
+
+    setDataCopy(filteredData)
+  }, [search, course])
+
   return (
     <div className='w-full p-5'>
       <div className='flex items-center py-4'>
@@ -81,18 +116,46 @@ export function DataTableDemo({
           placeholder='Filter emails...'
           onChange={(event) => {
             const value = event.target.value.toLowerCase()
-            const filteredData = data.filter((enroll) => {
-              return enroll.user.email.toLowerCase().includes(value)
-            })
-            if (!value) {
-              setDataCopy(data)
-            } else {
-              setDataCopy(filteredData)
-            }
+            setSearch(value)
           }}
           className='max-w-sm'
         />
-
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='ml-auto'>
+              Course <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='center'>
+            <div className='flex flex-col items-start w-full'>
+              {courses.map((item) => (
+                <DropdownMenuCheckboxItem
+                  key={item.id}
+                  className='w-full'
+                  checked={course === item.title}
+                  onClick={() => setCourse(item.title)}
+                >
+                  {item.title}
+                </DropdownMenuCheckboxItem>
+              ))}
+              <DropdownMenuCheckboxItem
+                className='w-full'
+                checked={!course}
+                onClick={() => {
+                  setCourse('')
+                }}
+              >
+                All
+              </DropdownMenuCheckboxItem>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <div className='ml-5'>
+          <CalendarDropdown
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='outline' className='ml-auto'>

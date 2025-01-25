@@ -2,7 +2,7 @@
 
 import { DataTableDemo } from '@/components/ui/table-data'
 import CourseHeader from '../components/CourseHeader'
-import { EnrollType } from '@/types'
+import { CourseType, EnrollType } from '@/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
@@ -17,7 +17,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { formatToEuro } from '@/lib/utils'
 
-const Enrollments = ({ enrollments }: { enrollments: EnrollType[] }) => {
+const Enrollments = ({
+  enrollments,
+  courses,
+}: {
+  enrollments: EnrollType[]
+  courses: CourseType[]
+}) => {
   const columns: ColumnDef<EnrollType>[] = [
     {
       id: 'select',
@@ -132,7 +138,7 @@ const Enrollments = ({ enrollments }: { enrollments: EnrollType[] }) => {
     <div className='w-full p-10'>
       <CourseHeader page='Enrollment' />
       <div className='w-full translate-y-[200px] rounded-[15px] flex flex-col items-center gap-5 border border-[#B9B0B0B2]'>
-        <DataTableDemo columns={columns} data={enrollments} />
+        <DataTableDemo columns={columns} data={enrollments} courses={courses} />
       </div>
     </div>
   )

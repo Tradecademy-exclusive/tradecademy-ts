@@ -11,8 +11,8 @@ export default {
     extend: {
       animation: {
         spin: 'spin 0.8s linear infinite',
-        'accordion-down': 'accordion-down 0.4s',
-        'accordion-up': 'accordion-up 0.4s',
+        in: 'fade-in 0.1s ease-in-out',
+        out: 'fade-out 0.1s ease-in-out',
       },
       keyframes: {
         spin: {
@@ -38,6 +38,14 @@ export default {
           to: {
             height: '0',
           },
+        },
+        'fade-in': {
+          '0%': { opacity: '0.5', scale: '0.9' },
+          '100%': { opacity: '1', scale: '1' },
+        },
+        'fade-out': {
+          '0%': { opacity: '0.5', scale: '1' },
+          '100%': { opacity: '0', scale: '0.7' },
         },
       },
       boxShadow: {
