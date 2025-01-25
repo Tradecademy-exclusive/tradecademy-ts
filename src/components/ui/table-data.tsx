@@ -41,6 +41,7 @@ export function DataTableDemo({
   data: EnrollType[]
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([])
+  const [dataCopy, setDataCopy] = React.useState<EnrollType[]>(data)
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
@@ -49,7 +50,7 @@ export function DataTableDemo({
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
+    data: dataCopy,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -78,12 +79,20 @@ export function DataTableDemo({
       <div className='flex items-center py-4'>
         <Input
           placeholder='Filter emails...'
-          value={(table.getColumn('user')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('user')?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => {
+            const value = event.target.value.toLowerCase()
+            const filteredData = data.filter((enroll) => {
+              return enroll.user.email.toLowerCase().includes(value)
+            })
+            if (!value) {
+              setDataCopy(data)
+            } else {
+              setDataCopy(filteredData)
+            }
+          }}
           className='max-w-sm'
         />
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='outline' className='ml-auto'>
