@@ -93,6 +93,20 @@ export function DataTableDemo({
       key: 'course',
       filterFn: (item: EnrollType) => item.course.title === course,
     },
+    {
+      key: 'date',
+      filterFn: (item: EnrollType) => {
+        if (!selectedDate) return true
+        const itemDate = new Date(item.createdAt)
+
+        const selectedDateWithoutTime = new Date(selectedDate)
+        selectedDateWithoutTime.setHours(0, 0, 0, 0)
+
+        itemDate.setHours(0, 0, 0, 0)
+
+        return itemDate <= selectedDateWithoutTime
+      },
+    },
   ]
 
   React.useEffect(() => {
@@ -103,11 +117,13 @@ export function DataTableDemo({
         filteredData = filteredData.filter(filter.filterFn)
       } else if (filter.key === 'course' && course) {
         filteredData = filteredData.filter(filter.filterFn)
+      } else if (filter.key === 'date' && selectedDate) {
+        filteredData = filteredData.filter(filter.filterFn)
       }
     })
 
     setDataCopy(filteredData)
-  }, [search, course])
+  }, [search, course, selectedDate])
 
   return (
     <div className='w-full p-5'>
