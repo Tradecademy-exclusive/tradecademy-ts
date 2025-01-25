@@ -7,8 +7,20 @@ export const POST = async (req: Request) => {
 
     const enroll = await prisma.enroll.create({
       data: {
-        email,
-        courseId,
+        user: {
+          connect: {
+            email: email,
+          },
+        },
+        course: {
+          connect: {
+            id: courseId,
+          },
+        },
+      },
+      include: {
+        user: true,
+        course: true,
       },
     })
 

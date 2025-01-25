@@ -1,15 +1,11 @@
-import { DataTableDemo } from '@/components/ui/table-data'
-import CourseHeader from '../components/CourseHeader'
+import { EnrollType } from '@/types'
+import { getEnrollments } from '../actions/enrollments'
+import Enrollments from './Wrapper'
 
-const Enrollments = () => {
-  return (
-    <div className='w-full p-10'>
-      <CourseHeader page='Enrollment' />
-      <div className='w-full translate-y-[200px] rounded-[15px] flex flex-col items-center gap-5 border border-[#B9B0B0B2]'>
-        <DataTableDemo />
-      </div>
-    </div>
-  )
+const Page = async () => {
+  const enrollments = await getEnrollments()
+
+  return <Enrollments enrollments={enrollments as unknown as EnrollType[]} />
 }
 
-export default Enrollments
+export default Page
