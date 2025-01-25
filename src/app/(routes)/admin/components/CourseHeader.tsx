@@ -1,13 +1,16 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { LuLoader } from 'react-icons/lu'
 
 const ROUTES = [
-  { label: 'Plan Course', path: '/admin/courses/plan' },
-  { label: 'Create Your Course', path: '/admin/courses/upload' },
-  { label: 'Edit Course', path: '/admin/courses/edit' },
-  { label: 'Pricing Plan', path: '/admin/courses/pricing' },
+  { label: 'Dashboard', path: '/admin' },
+  { label: 'Courses', path: '/admin/courses' },
+  { label: 'Enrollment', path: '/admin/enrollments' },
+  { label: 'Students', path: '/admin/students' },
   { label: 'Course Website', path: '/admin/courses/website' },
-  { label: 'Create Quiz', path: '/admin/courses/quizzes' },
+  { label: 'Analysis', path: '/admin/analysis' },
 ]
 
 interface CourseHeaderProps {
@@ -22,6 +25,7 @@ interface CourseHeaderProps {
 }
 
 const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
+  const pathname = usePathname()
   return (
     <div className='w-full fixed top-0 left-0 px-10 h-[200px] bg-gradient-to-b from-[#90a7ee] to-transparent z-50'>
       <div className='absolute w-full top-0 left-0' />
@@ -74,15 +78,22 @@ const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
           )}
         </div>
         <div className='flex items-center gap-2'>
-          {ROUTES.map((route) => (
-            <Link
-              key={route.path}
-              href={route.path}
-              className='bg-white px-4 py-2.5 rounded-[5px] text-sm font-medium shadow-sm'
-            >
-              {route.label}
-            </Link>
-          ))}
+          {ROUTES.map((route) => {
+            const isActive =
+              pathname === route.path ||
+              (pathname.startsWith(route.path) && route.path !== '/admin')
+            return (
+              <Link
+                key={route.path}
+                href={route.path}
+                className={`bg-white px-4 py-2.5 rounded-[5px] text-sm font-medium shadow-sm ${
+                  isActive && '!font-semibold text-lightblue'
+                }`}
+              >
+                {route.label}
+              </Link>
+            )
+          })}
         </div>
       </div>
     </div>
