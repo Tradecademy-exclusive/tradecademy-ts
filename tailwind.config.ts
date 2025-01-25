@@ -11,8 +11,8 @@ export default {
     extend: {
       animation: {
         spin: 'spin 0.8s linear infinite',
-        in: 'fade-in 0.1s ease-in-out',
-        out: 'fade-out 0.1s ease-in-out',
+        in: 'fade-in 0.15s ease-in-out',
+        out: 'fade-out 0.15s ease-in-out',
       },
       keyframes: {
         spin: {

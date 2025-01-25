@@ -16,6 +16,8 @@ import {
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
 import { formatToEuro } from '@/lib/utils'
+import Link from 'next/link'
+import { FiPlus } from 'react-icons/fi'
 
 const Enrollments = ({
   enrollments,
@@ -54,7 +56,7 @@ const Enrollments = ({
         const user = row.original.user
         return (
           <div className='flex flex-col items-start'>
-            <h3 className='font-semibold'>{user.username}</h3>
+            <h3 className='font-bold'>{user.username}</h3>
             <h4 className='text-sm'>{user.email}</h4>
           </div>
         )
@@ -97,7 +99,19 @@ const Enrollments = ({
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => <div>{row.getValue('status')}</div>,
+      cell: ({ row }) => (
+        <div
+          className={`${
+            row.getValue('status') === 'Pending'
+              ? 'text-gray-600'
+              : row.getValue('status') === 'Approved'
+              ? 'text-[#24A147]'
+              : 'text-[#F44337]'
+          }`}
+        >
+          {row.getValue('status')}
+        </div>
+      ),
     },
     {
       id: 'actions',
@@ -116,17 +130,21 @@ const Enrollments = ({
             <DropdownMenuContent align='end'>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    enrollment.user?.username || 'N/A'
-                  )
-                }
+                onClick={() => navigator.clipboard.writeText(enrollment.id)}
               >
-                Copy username
+                Copy Enroll ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View user details</DropdownMenuItem>
-              <DropdownMenuItem>View course details</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/admin/students/${enrollment.user.id}`}>
+                  View student details
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/admin/courses/?id=${enrollment.course.id}`}>
+                  View course details
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )
@@ -138,6 +156,18 @@ const Enrollments = ({
     <div className='w-full p-10'>
       <CourseHeader page='Enrollment' />
       <div className='w-full translate-y-[200px] rounded-[15px] flex flex-col items-center gap-5 border border-[#B9B0B0B2]'>
+        <div className='w-full flex items-center justify-between px-10 py-5 border-b border-[#B9B0B0B2]'>
+          <div className='flex items-center gap-5'>
+            <h2 className='text-xl font-bold'>Enrollment</h2>
+            <Link
+              href='/admin/enrollments/enroll'
+              className='bg-lightblue text-white px-2 py-2 rounded-[5px] flex items-center gap-1 text-sm'
+            >
+              <FiPlus className='text-2xl' />
+              Enroll a student
+            </Link>
+          </div>
+        </div>
         <DataTableDemo columns={columns} data={enrollments} courses={courses} />
       </div>
     </div>

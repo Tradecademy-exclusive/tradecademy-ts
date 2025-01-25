@@ -34,6 +34,7 @@ import {
 } from '@/components/ui/table'
 import { CourseType, EnrollType } from '@/types'
 import CalendarDropdown from './calendar-dropdown'
+import { enrollStatus } from '@prisma/client'
 
 export function DataTableDemo({
   columns,
@@ -57,6 +58,7 @@ export function DataTableDemo({
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     new Date()
   )
+  const [status, setStatus] = React.useState<enrollStatus | null>(null)
 
   const table = useReactTable({
     data: dataCopy,
@@ -107,6 +109,12 @@ export function DataTableDemo({
         return itemDate <= selectedDateWithoutTime
       },
     },
+    {
+      key: 'status',
+      filterFn: (item: EnrollType) => {
+        return item.status === status
+      },
+    },
   ]
 
   React.useEffect(() => {
@@ -119,11 +127,13 @@ export function DataTableDemo({
         filteredData = filteredData.filter(filter.filterFn)
       } else if (filter.key === 'date' && selectedDate) {
         filteredData = filteredData.filter(filter.filterFn)
+      } else if (filter.key === 'status' && status) {
+        filteredData = filteredData.filter(filter.filterFn)
       }
     })
 
     setDataCopy(filteredData)
-  }, [search, course, selectedDate])
+  }, [search, course, selectedDate, status])
 
   return (
     <div className='w-full p-5'>
@@ -162,6 +172,48 @@ export function DataTableDemo({
                 }}
               >
                 All
+              </DropdownMenuCheckboxItem>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='ml-auto'>
+              Status <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='center'>
+            <div className='flex flex-col items-start'>
+              <DropdownMenuCheckboxItem
+                onClick={() => setStatus('Pending')}
+                checked={status === 'Pending'}
+                className='w-full'
+              >
+                Pending (
+                {data.filter((enroll) => enroll.status === 'Pending').length})
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                onClick={() => setStatus('Approved')}
+                checked={status === 'Approved'}
+                className='w-full'
+              >
+                Approved (
+                {data.filter((enroll) => enroll.status === 'Approved').length})
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                onClick={() => setStatus('Cancelled')}
+                checked={status === 'Cancelled'}
+                className='w-full'
+              >
+                Cancelled (
+                {data.filter((enroll) => enroll.status === 'Cancelled').length})
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                onClick={() => setStatus(null)}
+                checked={!status}
+                className='w-full'
+              >
+                All ({data.length})
               </DropdownMenuCheckboxItem>
             </div>
           </DropdownMenuContent>
@@ -225,9 +277,10 @@ export function DataTableDemo({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  className='space-y-2'
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className='!p-3.5'>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -250,9 +303,18 @@ export function DataTableDemo({
         </Table>
       </div>
       <div className='flex items-center justify-end space-x-2 py-4'>
-        <div className='flex-1 text-sm text-muted-foreground'>
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+        <div className='flex-1 flex items-center gap-5 max-md:flex-col max-md:items-start max-md:gap-2'>
+          <div className='text-sm text-muted-foreground'>
+            {table.getFilteredSelectedRowModel().rows.length} of{' '}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
+          <div className='text-sm text-muted-foreground'>
+            Page{' '}
+            <span className='font-semibold'>
+              {table.getState().pagination.pageIndex + 1}
+            </span>{' '}
+            of <span className='font-semibold'>{table.getPageCount()}</span>
+          </div>
         </div>
         <div className='space-x-2'>
           <Button
