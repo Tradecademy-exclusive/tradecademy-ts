@@ -32,33 +32,29 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { CourseType, EnrollType } from '@/types'
+import { UserType } from '@/types'
 import CalendarDropdown from './calendar-dropdown'
-import { enrollStatus } from '@prisma/client'
 
 export function DataTable({
   columns,
   data,
-  courses,
 }: {
-  columns: ColumnDef<EnrollType>[]
-  data: EnrollType[]
-  courses: CourseType[]
+  columns: ColumnDef<UserType>[]
+  data: UserType[]
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [dataCopy, setDataCopy] = React.useState<EnrollType[]>(data)
+  const [dataCopy, setDataCopy] = React.useState<UserType[]>(data)
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-  const [course, setCourse] = React.useState<string>('')
+
   const [search, setSearch] = React.useState<string>('')
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     new Date()
   )
-  const [status, setStatus] = React.useState<enrollStatus | null>(null)
 
   const table = useReactTable({
     data: dataCopy,
@@ -88,16 +84,12 @@ export function DataTable({
   const filters = [
     {
       key: 'search',
-      filterFn: (item: EnrollType) =>
-        item.user.email.toLowerCase().includes(search.toLowerCase()),
-    },
-    {
-      key: 'course',
-      filterFn: (item: EnrollType) => item.course.title === course,
+      filterFn: (item: UserType) =>
+        item.email.toLowerCase().includes(search.toLowerCase()),
     },
     {
       key: 'date',
-      filterFn: (item: EnrollType) => {
+      filterFn: (item: UserType) => {
         if (!selectedDate) return true
         const itemDate = new Date(item.createdAt)
 
@@ -109,12 +101,6 @@ export function DataTable({
         return itemDate <= selectedDateWithoutTime
       },
     },
-    {
-      key: 'status',
-      filterFn: (item: EnrollType) => {
-        return item.status === status
-      },
-    },
   ]
 
   React.useEffect(() => {
@@ -123,17 +109,13 @@ export function DataTable({
     filters.forEach((filter) => {
       if (filter.key === 'search' && search) {
         filteredData = filteredData.filter(filter.filterFn)
-      } else if (filter.key === 'course' && course) {
-        filteredData = filteredData.filter(filter.filterFn)
       } else if (filter.key === 'date' && selectedDate) {
-        filteredData = filteredData.filter(filter.filterFn)
-      } else if (filter.key === 'status' && status) {
         filteredData = filteredData.filter(filter.filterFn)
       }
     })
 
     setDataCopy(filteredData)
-  }, [search, course, selectedDate, status])
+  }, [search, selectedDate])
 
   return (
     <div className='w-full p-5'>
@@ -146,78 +128,7 @@ export function DataTable({
           }}
           className='max-w-sm'
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              Course <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='center'>
-            <div className='flex flex-col items-start w-full'>
-              {courses.map((item) => (
-                <DropdownMenuCheckboxItem
-                  key={item.id}
-                  className='w-full'
-                  checked={course === item.title}
-                  onClick={() => setCourse(item.title)}
-                >
-                  {item.title}
-                </DropdownMenuCheckboxItem>
-              ))}
-              <DropdownMenuCheckboxItem
-                className='w-full'
-                checked={!course}
-                onClick={() => {
-                  setCourse('')
-                }}
-              >
-                All
-              </DropdownMenuCheckboxItem>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              Status <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='center'>
-            <div className='flex flex-col items-start'>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus('Pending')}
-                checked={status === 'Pending'}
-                className='w-full'
-              >
-                Pending (
-                {data.filter((enroll) => enroll.status === 'Pending').length})
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus('Approved')}
-                checked={status === 'Approved'}
-                className='w-full'
-              >
-                Approved (
-                {data.filter((enroll) => enroll.status === 'Approved').length})
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus('Cancelled')}
-                checked={status === 'Cancelled'}
-                className='w-full'
-              >
-                Cancelled (
-                {data.filter((enroll) => enroll.status === 'Cancelled').length})
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus(null)}
-                checked={!status}
-                className='w-full'
-              >
-                All ({data.length})
-              </DropdownMenuCheckboxItem>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
+
         <div className='ml-5'>
           <CalendarDropdown
             selectedDate={selectedDate}
@@ -233,7 +144,9 @@ export function DataTable({
           <DropdownMenuContent align='end'>
             {table
               .getAllColumns()
-              .filter((column) => column.getCanHide())
+              .filter(
+                (column) => column.getCanHide() && column.id !== 'Details'
+              )
               .map((column) => {
                 return (
                   <DropdownMenuCheckboxItem

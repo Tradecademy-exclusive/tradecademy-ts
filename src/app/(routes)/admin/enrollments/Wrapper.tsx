@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTableDemo } from '@/components/ui/table-data'
+import { DataTable } from '@/components/ui/table-data'
 import CourseHeader from '../components/CourseHeader'
 import { CourseType, EnrollType } from '@/types'
 import { ColumnDef } from '@tanstack/react-table'
@@ -18,6 +18,7 @@ import {
 import { formatToEuro } from '@/lib/utils'
 import Link from 'next/link'
 import { FiPlus } from 'react-icons/fi'
+import { format } from 'date-fns'
 
 const Enrollments = ({
   enrollments,
@@ -67,7 +68,11 @@ const Enrollments = ({
       header: 'Date',
       cell: ({ row }) => {
         const date = new Date(row.getValue('createdAt'))
-        return <div>{date.toLocaleDateString()}</div>
+        return (
+          <div className='text-[13px]'>
+            {format(date, 'MMMM dd, yyyy h:mm a')}
+          </div>
+        )
       },
     },
     {
@@ -134,6 +139,11 @@ const Enrollments = ({
               >
                 Copy Enroll ID
               </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/admin/enrollments/manage?id=${enrollment.id}`}>
+                  Manage Enroll
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link href={`/admin/students/${enrollment.user.id}`}>
@@ -168,7 +178,7 @@ const Enrollments = ({
             </Link>
           </div>
         </div>
-        <DataTableDemo columns={columns} data={enrollments} courses={courses} />
+        <DataTable columns={columns} data={enrollments} courses={courses} />
       </div>
     </div>
   )

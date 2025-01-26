@@ -11,7 +11,7 @@ import {
 } from '@prisma/client'
 import { JwtPayload } from 'jsonwebtoken'
 
-interface UserType extends User {
+export interface UserType extends User {
   courses: CourseType[]
   plan: Plan
   previousPlans: PreviousPlan[]
