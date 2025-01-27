@@ -62,6 +62,12 @@ export const POST = async (req: Request) => {
       },
     })
 
+    const clientIp =
+      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      req.headers.get('x-real-ip') ||
+      (req as { ip?: string }).ip ||
+      'Unknown'
+
     const user = await prisma.user.create({
       data: {
         username: username,
@@ -77,12 +83,14 @@ export const POST = async (req: Request) => {
             id: focusPoint.id,
           },
         },
+        IP: clientIp,
       },
 
       include: {
         courses: true,
         plan: true,
         previousPlans: true,
+        focusPoint: true,
       },
     })
 
@@ -93,7 +101,7 @@ export const POST = async (req: Request) => {
     )
 
     const response = NextResponse.json(
-      { success: true, token },
+      { success: true, session: { user, token } },
       { status: 200 }
     )
 

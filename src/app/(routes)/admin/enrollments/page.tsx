@@ -4,7 +4,7 @@ import Enrollments from './Wrapper'
 import { getCourses } from '@/actions/courses'
 
 const Page = async () => {
-  const enrollments = await getEnrollments()
+  const enrollments = await getEnrollments(false)
   const courses = await getCourses()
 
   return (

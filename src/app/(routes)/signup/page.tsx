@@ -1,17 +1,27 @@
 'use client'
 
+import { AuthContext } from '@/providers/AuthProvider'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useContext, useLayoutEffect, useState } from 'react'
 import { IoCheckmarkOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 
 const SignupForm = () => {
+  const router = useRouter()
+  const { setSession, session, loading } = useContext(AuthContext)
   const [email, setEmail] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [remember, setRemember] = useState<boolean>(false)
+
+  useLayoutEffect(() => {
+    if (!loading && session) {
+      router.replace('/dashboard')
+    }
+  }, [session, loading, router])
 
   const signup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -51,6 +61,17 @@ const SignupForm = () => {
         password,
         username,
       })
+
+      if (data.session) {
+        setSession(data.session)
+        setEmail('')
+        setPassword('')
+        setUsername('')
+        router.replace('/dashboard')
+        return toast.error("You're now logged in.", {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
 
       if (data.message) {
         return toast.error(data.message, {

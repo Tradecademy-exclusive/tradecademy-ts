@@ -13,6 +13,8 @@ export default {
         spin: 'spin 0.8s linear infinite',
         in: 'fade-in 0.15s ease-in-out',
         out: 'fade-out 0.15s ease-in-out',
+        'accordion-down': 'accordion-down 0.3s ease-out',
+        'accordion-up': 'accordion-up 0.3s ease-out',
       },
       keyframes: {
         spin: {

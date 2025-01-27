@@ -1,11 +1,24 @@
 import prisma from '@/db/prisma'
 
-export const getEnrollments = async () => {
-  const enrollments = await prisma.enroll.findMany({
-    include: {
-      user: true,
-      course: true,
-    },
-  })
-  return enrollments
+export const getEnrollments = async (sales: boolean) => {
+  if (sales) {
+    const enrollments = await prisma.enroll.findMany({
+      where: {
+        status: 'Approved',
+      },
+      include: {
+        user: true,
+        course: true,
+      },
+    })
+    return enrollments
+  } else {
+    const enrollments = await prisma.enroll.findMany({
+      include: {
+        user: true,
+        course: true,
+      },
+    })
+    return enrollments
+  }
 }

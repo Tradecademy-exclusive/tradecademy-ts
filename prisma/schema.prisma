@@ -21,6 +21,7 @@ model User {
   updatedAt     DateTime       @updatedAt
   planId        String
   focusPointId  String
+  IP            String?
   Note          Note[]
   Lesson        Lesson[]
   Enroll        Enroll[]
@@ -112,8 +113,8 @@ model Note {
 model Enroll {
   id        String       @id @default(uuid())
   status    enrollStatus @default(Pending)
-  user      User         @relation(fields: [email], references: [id])
-  course    Course       @relation(fields: [courseId], references: [id])
+  user      User         @relation(fields: [email], references: [id], onDelete: Cascade)
+  course    Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
   email     String
   courseId  String
   createdAt DateTime     @default(now())

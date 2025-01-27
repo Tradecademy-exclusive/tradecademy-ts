@@ -25,7 +25,7 @@ export const SidebarMobile = () => {
 
   return (
     <div
-      className={`bg-charcoal w-fit rounded-r-2xl py-9 px-4 fixed left-0 top-0 flex flex-col items-center gap-14 min-h-screen h-full`}
+      className={`bg-charcoal w-fit rounded-r-2xl py-9 px-4 fixed left-0 top-0 flex flex-col items-center gap-14 min-h-screen h-full z-[20]`}
     >
       <Icons.iconMobile />
 

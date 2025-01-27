@@ -144,7 +144,15 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   if (!hasAccess) return <div></div>
   return (
     <div className='w-full flex items-start min-h-screen'>
-      <div className='w-full p-6'>
+      <div className='fixed top-0 w-[110%] -left-[30px] z-10 bg-[#3E63DC] py-4 flex items-center justify-between pr-12 md:pr-16 pl-10 lg:pr-24 xl:pr-28 2xl:pr-32'>
+        <h3 className='text-lg text-white'>{course.title}</h3>
+        <div className='flx items-center gap-3'>
+          <p className='text-white text-[15px]'>
+            Your Progress: <strong>38</strong> of <strong>{}</strong>{' '}
+          </p>
+        </div>
+      </div>
+      <div className='w-full p-6 translate-y-[55px]'>
         <div className='w-full flex flex-col items-center'>
           <div className='w-full flex flex-col items-start gap-5'>
             {lesson &&
@@ -160,14 +168,14 @@ const Wrapper = ({ course }: { course: CourseType }) => {
               <button
                 disabled={checkPrevDisabled()}
                 onClick={goToPrevLesson}
-                className='text-sm bg-charcoal disabled:opacity-50 px-8 py-[5px] rounded-[5px] text-white'
+                className='text-base bg-charcoal disabled:opacity-50 px-12 py-2 rounded-[5px] text-white'
               >
                 Back
               </button>
               <button
                 disabled={checkNextDisabled()}
                 onClick={goToNextLesson}
-                className='text-sm bg-tcblue px-8 py-[5px] rounded-[5px] text-white disabled:opacity-50'
+                className='text-base bg-tcblue px-12 py-2 rounded-[5px] text-white disabled:opacity-50'
               >
                 Next
               </button>

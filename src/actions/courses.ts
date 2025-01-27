@@ -1,4 +1,5 @@
 import prisma from '@/db/prisma'
+import { CourseType } from '@/types'
 
 export const getCourses = async () => {
   const courses = await prisma.course.findMany({
@@ -18,7 +19,7 @@ export const getCourses = async () => {
       },
     },
   })
-  return courses
+  return courses as CourseType[]
 }
 
 export const getCourseById = async (id: string) => {
