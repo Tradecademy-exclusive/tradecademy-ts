@@ -19,6 +19,9 @@ import { formatToEuro } from '@/lib/utils'
 import Link from 'next/link'
 import { FiPlus } from 'react-icons/fi'
 import { format } from 'date-fns'
+import { useState } from 'react'
+import OpacityBackground from '@/components/opacityBackground'
+import CreateEnroll from '../components/CreateEnroll'
 
 const Enrollments = ({
   enrollments,
@@ -27,6 +30,8 @@ const Enrollments = ({
   enrollments: EnrollType[]
   courses: CourseType[]
 }) => {
+  const [enrollOpen, setEnrollOpen] = useState<boolean>(false)
+
   const columns: ColumnDef<EnrollType>[] = [
     {
       id: 'select',
@@ -139,11 +144,7 @@ const Enrollments = ({
               >
                 Copy Enroll ID
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={`/admin/enrollments/manage?id=${enrollment.id}`}>
-                  Manage Enroll
-                </Link>
-              </DropdownMenuItem>
+
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link href={`/admin/students/${enrollment.user.id}`}>
@@ -164,18 +165,27 @@ const Enrollments = ({
 
   return (
     <div className='w-full p-10'>
+      <OpacityBackground
+        opened={enrollOpen}
+        close={() => setEnrollOpen(false)}
+      />
+      <CreateEnroll
+        opened={enrollOpen}
+        setOpened={setEnrollOpen}
+        courses={courses}
+      />
       <CourseHeader page='Enrollment' />
       <div className='w-full translate-y-[200px] rounded-[15px] flex flex-col items-center gap-5 border border-[#B9B0B0B2]'>
         <div className='w-full flex items-center justify-between px-10 py-5 border-b border-[#B9B0B0B2]'>
           <div className='flex items-center gap-5'>
             <h2 className='text-xl font-bold'>Enrollment</h2>
-            <Link
-              href='/admin/enrollments/enroll'
+            <button
+              onClick={() => setEnrollOpen(true)}
               className='bg-lightblue text-white px-2 py-2 rounded-[5px] flex items-center gap-1 text-sm'
             >
               <FiPlus className='text-2xl' />
               Enroll a student
-            </Link>
+            </button>
           </div>
         </div>
         <DataTable columns={columns} data={enrollments} courses={courses} />

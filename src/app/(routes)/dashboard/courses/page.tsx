@@ -15,7 +15,7 @@ const CoursesPage = async () => {
               course.title === 'Starters Course' ||
               course.title === 'Intermidiate Course'
             ) {
-              return <BasicCard key={course.id} {...course} percentage={57} />
+              return <BasicCard key={course.id} {...course} />
             }
           })}
         </div>
@@ -25,7 +25,7 @@ const CoursesPage = async () => {
               course.title === 'Advanced Course' ||
               course.title === 'Ultimate Course'
             ) {
-              return <PremiumCard key={course.id} {...course} percentage={57} />
+              return <PremiumCard key={course.id} {...course} />
             }
           })}
         </div>

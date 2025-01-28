@@ -1,30 +1,46 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import Locked from './locked'
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { ChapterType, LessonType } from '@/types'
 
 interface CourseCardProps {
   title: string
   description: string
   cover: string
-  percentage: number
+  chapters: ChapterType[]
 }
 
 const PremiumCard = ({
   title,
   description,
   cover,
-  percentage,
+  chapters,
 }: CourseCardProps) => {
   const { session } = useContext(AuthContext)
+  const [completed, setCompleted] = useState<LessonType[]>([])
+  useEffect(() => {
+    const completedInstance = chapters.reduce<LessonType[]>((acc, chapter) => {
+      const completedLessons = chapter.lessons.filter((lesson) =>
+        lesson.completed.some((user) => user.id === session?.user.id)
+      )
+      return [...acc, ...completedLessons]
+    }, [])
+    setCompleted(completedInstance)
+  }, [chapters, session?.user.id])
+  const lessonsCount = chapters.reduce((acc, chapter) => {
+    return acc + chapter.lessons.length
+  }, 0)
+  const completionPercentage = (completed.length / lessonsCount) * 100
 
   const ownsCourse = session?.user.courses.find((course) => {
     return course.title === title
   })
+
   return (
     <div
       className={`w-full ${
@@ -55,7 +71,7 @@ const PremiumCard = ({
                   title === 'Ultimate Course' ? 'bg-white' : 'bg-lightblue'
                 }`}
                 style={{
-                  width: `${percentage}%`,
+                  width: `${completionPercentage}%`,
                 }}
               />
             </div>
@@ -64,7 +80,7 @@ const PremiumCard = ({
                 title === 'Ultimate Course' ? 'text-white/85' : 'text-[#606060]'
               }`}
             >
-              {percentage}% Complete
+              {completionPercentage || 0}% Complete
             </span>
           </div>
         </div>

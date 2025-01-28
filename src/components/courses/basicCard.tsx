@@ -1,18 +1,19 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import Locked from './locked'
 import Image from 'next/image'
 import { trimText } from '@/lib/trimText'
 import Link from 'next/link'
+import { ChapterType, LessonType } from '@/types'
 
 interface CourseCardProps {
   id: string
   title: string
   description: string
   cover: string
-  percentage: number
+  chapters: ChapterType[]
 }
 
 const BasicCard = ({
@@ -20,13 +21,30 @@ const BasicCard = ({
   title,
   description,
   cover,
-  percentage,
+  chapters,
 }: CourseCardProps) => {
   const { session } = useContext(AuthContext)
+  const [completed, setCompleted] = useState<LessonType[]>([])
+
+  useEffect(() => {
+    const completedInstance = chapters.reduce<LessonType[]>((acc, chapter) => {
+      const completedLessons = chapter.lessons.filter((lesson) =>
+        lesson.completed.some((user) => user.id === session?.user.id)
+      )
+      return [...acc, ...completedLessons]
+    }, [])
+    setCompleted(completedInstance)
+  }, [chapters, session?.user.id])
 
   const ownsCourse = session?.user.courses.find((course) => {
     return course.title === title
   })
+
+  const lessonsCount = chapters.reduce((acc, chapter) => {
+    return acc + chapter.lessons.length
+  }, 0)
+  const completionPercentage = (completed.length / lessonsCount) * 100
+
   return (
     <div
       className={`w-full bg-[#E3E3E3] rounded-[23px] px-6 py-10 xl:px-8 xl:py-12 flex flex-col items-start gap-3 relative overflow-hidden`}
@@ -47,12 +65,12 @@ const BasicCard = ({
               <div
                 className='absolute h-full top-0 left-0 bg-lightblue'
                 style={{
-                  width: `${percentage}%`,
+                  width: `${completionPercentage}%`,
                 }}
               />
             </div>
             <span className='text-[12px] text-[#606060] xl:text-sm'>
-              {percentage}% Complete
+              {completionPercentage}% Complete
             </span>
           </div>
         </div>
