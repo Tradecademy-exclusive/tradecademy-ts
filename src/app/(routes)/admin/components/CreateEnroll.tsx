@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
 import { IoSearch } from 'react-icons/io5'
 import StudentResults from './StudentResults'
+import Image from 'next/image'
 
 const CreateEnroll = ({
   opened,
@@ -24,6 +25,7 @@ const CreateEnroll = ({
   const [students, setStudents] = useState<UserType[]>([])
   const [studentsCopy, setStudentsCopy] = useState<UserType[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
+  const [selectedStudents, setSelectedStudents] = useState<UserType[]>([])
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -37,9 +39,13 @@ const CreateEnroll = ({
     fetchStudents()
   }, [])
 
+  const removeStudent = (id: string) => {
+    setSelectedStudents((prev) => prev.filter((stud) => stud.id !== id))
+  }
+
   return (
     <div
-      className={`w-[500px] rounded-[10px] flex flex-col items-center fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999] transition-all overflow-hidden bg-[#D9D9D9] ${
+      className={`w-[550px] rounded-[10px] flex flex-col items-center fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999] transition-all overflow-hidden bg-[#D9D9D9] ${
         opened
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
@@ -97,7 +103,45 @@ const CreateEnroll = ({
             students={students}
             searchValue={searchValue}
             studentsCopy={studentsCopy}
+            selectedStudents={selectedStudents}
+            setSelectedStudents={setSelectedStudents}
           />
+          <div className='w-full flex flex-col items-start gap-4 mt-4'>
+            <h4 className='text-sm font-medium'>Selected Student</h4>
+            <div className='w-full flex items-center flex-wrap gap-3'>
+              {selectedStudents.map((student, idx) => {
+                return (
+                  <div
+                    key={student.id}
+                    className='bg-white px-2.5 py-1.5 rounded-[5px] flex items-center gap-3 animate-shake'
+                    style={{
+                      animationDelay: `${idx / 10}s`,
+                    }}
+                  >
+                    <div className='flex items-center gap-2'>
+                      <Image
+                        src={student.picture || '/default_image.png'}
+                        alt='student picture'
+                        height={40}
+                        width={40}
+                        className='object-contain rounded-full'
+                      />
+                      <div className='flex flex-col items-start'>
+                        <h3 className='font-semibold'>{student.username}</h3>
+                        <h4 className='text-[13px] text-gray-600'>
+                          {student.email}
+                        </h4>
+                      </div>
+                    </div>
+                    <IoCloseOutline
+                      onClick={() => removeStudent(student.id)}
+                      className='text-xl cursor-pointer text-gray-600'
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>

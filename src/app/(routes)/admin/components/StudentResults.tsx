@@ -4,14 +4,15 @@
 import { UserType } from '@/types'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import { FaPlus } from 'react-icons/fa'
+import { FaPlus, FaMinus } from 'react-icons/fa'
 import { BiLoaderAlt } from 'react-icons/bi'
-
 interface StudentResultsProps {
   students: UserType[]
   searchValue: string
   studentsCopy: UserType[]
+  selectedStudents: UserType[]
   setStudentsCopy: React.Dispatch<React.SetStateAction<UserType[]>>
+  setSelectedStudents: React.Dispatch<React.SetStateAction<UserType[]>>
 }
 
 const StudentResults = ({
@@ -19,6 +20,8 @@ const StudentResults = ({
   studentsCopy,
   setStudentsCopy,
   searchValue,
+  selectedStudents,
+  setSelectedStudents,
 }: StudentResultsProps) => {
   useEffect(() => {
     if (!searchValue) {
@@ -38,6 +41,17 @@ const StudentResults = ({
 
     setStudentsCopy(filteredStudents)
   }, [searchValue])
+
+  const toggleSelect = (student: UserType) => {
+    const isSelected = selectedStudents.find((stude) => stude.id === student.id)
+    if (isSelected) {
+      setSelectedStudents((prev) =>
+        prev.filter((stud) => stud.id !== student.id)
+      )
+    } else {
+      setSelectedStudents((prev) => [...prev, student])
+    }
+  }
 
   if (students.length === 0) {
     return (
@@ -60,9 +74,12 @@ const StudentResults = ({
 
   return (
     <div
-      className={`bg-transparent w-full rounded-[10px] flex flex-col items-start gap-3 overflow-hidden mt-3`}
+      className={`bg-transparent w-full flex flex-col items-start gap-3 mt-3`}
     >
       {studentsCopy.map((student) => {
+        const isSelected = selectedStudents.find(
+          (stude) => stude.id === student.id
+        )
         return (
           <div
             key={student.id}
@@ -83,7 +100,13 @@ const StudentResults = ({
                 <h5 className='text-[13px] text-gray-600'>{student.email}</h5>
               </div>
             </div>
-            <FaPlus className='text-gray-500 cursor-pointer' />
+            <button onClick={() => toggleSelect(student)}>
+              {!isSelected ? (
+                <FaPlus className='text-gray-500' />
+              ) : (
+                <FaMinus className='text-gray-500' />
+              )}
+            </button>
           </div>
         )
       })}

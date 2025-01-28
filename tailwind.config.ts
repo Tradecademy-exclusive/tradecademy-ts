@@ -15,6 +15,7 @@ export default {
         out: 'fade-out 0.15s ease-in-out',
         'accordion-down': 'accordion-down 0.3s ease-out',
         'accordion-up': 'accordion-up 0.3s ease-out',
+        shake: 'shake 0.5s ease-in-out infinite',
       },
       keyframes: {
         spin: {
@@ -24,6 +25,12 @@ export default {
           to: {
             transform: 'rotate(360deg)',
           },
+        },
+        shake: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '25%': { transform: 'translateX(-1px)' },
+          '50%': { transform: 'translateX(1px)' },
+          '75%': { transform: 'translateX(-1px)' },
         },
         'accordion-down': {
           from: {
