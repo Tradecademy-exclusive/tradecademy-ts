@@ -10,6 +10,8 @@ import axios from 'axios'
 import WatchLesson from '@/components/courses/watchLesson'
 import Note from '@/components/courses/note'
 import { FaRegCircleCheck } from 'react-icons/fa6'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
 
 const Wrapper = ({ course }: { course: CourseType }) => {
   const searchParams = useSearchParams()
@@ -18,6 +20,13 @@ const Wrapper = ({ course }: { course: CourseType }) => {
   const [hasAccess, setHasAccess] = useState<boolean>(false)
   const [lesson, setLesson] = useState<null | LessonType>(null)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [completed, setCompleted] = useState<LessonType[]>([])
+  const [marking, setMarking] = useState<boolean>(false)
+
+  const id = searchParams.get('lesson')
+  const isCompleted = completed.some(
+    (completedLesson) => completedLesson.id === id
+  )
 
   useLayoutEffect(() => {
     if (session && course) {
@@ -63,6 +72,20 @@ const Wrapper = ({ course }: { course: CourseType }) => {
       getLessonById(lesson)
     }
   }, [searchParams, session, course])
+
+  useEffect(() => {
+    const completedInstance = course.chapters.reduce<LessonType[]>(
+      (acc, chapter) => {
+        const completedLessons = chapter.lessons.filter((lesson) =>
+          lesson.completed.some((user) => user.id === session?.user.id)
+        )
+        return [...acc, ...completedLessons]
+      },
+      []
+    )
+
+    setCompleted(completedInstance)
+  }, [course])
 
   const goToNextLesson = () => {
     if (session && lesson) {
@@ -142,23 +165,62 @@ const Wrapper = ({ course }: { course: CourseType }) => {
     }
   }
 
-  const lessonsCount = course.chapters.reduce((total, chapter) => {
-    return total + chapter.lessons.length
+  const markComplete = async () => {
+    const lessonId = searchParams.get('lesson')
+    if (!lessonId) return
+    try {
+      setMarking(true)
+      const { data } = await axios.post('/api/courses/lesson/complete', {
+        lessonId: lessonId,
+      })
+      if (data.completed) {
+        setCompleted((prev) => {
+          const isAlreadyCompleted = prev.some(
+            (completedLesson) => completedLesson.id === lessonId
+          )
+          if (isAlreadyCompleted) return prev
+          toast.error('Lesson has been marked', {
+            icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+          })
+
+          return [...prev, data.completed]
+        })
+      }
+      setMarking(false)
+    } catch (err) {
+      setMarking(false)
+      console.log(err)
+      return toast.error('Something went wrong', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
+
+  const lessonsCount = course.chapters.reduce((acc, chapter) => {
+    return acc + chapter.lessons.length
   }, 0)
+
+  const completionPercentage = (completed.length / lessonsCount) * 100
 
   if (!hasAccess) return <div></div>
   return (
-    <div className='w-full flex items-start min-h-screen'>
+    <div className='w-full flex items-start'>
       <div className='fixed top-0 w-[110%] -left-[30px] z-10 bg-[#3E63DC] py-4 flex items-center justify-between pr-12 md:pr-20 pl-12 lg:pr-24 xl:pr-28 2xl:pr-32'>
         <h3 className='text-lg text-white'>{course.title}</h3>
-        <div className='flex items-center gap-3'>
+        <div className='flex items-center gap-5'>
           <p className='text-white text-[15px]'>
-            Your Progress: <strong>38</strong> of{' '}
-            <strong>{lessonsCount}</strong>
+            Your Progress: <strong>{completed.length}</strong> of{' '}
+            <strong>{lessonsCount}</strong> ( {completionPercentage}% )
           </p>
-          <button className='flex items-center gap-1.5 px-5 py-2.5 rounded-[5px] bg-transparent text-white hover:bg-white hover:text-[#3E63DC] transition-all duration-200 text-[15px] font-medium'>
+          <button
+            disabled={isCompleted || marking}
+            onClick={markComplete}
+            className={`flex items-center gap-1.5 px-5 py-2.5 rounded-[5px] bg-transparent text-white hover:bg-white hover:text-[#3E63DC] transition-all duration-200 text-[15px] font-medium ${
+              isCompleted && '!bg-white !text-green-600'
+            }`}
+          >
             <FaRegCircleCheck />
-            Mark as Complete
+            {!isCompleted ? 'Mark as Complete' : 'Completed'}
           </button>
         </div>
       </div>

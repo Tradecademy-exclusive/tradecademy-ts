@@ -87,10 +87,19 @@ export const POST = async (req: Request) => {
       },
 
       include: {
-        courses: true,
+        courses: {
+          include: {
+            chapters: {
+              include: {
+                lessons: true,
+              },
+            },
+          },
+        },
         plan: true,
         previousPlans: true,
         focusPoint: true,
+        completed: true,
       },
     })
 

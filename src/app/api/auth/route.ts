@@ -39,6 +39,7 @@ export const GET = async () => {
         plan: true,
         previousPlans: true,
         focusPoint: true,
+        completed: true,
       },
     })
 

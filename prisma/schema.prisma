@@ -23,9 +23,8 @@ model User {
   focusPointId  String
   IP            String?
   Note          Note[]
-  completed     Lesson?        @relation(fields: [lessonId], references: [id])
   Enroll        Enroll[]
-  lessonId      String?
+  completed     Lesson[]       @relation("UserCompletedLessons")
 }
 
 model signupToken {
@@ -80,7 +79,7 @@ model Lesson {
   chapterId   String?
   Note        Note?      @relation(fields: [noteId], references: [id])
   noteId      String?
-  completed   User[]
+  completed   User[]     @relation("UserCompletedLessons")
 }
 
 model Plan {

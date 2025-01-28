@@ -16,6 +16,7 @@ export interface UserType extends User {
   plan: Plan
   previousPlans: PreviousPlan[]
   focusPoint: FocusPoint
+  completed: LessonType[]
 }
 
 export interface SessionType {
@@ -24,7 +25,7 @@ export interface SessionType {
 }
 
 export interface LessonType extends Lesson {
-  completed: User
+  completed: User[]
   chapter: Chapter
   note: Note
 }
