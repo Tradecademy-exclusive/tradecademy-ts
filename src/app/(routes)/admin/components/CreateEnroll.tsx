@@ -4,9 +4,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { CourseType } from '@/types'
-import { useState } from 'react'
+import { CourseType, UserType } from '@/types'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
+import { IoSearch } from 'react-icons/io5'
+import StudentResults from './StudentResults'
 
 const CreateEnroll = ({
   opened,
@@ -18,9 +21,25 @@ const CreateEnroll = ({
   courses: CourseType[]
 }) => {
   const [selectedCourse, setSelectedCourse] = useState<CourseType | null>(null)
+  const [students, setStudents] = useState<UserType[]>([])
+  const [studentsCopy, setStudentsCopy] = useState<UserType[]>([])
+  const [searchValue, setSearchValue] = useState<string>('')
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      const { data } = await axios.get('/api/admin/students')
+      if (data.students) {
+        setStudents(data.students)
+        setStudentsCopy(data.students.slice(0, 6))
+      }
+    }
+
+    fetchStudents()
+  }, [])
+
   return (
     <div
-      className={`w-[500px] rounded-[10px] flex flex-col items-center fixed top-1/2 left-1/2 translate-y-1/2 -translate-x-1/2 z-[999] transition-all overflow-hidden bg-[#D9D9D9] ${
+      className={`w-[500px] rounded-[10px] flex flex-col items-center fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999] transition-all overflow-hidden bg-[#D9D9D9] ${
         opened
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
@@ -60,6 +79,25 @@ const CreateEnroll = ({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+        </div>
+        <div className='w-full flex flex-col items-start gap-1 relative'>
+          <h3 className='text-lg font-semibold'>Student</h3>
+          <div className='w-full flex items-center gap-2 px-3 rounded-[5px] border border-[#0000004D] text-[#00000066] bg-white'>
+            <IoSearch className='text-xl' />
+            <input
+              placeholder='Search student'
+              type='text'
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className='w-full py-1.5 text-[15px] bg-transparent outline-none'
+            />
+          </div>
+          <StudentResults
+            setStudentsCopy={setStudentsCopy}
+            students={students}
+            searchValue={searchValue}
+            studentsCopy={studentsCopy}
+          />
         </div>
       </div>
     </div>
