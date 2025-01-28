@@ -22,6 +22,8 @@ import { format } from 'date-fns'
 import { useState } from 'react'
 import OpacityBackground from '@/components/opacityBackground'
 import CreateEnroll from '../components/CreateEnroll'
+import { IoCloseOutline } from 'react-icons/io5'
+import { GrTrophy } from 'react-icons/gr'
 
 const Enrollments = ({
   enrollments,
@@ -31,6 +33,7 @@ const Enrollments = ({
   courses: CourseType[]
 }) => {
   const [enrollOpen, setEnrollOpen] = useState<boolean>(false)
+  const [successOpen, setSuccessOpen] = useState<boolean>(false)
 
   const columns: ColumnDef<EnrollType>[] = [
     {
@@ -166,14 +169,53 @@ const Enrollments = ({
   return (
     <div className='w-full p-10'>
       <OpacityBackground
-        opened={enrollOpen}
-        close={() => setEnrollOpen(false)}
+        opened={enrollOpen || successOpen}
+        close={() => {
+          setEnrollOpen(false)
+          setSuccessOpen(false)
+        }}
       />
       <CreateEnroll
         opened={enrollOpen}
         setOpened={setEnrollOpen}
         courses={courses}
+        setSuccessOpen={setSuccessOpen}
       />
+
+      <div
+        className={`w-[500px] fixed left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white rounded-[10px] flex flex-col items-start p-10 z-[999] gap-6 transition-all duration-300 ${
+          successOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className='flex justify-end w-full'>
+          <IoCloseOutline
+            onClick={() => setSuccessOpen(false)}
+            className='text-2xl text-gray-600 cursor-pointer'
+          />
+        </div>
+        <div className='w-full flex flex-col items-center gap-4'>
+          <GrTrophy className='text-6xl text-lightblue' />
+          <h3 className='text-2xl font-medium'>Success!</h3>
+          <p className='text-[15px] text-gray-500'>
+            The Student Enrollment Request has been submitted
+          </p>
+          <p className='text-[15px] text-gray-500 mt-5 text-center'>
+            Now, as default enrollments are pending you will need to mark the
+            Order as &quot;Approved&quot; manually, Only after that, the
+            students will get access to the course.
+          </p>
+
+          <button
+            onClick={() => window.location.reload()}
+            className='bg-lightblue text-white mt-8 px-4 py-1.5 rounded-[5px]'
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+
       <CourseHeader page='Enrollment' />
       <div className='w-full translate-y-[200px] rounded-[15px] flex flex-col items-center gap-5 border border-[#B9B0B0B2]'>
         <div className='w-full flex items-center justify-between px-10 py-5 border-b border-[#B9B0B0B2]'>

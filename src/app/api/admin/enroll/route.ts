@@ -1,35 +1,61 @@
 import prisma from '@/db/prisma'
+import { enrollStatus, User } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
   try {
-    const { email, courseId, status } = await req.json()
+    const { students, courseId }: { students: User[]; courseId: string } =
+      await req.json()
 
-    await prisma.$transaction([
-      prisma.enroll.create({
-        data: {
-          status: status || null,
-          user: {
-            connect: {
-              email: email,
+    const enrollments = await Promise.all(
+      students.map((user) =>
+        prisma.enroll.create({
+          data: {
+            user: {
+              connect: { email: user.email },
+            },
+            course: {
+              connect: { id: courseId },
             },
           },
-          course: {
-            connect: {
-              id: courseId,
-            },
-          },
-        },
-        include: {
-          user: true,
-          course: true,
-        },
-      }),
-      prisma.user.update({
+        })
+      )
+    )
+
+    return NextResponse.json({ enrollments }, { status: 201 })
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
+}
+
+export const PUT = async (req: Request) => {
+  try {
+    const {
+      status,
+      id,
+      email,
+      courseId,
+    }: {
+      status: enrollStatus
+      id: string
+      email: string
+      courseId: string
+    } = await req.json()
+
+    const updatedEnroll = await prisma.enroll.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+      },
+    })
+
+    if (status === 'Approved') {
+      await prisma.user.update({
         where: {
-          email,
+          email: email,
         },
-
         data: {
           courses: {
             connect: {
@@ -37,13 +63,10 @@ export const POST = async (req: Request) => {
             },
           },
         },
-      }),
-    ])
+      })
+    }
 
-    return NextResponse.json(
-      { message: 'Enroll has been created' },
-      { status: 201 }
-    )
+    return NextResponse.json({ updatedEnroll }, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
   }

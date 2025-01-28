@@ -18,6 +18,9 @@ export const getEnrollments = async (sales: boolean) => {
         user: true,
         course: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
     return enrollments
   }

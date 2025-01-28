@@ -1,3 +1,5 @@
+'use client'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,21 +13,26 @@ import { IoCloseOutline } from 'react-icons/io5'
 import { IoSearch } from 'react-icons/io5'
 import StudentResults from './StudentResults'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import { RiLoader4Fill } from 'react-icons/ri'
 
 const CreateEnroll = ({
   opened,
   setOpened,
   courses,
+  setSuccessOpen,
 }: {
   opened: boolean
   setOpened: React.Dispatch<React.SetStateAction<boolean>>
   courses: CourseType[]
+  setSuccessOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const [selectedCourse, setSelectedCourse] = useState<CourseType | null>(null)
   const [students, setStudents] = useState<UserType[]>([])
   const [studentsCopy, setStudentsCopy] = useState<UserType[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
   const [selectedStudents, setSelectedStudents] = useState<UserType[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -41,6 +48,41 @@ const CreateEnroll = ({
 
   const removeStudent = (id: string) => {
     setSelectedStudents((prev) => prev.filter((stud) => stud.id !== id))
+  }
+
+  const publishEnrollments = async () => {
+    try {
+      if (selectedStudents.length === 0) {
+        return toast.error('Please select least 1 student', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (!selectedCourse) {
+        return toast.error('Please select a course', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      setLoading(true)
+      const { data } = await axios.post('/api/admin/enroll', {
+        courseId: selectedCourse.id,
+        students: selectedStudents,
+      })
+
+      if (data.enrollments) {
+        setSelectedCourse(null)
+        setSearchValue('')
+        setSelectedStudents([])
+        setOpened(false)
+        setSuccessOpen(true)
+      }
+      setLoading(false)
+    } catch (err) {
+      setLoading(false)
+      toast.error('Something went wrong', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+      console.log(err)
+    }
   }
 
   return (
@@ -143,6 +185,28 @@ const CreateEnroll = ({
             </div>
           </div>
         </div>
+      </div>
+      <div className='w-full flex items-center justify-between bg-[#1D1D1D] py-8 px-10'>
+        <button
+          onClick={() => setOpened(false)}
+          className='px-10 py-1.5 rounded-[5px] border text-white border-white text-[15px] bg-transparent'
+        >
+          Cancel
+        </button>
+        <button
+          disabled={loading}
+          onClick={publishEnrollments}
+          className='px-10 py-1.5 rounded-[5px] border text-white border-lightblue text-[15px] bg-lightblue'
+        >
+          {loading ? (
+            <div className='flex items-center gap-1.5'>
+              <RiLoader4Fill className='animate-spin text-[17px]' />
+              Loading
+            </div>
+          ) : (
+            'Create Enroll'
+          )}
+        </button>
       </div>
     </div>
   )
