@@ -24,7 +24,7 @@ export interface SessionType {
 }
 
 export interface LessonType extends Lesson {
-  completed: true
+  completed: User
   chapter: Chapter
   note: Note
 }

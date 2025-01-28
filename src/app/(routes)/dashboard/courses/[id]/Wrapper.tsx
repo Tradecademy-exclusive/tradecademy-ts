@@ -9,6 +9,7 @@ import CourseSelector from '@/components/courses/courseSelector'
 import axios from 'axios'
 import WatchLesson from '@/components/courses/watchLesson'
 import Note from '@/components/courses/note'
+import { FaRegCircleCheck } from 'react-icons/fa6'
 
 const Wrapper = ({ course }: { course: CourseType }) => {
   const searchParams = useSearchParams()
@@ -141,18 +142,27 @@ const Wrapper = ({ course }: { course: CourseType }) => {
     }
   }
 
+  const lessonsCount = course.chapters.reduce((total, chapter) => {
+    return total + chapter.lessons.length
+  }, 0)
+
   if (!hasAccess) return <div></div>
   return (
     <div className='w-full flex items-start min-h-screen'>
-      <div className='fixed top-0 w-[110%] -left-[30px] z-10 bg-[#3E63DC] py-4 flex items-center justify-between pr-12 md:pr-16 pl-10 lg:pr-24 xl:pr-28 2xl:pr-32'>
+      <div className='fixed top-0 w-[110%] -left-[30px] z-10 bg-[#3E63DC] py-4 flex items-center justify-between pr-12 md:pr-20 pl-12 lg:pr-24 xl:pr-28 2xl:pr-32'>
         <h3 className='text-lg text-white'>{course.title}</h3>
-        <div className='flx items-center gap-3'>
+        <div className='flex items-center gap-3'>
           <p className='text-white text-[15px]'>
-            Your Progress: <strong>38</strong> of <strong>{}</strong>{' '}
+            Your Progress: <strong>38</strong> of{' '}
+            <strong>{lessonsCount}</strong>
           </p>
+          <button className='flex items-center gap-1.5 px-5 py-2.5 rounded-[5px] bg-transparent text-white hover:bg-white hover:text-[#3E63DC] transition-all duration-200 text-[15px] font-medium'>
+            <FaRegCircleCheck />
+            Mark as Complete
+          </button>
         </div>
       </div>
-      <div className='w-full p-6 translate-y-[55px]'>
+      <div className='w-full p-6 translate-y-[65px]'>
         <div className='w-full flex flex-col items-center'>
           <div className='w-full flex flex-col items-start gap-5'>
             {lesson &&
