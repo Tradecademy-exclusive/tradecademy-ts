@@ -8,6 +8,7 @@ import {
   Chapter,
   Note,
   Enroll,
+  Group,
 } from '@prisma/client'
 import { JwtPayload } from 'jsonwebtoken'
 
@@ -17,6 +18,10 @@ export interface UserType extends User {
   previousPlans: PreviousPlan[]
   focusPoint: FocusPoint
   completed: LessonType[]
+}
+
+export interface GroupType extends Group {
+  students: UserType[]
 }
 
 export interface SessionType {

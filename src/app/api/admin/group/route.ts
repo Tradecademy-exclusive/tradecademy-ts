@@ -31,3 +31,13 @@ export const POST = async (req: Request) => {
     return NextResponse.json({ error: err }, { status: 500 })
   }
 }
+
+export const GET = async () => {
+  try {
+    const groups = await prisma.group.findMany()
+
+    return NextResponse.json({ groups }, { status: 200 })
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
+}

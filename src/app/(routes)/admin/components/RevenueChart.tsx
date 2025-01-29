@@ -135,7 +135,7 @@ const RevenueChart = ({ enrollments }: { enrollments: EnrollType[] }) => {
       : ((totalMade - totalExpected) / totalExpected) * 100
 
   return (
-    <Card className='border-[#B9B0B0B2] !shadow-none !overflow-hidden w-[450px]'>
+    <Card className='border-[#B9B0B0B2] !shadow-none !overflow-hidden w-[450px] h-[480px]'>
       <div className='flex items-center justify-between w-full py-6 px-6 border-b mb-3 border-[#B9B0B0B2] bg-[#F0F0F0]'>
         <div className='flex flex-col items-start w-fit translate-y-1'>
           <CardTitle>Revenue Chart</CardTitle>
