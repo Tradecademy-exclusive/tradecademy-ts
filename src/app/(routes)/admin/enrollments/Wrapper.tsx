@@ -24,6 +24,9 @@ import OpacityBackground from '@/components/opacityBackground'
 import CreateEnroll from '../components/CreateEnroll'
 import { IoCloseOutline } from 'react-icons/io5'
 import { GrTrophy } from 'react-icons/gr'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
+import axios from 'axios'
 
 const Enrollments = ({
   enrollments,
@@ -34,6 +37,33 @@ const Enrollments = ({
 }) => {
   const [enrollOpen, setEnrollOpen] = useState<boolean>(false)
   const [successOpen, setSuccessOpen] = useState<boolean>(false)
+
+  const updateStatus = async (
+    enroll: EnrollType,
+    status: 'Approved' | 'Cancelled'
+  ) => {
+    try {
+      const { user, courseId, id } = enroll
+      const { data } = await axios.put('/api/admin/enroll', {
+        email: user.email,
+        courseId,
+        id,
+        status,
+      })
+
+      if (data.updatedEnroll) {
+        toast.error('Enroll has been updated', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+        window.location.reload()
+      }
+    } catch (err) {
+      console.log(err)
+      toast.error('Something went wrong.', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
 
   const columns: ColumnDef<EnrollType>[] = [
     {
@@ -159,6 +189,27 @@ const Enrollments = ({
                   View course details
                 </Link>
               </DropdownMenuItem>
+              {enrollment.status === 'Pending' && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className='text-sm mt-1 px-2'>
+                    Update Status
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      onClick={() => updateStatus(enrollment, 'Approved')}
+                      className='text-green-600'
+                    >
+                      Approved
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => updateStatus(enrollment, 'Cancelled')}
+                      className='text-[#F44337]'
+                    >
+                      Cancelled
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         )
