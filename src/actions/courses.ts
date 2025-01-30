@@ -43,3 +43,14 @@ export const getCourseById = async (id: string) => {
 
   return course
 }
+
+export const getExclusive = async () => {
+  const courses = await prisma.course.findMany({
+    orderBy: {
+      price: 'desc',
+    },
+    take: 2,
+  })
+
+  return courses as CourseType[]
+}
