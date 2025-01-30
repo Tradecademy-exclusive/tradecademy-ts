@@ -55,7 +55,13 @@ const RevenueChart = ({ enrollments }: { enrollments: EnrollType[] }) => {
     }
 
     enrollments.forEach((enroll) => {
-      const createdAt = new Date(enroll.createdAt)
+      const createdAt = new Date(
+        Math.max(
+          new Date(enroll.createdAt).getTime(),
+          new Date(enroll.updatedAt).getTime()
+        )
+      )
+
       const price = enroll.course.discountedPrice || enroll.course.price
       let period = ''
 
@@ -118,6 +124,7 @@ const RevenueChart = ({ enrollments }: { enrollments: EnrollType[] }) => {
     filteredData = chartData.filter((data) => data.period === currentWeek)
   } else if (selectedRange === 'Day') {
     const today = format(new Date(), 'EEE')
+    console.log(today)
     filteredData = chartData.filter((data) => data.period === today)
   }
 

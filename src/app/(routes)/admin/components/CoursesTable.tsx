@@ -38,7 +38,7 @@ const CoursesTable = ({ courses }: { courses: CourseType[] }) => {
 
   return (
     <Table
-      className='border-separate border-spacing-y-4'
+      className='border-separate border-spacing-y-4 h-full'
       style={{ borderSpacing: '0 16px' }}
     >
       <TableHeader className='bg-lightblue/10 rounded-[10px]'>
@@ -83,7 +83,7 @@ const CoursesTable = ({ courses }: { courses: CourseType[] }) => {
               </TableCell>
               <TableCell>
                 <Link
-                  href={`/admin/courses?id=${course.id}`}
+                  href={`/admin/courses/manage?id=${course.id}`}
                   className='font-semibold text-lightblue'
                 >
                   Edit Course

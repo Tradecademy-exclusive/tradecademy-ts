@@ -1,14 +1,9 @@
-import { getCourseById } from '@/actions/courses'
-import Wrapper from './Wrapper'
-import { CourseType } from '@/types'
+import { getCourses } from '@/actions/courses'
+import CoursesWrapper from './Wrapper'
 
-const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
-  const { id } = await searchParams
-  if (!id) {
-    return <Wrapper courses={null} />
-  }
-  const course = await getCourseById(id)
-  return <Wrapper courses={[course] as unknown as CourseType[]} />
+const CoursesPage = async () => {
+  const courses = await getCourses()
+  return <CoursesWrapper courses={courses} />
 }
 
-export default Page
+export default CoursesPage

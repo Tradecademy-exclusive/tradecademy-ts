@@ -19,7 +19,7 @@ export const getEnrollments = async (sales: boolean) => {
         course: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        updatedAt: 'desc',
       },
     })
     return enrollments
