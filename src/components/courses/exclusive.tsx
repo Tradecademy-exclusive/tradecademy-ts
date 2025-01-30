@@ -6,7 +6,7 @@ import React from 'react'
 
 const ExclusiveCourses = ({ exclusive }: { exclusive: CourseType[] }) => {
   return (
-    <div className='w-full p-6 flex flex-col items-start gap-4 rounded-[20px] shadow-evenLight'>
+    <div className='w-full p-6 xl:p-7 flex flex-col items-start gap-4 rounded-[20px] shadow-evenLight'>
       <h3 className='text-xl font-bold'>Your exclusive course</h3>
       <div className='flex flex-col items-start gap-7'>
         {exclusive &&

@@ -11,3 +11,10 @@ export const formatToEuro = (value: number): string => {
     currency: 'EUR',
   }).format(value)
 }
+
+export const formatToDollars = (value: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(value)
+}
