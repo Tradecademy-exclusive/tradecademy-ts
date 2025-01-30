@@ -32,9 +32,38 @@ export const POST = async (req: Request) => {
   }
 }
 
+export const PUT = async (req: Request) => {
+  try {
+    const { color, name, students, id } = await req.json()
+
+    const updatedGroup = await prisma.group.update({
+      where: {
+        id,
+      },
+      data: {
+        color: color,
+        name: name,
+        students: {
+          set: students.map((student: UserType) => ({
+            id: student.id,
+          })),
+        },
+      },
+    })
+
+    return NextResponse.json({ updatedGroup }, { status: 201 })
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
+}
+
 export const GET = async () => {
   try {
-    const groups = await prisma.group.findMany()
+    const groups = await prisma.group.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
 
     return NextResponse.json({ groups }, { status: 200 })
   } catch (err) {

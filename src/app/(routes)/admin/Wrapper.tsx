@@ -48,7 +48,9 @@ const Wrapper = async ({
           <div className='w-[450px] flex flex-col items-center rounded-[10px] overflow-hidden h-[480px] border border-[#B9B0B0B2]'>
             <div className='flex items-center justify-between w-full py-6 px-6 border-b mb-3 border-[#B9B0B0B2] bg-[#F0F0F0]'>
               <div className='flex flex-col items-start'>
-                <h3 className='font-semibold leading-[1.2]'>User statistics</h3>
+                <h3 className='font-semibold leading-[1.2]'>
+                  Group statistics
+                </h3>
                 <span className='text-sm text-neutral-500'>
                   Grouped student statistics
                 </span>
@@ -57,11 +59,11 @@ const Wrapper = async ({
                 href='/admin/students'
                 className='px-5 py-1.5 rounded-[5px] text-[15px] font-medium border border-[#B9B0B0B2]'
               >
-                View Users
+                View Groups
               </Link>
             </div>
 
-            <div className='flex items-center w-full gap-3.5 flex-wrap p-3'>
+            <div className='flex items-center w-full gap-5 flex-wrap p-3 justify-center'>
               {groups.map((group) => {
                 const totalCompleted = group.students.reduce((acc, student) => {
                   return acc + student.completed.length
@@ -74,7 +76,7 @@ const Wrapper = async ({
                 return (
                   <div
                     key={group.id}
-                    className='w-[180px] h-[165px] rounded-[10px] p-3 flex flex-col items-start gap-4 drop-shadow-sm bg-white'
+                    className='w-[180px] h-[165px] rounded-[10px] p-3 flex flex-col items-start gap-4 drop-shadow-md bg-white'
                   >
                     <h3 className='text-lg font-semibold'>{group.name}</h3>
                     <div className='h-[8px] rounded-full w-full overflow-hidden relative'>
@@ -98,7 +100,7 @@ const Wrapper = async ({
                         color: group.color,
                       }}
                     >
-                      {percentage}% Complete
+                      {percentage.toFixed(0)}% Complete
                     </span>
                   </div>
                 )

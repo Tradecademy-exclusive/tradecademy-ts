@@ -179,11 +179,12 @@ const Wrapper = ({ course }: { course: CourseType }) => {
             (completedLesson) => completedLesson.id === lessonId
           )
           if (isAlreadyCompleted) return prev
-          toast.error('Lesson has been marked', {
-            icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
-          })
 
           return [...prev, data.completed]
+        })
+
+        toast.error('Lesson has been marked', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
       }
       setMarking(false)
@@ -224,7 +225,7 @@ const Wrapper = ({ course }: { course: CourseType }) => {
           </button>
         </div>
       </div>
-      <div className='w-full p-6 translate-y-[65px]'>
+      <div className='w-full p-6 mt-[65px]'>
         <div className='w-full flex flex-col items-center'>
           <div className='w-full flex flex-col items-start gap-5'>
             {lesson &&
