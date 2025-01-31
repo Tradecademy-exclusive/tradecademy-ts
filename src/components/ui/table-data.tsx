@@ -137,7 +137,7 @@ export function DataTable({
 
   return (
     <div className='w-full p-5'>
-      <div className='flex items-center py-4'>
+      <div className='flex items-center py-4 max-lg:flex-col max-lg:items-start max-lg:gap-3'>
         <Input
           placeholder='Filter emails...'
           onChange={(event) => {
@@ -146,110 +146,117 @@ export function DataTable({
           }}
           className='max-w-sm'
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              Course <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='center'>
-            <div className='flex flex-col items-start w-full'>
-              {courses.map((item) => (
-                <DropdownMenuCheckboxItem
-                  key={item.id}
-                  className='w-full'
-                  checked={course === item.title}
-                  onClick={() => setCourse(item.title)}
-                >
-                  {item.title}
-                </DropdownMenuCheckboxItem>
-              ))}
-              <DropdownMenuCheckboxItem
-                className='w-full'
-                checked={!course}
-                onClick={() => {
-                  setCourse('')
-                }}
-              >
-                All
-              </DropdownMenuCheckboxItem>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              Status <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='center'>
-            <div className='flex flex-col items-start'>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus('Pending')}
-                checked={status === 'Pending'}
-                className='w-full'
-              >
-                Pending (
-                {data.filter((enroll) => enroll.status === 'Pending').length})
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus('Approved')}
-                checked={status === 'Approved'}
-                className='w-full'
-              >
-                Approved (
-                {data.filter((enroll) => enroll.status === 'Approved').length})
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus('Cancelled')}
-                checked={status === 'Cancelled'}
-                className='w-full'
-              >
-                Cancelled (
-                {data.filter((enroll) => enroll.status === 'Cancelled').length})
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                onClick={() => setStatus(null)}
-                checked={!status}
-                className='w-full'
-              >
-                All ({data.length})
-              </DropdownMenuCheckboxItem>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <div className='ml-5'>
-          <CalendarDropdown
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
-        </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
+        <div className='flex items-center gap-5 max-lg:flex-wrap'>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='outline' className='ml-auto'>
+                Course <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='center'>
+              <div className='flex flex-col items-start w-full'>
+                {courses.map((item) => (
                   <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className='capitalize'
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    key={item.id}
+                    className='w-full'
+                    checked={course === item.title}
+                    onClick={() => setCourse(item.title)}
                   >
-                    {column.id}
+                    {item.title}
                   </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+                ))}
+                <DropdownMenuCheckboxItem
+                  className='w-full'
+                  checked={!course}
+                  onClick={() => {
+                    setCourse('')
+                  }}
+                >
+                  All
+                </DropdownMenuCheckboxItem>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='outline' className='ml-auto'>
+                Status <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='center'>
+              <div className='flex flex-col items-start'>
+                <DropdownMenuCheckboxItem
+                  onClick={() => setStatus('Pending')}
+                  checked={status === 'Pending'}
+                  className='w-full'
+                >
+                  Pending (
+                  {data.filter((enroll) => enroll.status === 'Pending').length})
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  onClick={() => setStatus('Approved')}
+                  checked={status === 'Approved'}
+                  className='w-full'
+                >
+                  Approved (
+                  {data.filter((enroll) => enroll.status === 'Approved').length}
+                  )
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  onClick={() => setStatus('Cancelled')}
+                  checked={status === 'Cancelled'}
+                  className='w-full'
+                >
+                  Cancelled (
+                  {
+                    data.filter((enroll) => enroll.status === 'Cancelled')
+                      .length
+                  }
+                  )
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  onClick={() => setStatus(null)}
+                  checked={!status}
+                  className='w-full'
+                >
+                  All ({data.length})
+                </DropdownMenuCheckboxItem>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <div className='ml-5'>
+            <CalendarDropdown
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='outline' className='ml-auto'>
+                Columns <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className='capitalize'
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  )
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className='rounded-md border'>
         <Table>

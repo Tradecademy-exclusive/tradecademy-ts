@@ -181,7 +181,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   }
 
   return (
-    <div className='w-full py-5 px-20 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
+    <div className='w-full py-5 px-10 max-lg:px-5 max-md:px-4 max-sm:px-2.5 flex flex-col min-h-screen items-start gap-3 relative bg-[#F0F0F0]'>
       <OpacityBackground
         opened={
           !!lessonOpen ||
@@ -269,7 +269,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
         ]}
       />
 
-      <div className='w-full flex flex-col items-start gap-10 relative pt-[200px]'>
+      <div className='w-full flex flex-col items-start gap-10 relative mt-[200px] max-lg:mt-[280px]'>
         <UploadCourse
           title={title}
           setTitle={setTitle}
@@ -327,7 +327,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
               </button>
             )}
           </section>
-          <div className='min-w-[250px] max-w-[250px]' />
+          <div className='min-w-[250px] max-w-[250px] max-lg:hidden' />
         </div>
       </div>
     </div>

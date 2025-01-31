@@ -26,7 +26,7 @@ const Wrapper = async ({
   return (
     <div className='relative bg-[#F0F0F0] min-h-screen overflow-y-auto'>
       <CourseHeader page='Dashboard' />
-      <div className='w-full flex flex-col items-start gap-4 translate-y-[200px] px-10'>
+      <div className='w-full flex flex-col items-start gap-4 mt-[200px] max-lg:mt-[280px] px-10 max-lg:px-5 max-md:px-4 max-sm:px-2.5'>
         <div className='w-full flex flex-col items-start border border-[#B9B0B0B2] rounded-[15px]'>
           <div className='w-full flex items-center justify-between px-10 py-5 border-b border-[#B9B0B0B2]'>
             <h3 className='text-xl font-bold'>Courses</h3>
@@ -42,15 +42,15 @@ const Wrapper = async ({
             <CoursesTable courses={courses.slice(0, 4)} />
           </div>
         </div>
-        <div className='w-full flex items-start gap-12 mb-5'>
+        <div className='w-full flex items-start gap-12 mb-5 max-lg:gap-6 max-md:flex-col'>
           <RevenueChart enrollments={enrollments} />
-          <div className='w-[450px] flex flex-col items-center rounded-[10px] overflow-hidden h-[480px] border border-[#B9B0B0B2]'>
-            <div className='flex items-center justify-between w-full py-6 px-6 border-b mb-3 border-[#B9B0B0B2] bg-[#F0F0F0]'>
-              <div className='flex flex-col items-start'>
+          <div className='w-[450px] flex flex-col items-center rounded-[10px] overflow-hidden h-[480px] max-lg:h-[410px] max-lg:w-[420px] border border-[#B9B0B0B2] overflow-y-auto max-md:w-full'>
+            <div className='flex items-center justify-between w-full py-6 px-6 border-b mb-3 border-[#B9B0B0B2] bg-[#F0F0F0 max-sm:flex-col max-sm:items-start max-sm:gap-3'>
+              <div className='flex flex-col items-start max-lg:hidden max-md:flex'>
                 <h3 className='font-semibold leading-[1.2]'>
                   Group statistics
                 </h3>
-                <span className='text-sm text-neutral-500'>
+                <span className='text-sm text-neutral-500 max-sm:hidden'>
                   Grouped student statistics
                 </span>
               </div>
@@ -62,7 +62,7 @@ const Wrapper = async ({
               </Link>
             </div>
 
-            <div className='flex items-center w-full gap-5 flex-wrap p-3 justify-center'>
+            <div className='grid grid-cols-2 place-content-center gap-4 p-3'>
               {groups.map((group) => {
                 const totalCompleted = group.students.reduce((acc, student) => {
                   return acc + student.completed.length
@@ -75,9 +75,11 @@ const Wrapper = async ({
                 return (
                   <div
                     key={group.id}
-                    className='w-[180px] h-[165px] rounded-[10px] p-3 flex flex-col items-start gap-4 drop-shadow-md bg-white'
+                    className='w-[180px] h-[165px] rounded-[10px] p-3 flex flex-col items-start gap-4 drop-shadow-md bg-white max-lg:h-[140px] max-lg:w-[160px]'
                   >
-                    <h3 className='text-lg font-semibold'>{group.name}</h3>
+                    <h3 className='text-lg font-semibold max-lg:text-base'>
+                      {group.name}
+                    </h3>
                     <div className='h-[8px] rounded-full w-full overflow-hidden relative'>
                       <div
                         className='w-full absolute top-0 left-0 h-full opacity-10 z-[1]'

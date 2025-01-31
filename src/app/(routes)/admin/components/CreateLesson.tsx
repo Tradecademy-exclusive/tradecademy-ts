@@ -39,6 +39,11 @@ const CreateLesson = ({
 
   const uploadLesson = async () => {
     try {
+      if (!title) {
+        return toast.error('Lesson title is required', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
       setUploading(true)
       const { data } = await axios.post('/api/admin/courses/lesson', {
         title,
@@ -76,7 +81,7 @@ const CreateLesson = ({
 
   return (
     <div
-      className={`fixed top-1/2 left-1/2 -translate-y-[50%] transition-all duration-300 -translate-x-1/2 z-[999] rounded-t-[15px] h-[900px] w-[800px] overflow-hidden flex flex-col items-start gap-4 ${
+      className={`fixed top-1/2 left-1/2 -translate-y-[50%] transition-all duration-300 -translate-x-1/2 z-[999] rounded-t-[15px] h-[900px] w-[800px] overflow-hidden max-lg:w-[95%] max-md:h-[620px] max-sm:h-[580px] flex flex-col items-start ${
         opened
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
@@ -136,7 +141,7 @@ const CreateLesson = ({
           />
         </div>
       </div>
-      <div className='w-full flex items-center justify-between px-5'>
+      <div className='w-full flex items-center justify-between px-5 bg-[#1D1D1D] py-6 rounded-b-[10px]'>
         <button
           onClick={close}
           className='bg-transparent border text-[15px] border-white text-white py-1.5 px-7 rounded-[6px]'

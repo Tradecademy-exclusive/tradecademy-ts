@@ -80,7 +80,7 @@ const UploadCourse = ({
   }
 
   return (
-    <section className='w-full flex items-start gap-7'>
+    <section className='w-full flex items-start gap-7 max-lg:flex-col'>
       <div className='w-full flex flex-col items-start gap-3'>
         <div className='w-full h-[77vh] flex flex-col items-start gap-5 border rounded-[15px] border-[#B9B0B0B2] overflow-auto'>
           <div className='w-full min-h-[100px] max-h-[100px] border-b border-[#B9B0B0B2] px-10 flex items-center justify-start'>
@@ -174,7 +174,7 @@ const UploadCourse = ({
           </div>
         </div>
       </div>
-      <div className='min-w-[250px] max-w-[250px] border rounded-[15px] border-[#B9B0B0B2] p-3 flex flex-col items-center gap-4'>
+      <div className='min-w-[250px] max-w-[250px] border rounded-[15px] border-[#B9B0B0B2] p-3 flex flex-col items-center gap-4 max-lg:min-w-full max-lg:max-w-full'>
         <div className='bg-lightblue/10 rounded-[10px] w-full flex flex-col items-start p-3'>
           <div className='flex flex-col items-start gap-1'>
             <h4 className='font-semibold'>Publish</h4>
@@ -203,9 +203,9 @@ const UploadCourse = ({
             </div>
           </div>
         </div>
-        <div className='bg-lightblue/10 rounded-[10px] w-full flex flex-col items-start p-3 gap-3'>
-          <h4 className='font-semibold'>Featured Image</h4>
-          <div className='w-full h-[100px] rounded-[10px] overflow-hidden relative'>
+        <div className='bg-lightblue/10 rounded-[10px] w-full flex flex-col items-start p-3 gap-4'>
+          <h4 className='font-semibold max-lg:text-lg'>Featured Image</h4>
+          <div className='w-full h-[100px] rounded-[10px] max-lg:h-[350px] max-md:h-[300px] max-sm:h-[240px] overflow-hidden relative'>
             {cover ? (
               <Image
                 src={cover}
@@ -220,7 +220,7 @@ const UploadCourse = ({
           <div className='w-full flex justify-end'>
             <label
               htmlFor='cover'
-              className='text-white cursor-pointer bg-lightblue text-sm px-5 py-1.5 rounded-[5px]'
+              className='text-white cursor-pointer bg-lightblue text-sm px-5 py-1.5 rounded-[5px] max-lg:text-base max-lg:px-8 max-lg:py-2'
             >
               Upload Image
             </label>

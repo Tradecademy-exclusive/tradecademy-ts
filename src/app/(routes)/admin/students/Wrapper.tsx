@@ -95,7 +95,7 @@ const Students = ({ students }: { students: UserType[] }) => {
   return (
     <div className='w-full'>
       <CourseHeader page='Students' />
-      <div className='w-full translate-y-[200px] flex flex-col items-center gap-6 p-10'>
+      <div className='w-full mt-[200px] max-lg:mt-[280px] flex flex-col items-center gap-6 p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5'>
         <div className='w-full h-[1px] bg-[#B9B0B0B2]' />
         <DataTable columns={columns} data={students} />
       </div>

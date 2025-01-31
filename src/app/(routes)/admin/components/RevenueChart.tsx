@@ -142,11 +142,13 @@ const RevenueChart = ({ enrollments }: { enrollments: EnrollType[] }) => {
       : ((totalMade - totalExpected) / totalExpected) * 100
 
   return (
-    <Card className='border-[#B9B0B0B2] !shadow-none !overflow-hidden w-[450px] h-[480px]'>
-      <div className='flex items-center justify-between w-full py-6 px-6 border-b mb-3 border-[#B9B0B0B2] bg-[#F0F0F0]'>
-        <div className='flex flex-col items-start w-fit translate-y-1'>
+    <Card className='border-[#B9B0B0B2] !shadow-none !overflow-hidden w-[450px] h-[480px] max-lg:w-[420px] max-lg:h-[410px] max-md:w-full'>
+      <div className='flex items-center justify-between w-full py-6 px-6 border-b mb-3 border-[#B9B0B0B2] bg-[#F0F0F0] max-sm:flex-col max-sm:items-start max-sm:gap-3.5'>
+        <div className='flex flex-col items-start w-fit translate-y-1 max-lg:hidden max-md:flex'>
           <CardTitle>Revenue Chart</CardTitle>
-          <CardDescription>Sales from Last 6 month</CardDescription>
+          <CardDescription className='max-sm:hidden'>
+            Sales from Last 6 month
+          </CardDescription>
         </div>
         <Link
           href='/admin/enrollments'
@@ -161,6 +163,7 @@ const RevenueChart = ({ enrollments }: { enrollments: EnrollType[] }) => {
             <Button
               key={range}
               variant={selectedRange === range ? 'default' : 'outline'}
+              className='max-lg:text-[13px]'
               onClick={() => {
                 setSelectedRange(range)
               }}
@@ -190,7 +193,10 @@ const RevenueChart = ({ enrollments }: { enrollments: EnrollType[] }) => {
               <span className='text-gray-600'>vs target revenue</span>
             </div>
           </div>
-          <ChartContainer config={{}} className='!w-full h-[200px]'>
+          <ChartContainer
+            config={{}}
+            className='!w-full h-[200px] max-lg:h-[165px]'
+          >
             <BarChart data={chartData} barCategoryGap={'25%'}>
               <CartesianGrid vertical={false} strokeDasharray={'5 5'} />
               <XAxis dataKey='period' tickLine={false} />
@@ -212,7 +218,7 @@ const RevenueChart = ({ enrollments }: { enrollments: EnrollType[] }) => {
               />
             </BarChart>
           </ChartContainer>
-          <div className='flex items-center gap-10'>
+          <div className='flex items-center gap-10 max-lg:hidden'>
             <div className='flex items-center font-medium gap-2 text-[15px]'>
               <div className='w-[10px] h-[10px] text-gray-600 rounded-full bg-[#5ebc82]' />
               Income

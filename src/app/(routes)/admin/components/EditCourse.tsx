@@ -80,11 +80,11 @@ const EditCourse = ({
                           return (
                             <div
                               key={lesson.id}
-                              className='w-full bg-white border border-[#BBB6B9] rounded-[5px] py-3 px-3 flex items-center justify-between'
+                              className='w-full bg-white border border-[#BBB6B9] rounded-[5px] py-3 px-3 flex items-center justify-between max-md:flex-col max-md:items-start max-md:gap-2'
                             >
                               <div className='flex items-center gap-2.5'>
                                 <Icons.menu />
-                                <h3 className='flex items-center gap-1 text-[15px] font-semibold'>
+                                <h3 className='flex items-center gap-1 text-[15px] max-md:text-sm font-semibold'>
                                   <span>Lesson {lesson.order}:</span>
                                   <span>{lesson.title}</span>
                                 </h3>

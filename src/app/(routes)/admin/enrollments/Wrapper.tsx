@@ -218,7 +218,7 @@ const Enrollments = ({
   ]
 
   return (
-    <div className='w-full p-10'>
+    <div className='w-full p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5'>
       <OpacityBackground
         opened={enrollOpen || successOpen}
         close={() => {
@@ -268,7 +268,7 @@ const Enrollments = ({
       </div>
 
       <CourseHeader page='Enrollment' />
-      <div className='w-full translate-y-[200px] rounded-[15px] flex flex-col items-center gap-5 border border-[#B9B0B0B2]'>
+      <div className='w-full mt-[200px] max-lg:mt-[280px] rounded-[15px] flex flex-col items-center gap-5 border border-[#B9B0B0B2]'>
         <div className='w-full flex items-center justify-between px-10 py-5 border-b border-[#B9B0B0B2]'>
           <div className='flex items-center gap-5'>
             <h2 className='text-xl font-bold'>Enrollment</h2>
