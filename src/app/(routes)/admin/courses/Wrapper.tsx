@@ -21,7 +21,7 @@ const CoursesWrapper = ({ courses }: { courses: CourseType[] }) => {
             </Link>
           </div>
           <div className='p-5 w-full h-[65vh]'>
-            <CoursesTable courses={courses.slice(0, 4)} />
+            <CoursesTable courses={courses} />
           </div>
         </div>
       </div>

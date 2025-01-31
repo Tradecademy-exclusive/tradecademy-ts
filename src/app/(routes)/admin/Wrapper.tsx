@@ -39,7 +39,7 @@ const Wrapper = async ({
             </Link>
           </div>
           <div className='px-5 py-3 w-full'>
-            <CoursesTable courses={courses} />
+            <CoursesTable courses={courses.slice(0, 4)} />
           </div>
         </div>
         <div className='w-full flex items-start gap-12 mb-5'>

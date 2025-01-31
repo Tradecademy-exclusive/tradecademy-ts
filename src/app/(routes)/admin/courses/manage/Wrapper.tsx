@@ -19,6 +19,7 @@ import CreateChapter from '../../components/CreateChapter'
 import UpdateChapter from '../../components/EditChapter'
 import DeleteLesson from '../../components/DeleteLesson'
 import DeleteChapter from '../../components/DeleteChapter'
+import DeleteCourse from '../../components/DeleteCourse'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -50,6 +51,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [deleteLessonId, setDeleteLessonId] = useState<string>('')
   const [deleteChapterId, setDeleteChapterId] = useState<string>('')
   const [deleting, setDeleting] = useState<boolean>(false)
+  const [deleteCourseId, setDeleteCourseId] = useState<string>('')
 
   useEffect(() => {
     if (courses && courses[0]) {
@@ -99,15 +101,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
 
   const publishCourse = async () => {
     try {
-      if (
-        !title ||
-        !description ||
-        !learn ||
-        !price ||
-        !discountedPrice ||
-        !cover ||
-        !duration
-      ) {
+      if (!title || !description || !learn || !cover || !duration) {
         return toast.error('Please fill out all the fields!', {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
@@ -131,7 +125,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
       })
       if (data.course) {
         setLoading(false)
-        router.push('/admin')
+        router.push('/admin/courses')
         toast.error('Course has been published', {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
@@ -147,15 +141,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
 
   const updateCourse = async () => {
     try {
-      if (
-        !title ||
-        !description ||
-        !learn ||
-        !price ||
-        !discountedPrice ||
-        !cover ||
-        !duration
-      ) {
+      if (!title || !description || !learn || !cover || !duration) {
         return toast.error('Please fill out all the fields!', {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
@@ -180,35 +166,13 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
       })
       if (data.course) {
         setLoading(false)
-        router.push('/admin')
+        router.push('/admin/courses')
         toast.error('Course has been published', {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
       }
     } catch (err) {
       setLoading(false)
-      console.log(err)
-      return toast.error('Something went wrong!', {
-        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
-      })
-    }
-  }
-
-  const deleteCourse = async () => {
-    try {
-      setDeleting(true)
-      const { data } = await axios.delete(
-        `/api/admin/courses/?id=${courses![0].id}`
-      )
-      if (data.deletedCourse) {
-        setDeleting(false)
-        router.replace('/admin')
-        toast.error('Course has been deleted', {
-          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
-        })
-      }
-    } catch (err) {
-      setDeleting(false)
       console.log(err)
       return toast.error('Something went wrong!', {
         icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
@@ -225,7 +189,8 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
           chapterOpen ||
           !!chapterId ||
           !!deleteLessonId ||
-          !!deleteChapterId
+          !!deleteChapterId ||
+          !!deleteCourseId
         }
         close={() => {
           setLessonId('')
@@ -234,6 +199,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
           setLessonId('')
           setChapterOpen(false)
           setDeleteChapterId('')
+          setDeleteCourseId('')
         }}
       />
 
@@ -272,6 +238,12 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
         setChapterId={setDeleteChapterId}
       />
 
+      <DeleteCourse
+        courseId={deleteCourseId}
+        setCourseId={setDeleteCourseId}
+        setLoading={setDeleting}
+      />
+
       <CourseHeader
         page={!courses ? 'Create Course' : 'Update Course'}
         buttons={[
@@ -281,7 +253,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
                   label: 'Delete Course',
                   color: 'white',
                   bg: '#F44337',
-                  action: deleteCourse,
+                  action: () => setDeleteCourseId(courses[0].id),
                   loading: deleting,
                 },
               ]
