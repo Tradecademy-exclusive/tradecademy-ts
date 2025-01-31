@@ -146,7 +146,7 @@ export function DataTable({
           }}
           className='max-w-sm'
         />
-        <div className='flex items-center gap-5 max-lg:flex-wrap'>
+        <div className='flex items-center gap-5 max-lg:flex-wrap ml-5 max-lg:ml-0'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant='outline' className='ml-auto'>

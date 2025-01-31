@@ -19,7 +19,7 @@ model User {
   focusPointId  String
   IP            String?
   groupId       String?
-  courses       Course[]
+  courses       Course[]       @relation("UserAccessedCourses")
   Enroll        Enroll[]
   Note          Note[]
   previousPlans PreviousPlan[]
@@ -51,7 +51,7 @@ model Course {
   learn           String     @default("")
   publishedCourse publicType @default(Published)
   chapters        Chapter[]
-  user            User?      @relation(fields: [userId], references: [id])
+  user            User[]     @relation("UserAccessedCourses")
   Enroll          Enroll[]
 }
 

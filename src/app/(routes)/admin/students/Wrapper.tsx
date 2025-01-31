@@ -82,7 +82,7 @@ const Students = ({ students }: { students: UserType[] }) => {
         const id = row.original.id
         return (
           <Link
-            href={`/admin/students/manage?id=${id}`}
+            href={`/admin/students/${id}`}
             className='text-sm font-semibold px-10 py-2 rounded-full bg-[#B1C3F7] text-lightblue'
           >
             Details
