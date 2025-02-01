@@ -96,7 +96,7 @@ const Enrollments = ({
         return (
           <div className='flex flex-col items-start'>
             <h3 className='font-bold'>{user.username}</h3>
-            <h4 className='text-sm'>{user.email}</h4>
+            <h4 className='text-sm max-lg:hidden'>{user.email}</h4>
           </div>
         )
       },
@@ -108,7 +108,12 @@ const Enrollments = ({
         const date = new Date(row.getValue('createdAt'))
         return (
           <div className='text-[13px]'>
-            {format(date, 'MMMM dd, yyyy h:mm a')}
+            <span className='hidden lg:block'>
+              {format(date, 'MMMM dd, yyyy h:mm a')}
+            </span>
+            <span className='max-lg:block hidden'>
+              {date.toLocaleDateString()}
+            </span>
           </div>
         )
       },

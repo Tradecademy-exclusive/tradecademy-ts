@@ -78,7 +78,7 @@ const StudentWrapper = ({
     <div className='p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5'>
       <CourseHeader page='Students' />
       <div className='mt-[200px] max-lg:mt-[280px] w-full flex flex-col items-start gap-8 border-t border-[#B9B0B0B2] p-4'>
-        <div className='w-full grid grid-cols-4 gap-5'>
+        <div className='w-full grid grid-cols-4 gap-5 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1'>
           <Card
             progress='Enrolled Courses'
             count={student.courses.length}
@@ -107,11 +107,11 @@ const StudentWrapper = ({
             <TableHeader>
               <TableRow>
                 <TableHead>Course</TableHead>
-                <TableHead>Enroll Date</TableHead>
+                <TableHead className='max-lg:hidden'>Enroll Date</TableHead>
                 <TableHead>Lesson</TableHead>
-                <TableHead>Progress</TableHead>
                 <TableHead>Quiz</TableHead>
                 <TableHead>Assigments</TableHead>
+                <TableHead className='max-sm:hidden'>Progress</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -131,7 +131,7 @@ const StudentWrapper = ({
                       <TableCell className='font-medium'>
                         {course.title}
                       </TableCell>
-                      <TableCell className='font-medium'>
+                      <TableCell className='font-medium max-lg:hidden'>
                         {format(course.date, 'MMMM d, yyyy h:mma')}
                       </TableCell>
                       <TableCell className='font-medium'>
@@ -140,7 +140,7 @@ const StudentWrapper = ({
 
                       <TableCell className='font-medium'>0/0</TableCell>
                       <TableCell className='font-medium'>0/0</TableCell>
-                      <TableCell>
+                      <TableCell className='max-sm:hidden'>
                         <div className='flex items-center gap-3'>
                           <div className='w-[100px] bg-[#D9D9D9] h-[6px] rounded-full flex items-start'>
                             <div

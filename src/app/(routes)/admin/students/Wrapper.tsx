@@ -61,7 +61,12 @@ const Students = ({ students }: { students: UserType[] }) => {
         const date = row.original.createdAt
         return (
           <h4 className='text-sm font-light'>
-            {format(date, 'MMMM dd, yyyy h:mm a')}
+            <span className='hidden lg:block'>
+              {format(date, 'MMMM dd, yyyy h:mm a')}
+            </span>
+            <span className='hidden max-lg:block'>
+              {date.toLocaleDateString()}
+            </span>
           </h4>
         )
       },

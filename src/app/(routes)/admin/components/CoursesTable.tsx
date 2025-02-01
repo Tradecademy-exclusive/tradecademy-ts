@@ -38,17 +38,21 @@ const CoursesTable = ({ courses }: { courses: CourseType[] }) => {
 
   return (
     <Table
-      className='border-separate border-spacing-y-4 h-full'
+      className='border-separate border-spacing-y-4 h-full max-md:border-spacing-y-2'
       style={{ borderSpacing: '0 16px' }}
     >
       <TableHeader className='bg-lightblue/10 rounded-[10px]'>
         <TableRow>
           <TableHead className='font-bold !text-black'>Course name</TableHead>
-          <TableHead className='!text-black'>Chapters</TableHead>
-          <TableHead className='!text-black'>Lessons</TableHead>
-          <TableHead className='font-bold !text-black'>Price</TableHead>
+          <TableHead className='!text-black max-lg:hidden'>Chapters</TableHead>
+          <TableHead className='!text-black max-md:hidden'>Lessons</TableHead>
+          <TableHead className='font-bold !text-black max-sm:hidden'>
+            Price
+          </TableHead>
           <TableHead className='font-bold !text-black'>Students</TableHead>
-          <TableHead className='font-bold !text-black'>Status</TableHead>
+          <TableHead className='font-bold !text-black max-sm:hidden'>
+            Status
+          </TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
@@ -63,16 +67,18 @@ const CoursesTable = ({ courses }: { courses: CourseType[] }) => {
           return (
             <TableRow key={course.id} className=''>
               <TableCell className='font-bold'>{course.title}</TableCell>
-              <TableCell className='font-bold'>
+              <TableCell className='font-bold max-lg:hidden'>
                 {course.chapters.length}
               </TableCell>
-              <TableCell className='font-bold'>{lessonsLength}</TableCell>
-              <TableCell className='font-bold'>
+              <TableCell className='font-bold max-md:hidden'>
+                {lessonsLength}
+              </TableCell>
+              <TableCell className='font-bold max-sm:hidden'>
                 {formatToEuro(course.discountedPrice || course.price)}
               </TableCell>
               <TableCell className='font-bold'>0</TableCell>
               <TableCell
-                className='w-[120px] rounded-full font-bold py-1.5 px-3 flex items-center gap-2'
+                className='w-[120px] rounded-full font-bold py-1.5 px-3 flex items-center gap-2 max-sm:hidden'
                 style={{
                   color: statusStyles.color,
                   background: statusStyles.bg,
