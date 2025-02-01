@@ -49,7 +49,7 @@ export interface CustomJwtPayload extends JwtPayload {
 }
 
 export interface EnrollType extends Enroll {
-  course: Course
+  course: CourseType
   user: User
 }
 
