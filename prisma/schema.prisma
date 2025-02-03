@@ -130,6 +130,15 @@ model Group {
   students  User[]
 }
 
+model Journal {
+  id            String   @id @default(uuid())
+  score         Int
+  winnings      Int
+  biggestLesson String
+  tommorowPlan  String
+  date          DateTime
+}
+
 enum enrollStatus {
   Approved
   Cancelled

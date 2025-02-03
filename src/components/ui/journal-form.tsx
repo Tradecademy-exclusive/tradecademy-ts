@@ -2,6 +2,14 @@
 
 import { formatToDollars } from '@/lib/utils'
 import { useState } from 'react'
+import { Calendar } from './calendar'
+import { Popover, PopoverContent, PopoverTrigger } from './popover'
+import { Button } from './button'
+import { format } from 'date-fns'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
+import axios from 'axios'
+import { LuLoaderCircle } from 'react-icons/lu'
 
 const JournalForm = () => {
   const [score, setScore] = useState<string>('')
@@ -9,9 +17,11 @@ const JournalForm = () => {
   const [rawWinnings, setRawWinnings] = useState<string>('')
   const [biggestLesson, setBiggestLesson] = useState<string>('')
   const [tommorowPlan, setTommorowPlan] = useState<string>('')
+  const [date, setDate] = useState<Date | undefined>(new Date())
+  const [uploading, setUploading] = useState<boolean>(false)
 
   const handleWinningsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let rawValue = e.target.value.replace(/[^0-9.]/g, '')
+    let rawValue = e.target.value.replace(/(?!^-)[^0-9.]/g, '')
 
     const parts = rawValue.split('.')
     if (parts.length > 2) rawValue = parts[0] + '.' + parts.slice(1).join('')
@@ -26,8 +36,70 @@ const JournalForm = () => {
     }
   }
 
+  const uploadJournal = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      if (score !== '0' && !score) {
+        return toast.error('Score must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (!rawWinnings) {
+        return toast.error('Winnings must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (!biggestLesson) {
+        return toast.error('Todays biggest lesson must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (!tommorowPlan) {
+        return toast.error('Plan for tommorow must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (!date) {
+        return toast.error('Date must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      setUploading(true)
+      const { data } = await axios.post('/api/journal', {
+        score: Number(score),
+        winnings: Number(rawWinnings.replace(/(?!^-)[^0-9.]/g, '')),
+        biggestLesson,
+        tommorowPlan,
+        date,
+      })
+
+      if (data.journal) {
+        setUploading(false)
+        setTommorowPlan('')
+        setScore('')
+        setWinnings('')
+        setRawWinnings('')
+        setBiggestLesson('')
+        setDate(new Date())
+        toast.error('Journal has been uploaded', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+    } catch (err) {
+      setUploading(false)
+      console.log(err)
+      return toast.error('Something went wrong', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
+
   return (
-    <form className='p-6 xl:p-7 h-full w-full flex flex-col items-start gap-5 rounded-[20px] shadow-evenLight'>
+    <form
+      onSubmit={uploadJournal}
+      className='p-6 xl:p-7 h-full w-full flex flex-col items-start gap-5 rounded-[20px] shadow-evenLight'
+    >
       <h3 className='text-xl font-bold'>Your Journal</h3>
       <div className='w-full flex items-center gap-3'>
         <div className='flex flex-col items-start w-full gap-1'>
@@ -67,7 +139,7 @@ const JournalForm = () => {
                 setRawWinnings(formatToDollars(numericValue))
               }
             }}
-            onFocus={() => setRawWinnings(winnings.replace(/[^0-9.]/g, ''))}
+            onFocus={() => setRawWinnings(winnings.replace(/[^0-9.-]/g, ''))}
           />
         </div>
       </div>
@@ -99,12 +171,26 @@ const JournalForm = () => {
           }}
         />
       </div>
-      <div className='mt-auto w-full flex items-center gap-4 justify-center'>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant='outline'>
+            {date ? format(date, 'PPP') : 'Pick a date'}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent align='start'>
+          <Calendar mode='single' selected={date} onSelect={setDate} />
+        </PopoverContent>
+      </Popover>
+      <div className='mt-auto'>
         <button className='text-white px-9 py-2.5 rounded-[8px] bg-lightblue text-[15px]'>
-          Yesterday
-        </button>
-        <button className='text-white px-9 py-2.5 rounded-[8px] bg-lightblue text-[15px]'>
-          Tommorow
+          {!uploading ? (
+            'Upload Journal'
+          ) : (
+            <div className='flex items-center gap-1.5'>
+              <LuLoaderCircle className='animate-spin text-lg' />
+              Loading
+            </div>
+          )}
         </button>
       </div>
     </form>
