@@ -68,9 +68,9 @@ const NoteCalendar = ({ journals }: { journals: Journal[] }) => {
   }
 
   return (
-    <div>
-      <div className='w-full flex items-center justify-between'>
-        <h2 className='text-xl font-semibold'>Trade Calendar</h2>
+    <div className='bg-lightblue/5 p-5 rounded-[15px] shadow-evenLight w-full'>
+      <div className='w-full flex items-center justify-between max-md:flex-col max-md:items-start max-md:gap-3'>
+        <h2 className='text-xl font-bold'>Trade Calendar</h2>
         <div className='flex items-center gap-0'>
           <RiArrowLeftDoubleLine
             onClick={goToPreviousYear}

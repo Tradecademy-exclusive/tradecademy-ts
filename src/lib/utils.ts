@@ -13,8 +13,10 @@ export const formatToEuro = (value: number): string => {
 }
 
 export const formatToDollars = (value: number): string => {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-Us', {
     style: 'currency',
     currency: 'USD',
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
   }).format(value)
 }
