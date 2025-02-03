@@ -1,5 +1,5 @@
 .fc-day-today {
-  background-color: transparent !important;
+  background-color: #b1c3f7 !important;
 }
 
 .fc-daygrid-day-frame,
@@ -9,10 +9,15 @@
   max-height: 95px !important;
 }
 
-.fc-day {
+.fc-daygrid-day {
   position: relative !important;
-  min-height: 95px !important;
-  max-height: 95px !important;
+  background-color: #b1c3f7;
+  border: 5px solid transparent !important;
+}
+
+.fc-daygrid-day-number {
+  font-size: 14px;
+  color: white;
 }
 
 .fc-daygrid-day-top {
@@ -20,6 +25,19 @@
   top: 3px;
   right: 3px;
   z-index: 999;
+}
+
+table[role='grid'] {
+  border: none !important;
+}
+
+.fc-col-header-cell {
+  background-color: #b1c3f7 !important;
+  border-bottom-width: 5px !important;
+  border-color: white !important;
+  border-right-width: 5px !important;
+  color: white !important;
+  font-weight: 300;
 }
 
 .fc-media-screen {
