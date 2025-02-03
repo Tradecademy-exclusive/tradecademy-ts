@@ -103,7 +103,11 @@ export const Sidebar = () => {
                 height='13'
                 rx='1.5'
                 className={`
-                  ${pathname === '/journal' ? 'stroke-tcblue' : 'stroke-white'}
+                  ${
+                    pathname === '/dashboard/journal'
+                      ? 'stroke-tcblue'
+                      : 'stroke-white'
+                  }
                    group-hover:stroke-tcblue transition-all duration-300`}
               />
               <rect
@@ -114,7 +118,11 @@ export const Sidebar = () => {
                 rx='0.25'
                 transform='rotate(90 8.75 3.25)'
                 className={`
-                  ${pathname === '/journal' ? 'stroke-tcblue' : 'stroke-white'}
+                  ${
+                    pathname === '/dashboard/journal'
+                      ? 'stroke-tcblue'
+                      : 'stroke-white'
+                  }
                    group-hover:stroke-tcblue transition-all duration-300`}
                 strokeWidth='0.5'
               />
@@ -126,7 +134,11 @@ export const Sidebar = () => {
                 rx='0.25'
                 transform='rotate(90 6.75 5.25)'
                 className={`
-                  ${pathname === '/journal' ? 'stroke-tcblue' : 'stroke-white'}
+                  ${
+                    pathname === '/dashboard/journal'
+                      ? 'stroke-tcblue'
+                      : 'stroke-white'
+                  }
                    group-hover:stroke-tcblue transition-all duration-300`}
                 strokeWidth='0.5'
               />
@@ -138,14 +150,18 @@ export const Sidebar = () => {
                 rx='0.25'
                 transform='rotate(90 4.75 7.25)'
                 className={`
-                  ${pathname === '/journal' ? 'stroke-tcblue' : 'stroke-white'}
+                  ${
+                    pathname === '/dashboard/journal'
+                      ? 'stroke-tcblue'
+                      : 'stroke-white'
+                  }
                    group-hover:stroke-tcblue transition-all duration-300`}
                 strokeWidth='0.5'
               />
             </svg>
           }
           label='Journal'
-          href='/journal'
+          href='/dashboard/journal'
         />
         <NavLink
           Icon={

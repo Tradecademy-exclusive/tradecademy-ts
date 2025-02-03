@@ -1,0 +1,45 @@
+.fc-day-today {
+  background-color: transparent !important;
+}
+
+.fc-daygrid-day-frame,
+.fc-daygrid-day,
+.fc-scrollgrid-sync-inner {
+  min-height: 95px !important;
+  max-height: 95px !important;
+}
+
+.fc-day {
+  position: relative !important;
+  min-height: 95px !important;
+  max-height: 95px !important;
+}
+
+.fc-daygrid-day-top {
+  position: absolute !important;
+  top: 3px;
+  right: 3px;
+  z-index: 999;
+}
+
+.fc-media-screen {
+  height: 1220px;
+}
+
+@media (max-width: 1536px) {
+  .fc-media-screen {
+    height: 950px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .fc-media-screen {
+    height: 850px;
+  }
+}
+
+@media (max-width: 768px) {
+  .fc-media-screen {
+    height: 550px;
+  }
+}
