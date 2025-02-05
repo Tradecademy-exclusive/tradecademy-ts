@@ -21,8 +21,8 @@ const NavLink = ({ Icon, label, href }: NavLinkProps) => {
     >
       {Icon}
       <span
-        className={`group-hover:text-tcblue transition-all duration-300 ${
-          pathname === href && 'text-tcblue'
+        className={`group-hover:text-lightblue transition-all duration-300 ${
+          pathname === href && 'text-lightblue'
         }`}
       >
         {label}

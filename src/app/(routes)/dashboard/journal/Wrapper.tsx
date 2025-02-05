@@ -29,7 +29,7 @@ const JournalWrapper = ({ journals }: { journals: Journal[] }) => {
             Area
           </button>
         </div>
-        {selectedChart !== 'Area' ? (
+        {selectedChart === 'Area' ? (
           <CustomAreaChart journals={journals} />
         ) : (
           <CustomLineChart journals={journals} />

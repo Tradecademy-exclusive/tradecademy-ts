@@ -33,7 +33,7 @@ export const SidebarMobile = () => {
         <Link href='/dashboard' className='group'>
           <LuLayoutGrid
             className={`text-[21px] transition-all duration-200 ${
-              pathname === '/dashboard' ? 'text-tcblue' : 'text-creme'
+              pathname === '/dashboard' ? 'text-lightblue' : 'text-creme'
             }`}
           />
         </Link>
@@ -66,7 +66,7 @@ export const SidebarMobile = () => {
         <Link href='/dashboard/plan' className='group'>
           <BsJournalText
             className={`text-xl transition-all duration-200 ${
-              pathname === '/dashboard/plan' ? 'text-tcblue' : 'text-creme'
+              pathname === '/dashboard/plan' ? 'text-lightblue' : 'text-creme'
             }`}
           />
         </Link>
@@ -170,7 +170,7 @@ export const SidebarMobile = () => {
               className={`
                   ${
                     pathname === '/dashboard/analysis'
-                      ? 'stroke-tcblue'
+                      ? 'stroke-lightblue'
                       : 'stroke-white'
                   }
                     transition-all duration-300`}
@@ -181,7 +181,7 @@ export const SidebarMobile = () => {
               x2='2'
               y2='9.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -190,7 +190,7 @@ export const SidebarMobile = () => {
               x2='3'
               y2='8.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -199,7 +199,7 @@ export const SidebarMobile = () => {
               x2='5'
               y2='8.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -208,7 +208,7 @@ export const SidebarMobile = () => {
               x2='12'
               y2='5.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -217,7 +217,7 @@ export const SidebarMobile = () => {
               x2='11'
               y2='4.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -226,7 +226,7 @@ export const SidebarMobile = () => {
               x2='10'
               y2='5.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -236,7 +236,7 @@ export const SidebarMobile = () => {
               y2='6.5'
               className={`
   ${
-    pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'
+    pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'
   } transition-all duration-300`}
             />
             <line
@@ -246,7 +246,7 @@ export const SidebarMobile = () => {
               y2='7.5'
               className={`${
                 pathname === '/dashboard/analysis'
-                  ? 'stroke-tcblue'
+                  ? 'stroke-lightblue'
                   : 'stroke-white'
               } transition-all duration-300`}
             />
@@ -256,7 +256,7 @@ export const SidebarMobile = () => {
               x2='6.99788'
               y2='6.546'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -265,7 +265,7 @@ export const SidebarMobile = () => {
               x2='6'
               y2='7.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
             <line
@@ -274,7 +274,7 @@ export const SidebarMobile = () => {
               x2='4'
               y2='7.5'
               className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-tcblue' : 'stroke-white'}
+  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
     transition-all duration-300`}
             />
           </svg>
@@ -282,7 +282,7 @@ export const SidebarMobile = () => {
         <Link href='/dashboard/offers' className='group'>
           <MdOutlineLocalOffer
             className={`text-[22px] transition-all duration-200 ${
-              pathname === '/dashboard/offers' ? 'text-tcblue' : 'text-creme'
+              pathname === '/dashboard/offers' ? 'text-lightblue' : 'text-creme'
             }`}
           />
         </Link>

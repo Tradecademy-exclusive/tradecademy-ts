@@ -28,8 +28,8 @@ const CustomAreaChart = ({ journals }: { journals: Journal[] }) => {
               x2='0%'
               y2='100%'
             >
-              <stop offset='0%' stopColor='#9CD5B1' stopOpacity={1} />
-              <stop offset='100%' stopColor='#DCF0E4' stopOpacity={1} />
+              <stop offset='0%' stopColor='#239593' stopOpacity={1} />
+              <stop offset='100%' stopColor='#23959320' stopOpacity={1} />
             </linearGradient>
 
             <linearGradient
@@ -39,8 +39,8 @@ const CustomAreaChart = ({ journals }: { journals: Journal[] }) => {
               x2='0%'
               y2='100%'
             >
-              <stop offset='0%' stopColor='#E53935' stopOpacity={1} />
-              <stop offset='100%' stopColor='#EEB9B7' stopOpacity={1} />
+              <stop offset='0%' stopColor='#E05A93' stopOpacity={1} />
+              <stop offset='100%' stopColor='#E05A9320' stopOpacity={1} />
             </linearGradient>
           </defs>
 

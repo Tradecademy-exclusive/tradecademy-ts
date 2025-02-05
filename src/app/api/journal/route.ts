@@ -21,3 +21,27 @@ export const POST = async (req: Request) => {
     return NextResponse.json({ error: err }, { status: 500 })
   }
 }
+
+export const PUT = async (req: Request) => {
+  try {
+    const { score, winnings, biggestLesson, tommorowPlan, date, id } =
+      await req.json()
+
+    const journal = await prisma.journal.update({
+      where: {
+        id,
+      },
+      data: {
+        score,
+        winnings,
+        biggestLesson,
+        tommorowPlan,
+        date,
+      },
+    })
+
+    return NextResponse.json({ journal })
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
+}

@@ -74,30 +74,30 @@ const NoteCalendar = ({ journals }: { journals: Journal[] }) => {
         <div className='flex items-center gap-0'>
           <RiArrowLeftDoubleLine
             onClick={goToPreviousYear}
-            className='text-3xl cursor-pointer text-[#595454B2]'
+            className='text-3xl cursor-pointer text-[#555556]'
           />
           <RiArrowLeftSLine
             onClick={goToPreviousMonth}
-            className='text-3xl cursor-pointer text-[#595454B2] -translate-x-1.5'
+            className='text-3xl cursor-pointer text-[#555556] -translate-x-1.5'
           />
-          <button className='flex items-center gap-4 bg-[#B1C3F7] rounded-[5px] py-0.5 text-[15px] px-3 text-white'>
+          <button className='flex items-center gap-4 bg-lightblue rounded-[5px] py-0.5 text-[15px] px-3 text-white font-medium'>
             <span>{currentMonth}</span>
           </button>
-          <button className='flex items-center gap-4 bg-[#B1C3F7] rounded-[5px] py-0.5 text-[15px] px-3 text-white ml-5'>
+          <button className='flex items-center gap-4 bg-lightblue rounded-[5px] py-0.5 text-[15px] px-3 text-white font-medium ml-5'>
             Year <span>{currentYear}</span>
           </button>
           <RiArrowLeftSLine
             onClick={goToNextMonth}
-            className='text-3xl rotate-180 cursor-pointer text-[#595454B2] translate-x-1.5'
+            className='text-3xl rotate-180 cursor-pointer text-[#555556] translate-x-1.5'
           />
           <RiArrowLeftDoubleLine
             onClick={goToNextYear}
-            className='text-3xl rotate-180 cursor-pointer text-[#595454B2]'
+            className='text-3xl rotate-180 cursor-pointer text-[#555556]'
           />
         </div>
         <button
           onClick={() => setCurrentDate(new Date())}
-          className='bg-[#B1C3F7] text-white py-0.5 px-5 rounded-[5px]'
+          className='bg-lightblue text-white font-medium py-0.5 px-5 rounded-[5px]'
         >
           Today
         </button>
@@ -109,19 +109,19 @@ const NoteCalendar = ({ journals }: { journals: Journal[] }) => {
         events={events}
         eventContent={(eventInfo) => (
           <div
-            className={`h-[179px] max-2xl:h-[132px] max-lg:h-[116px] max-md:h-[94px] absolute -top-[1px] -left-[1px] w-[102%] border-2 p-2 flex flex-col items-end justify-end ${
+            className={`h-[175px] max-2xl:h-[104px] max-lg:h-[99px] max-md:h-[65px] absolute w-[calc(100%+17px)] -top-[9px] rounded-[5px] -left-[8px] border-2 p-2 flex flex-col items-end justify-end ${
               eventInfo.event.extendedProps.winnings > 0
-                ? '!bg-green-800 border-green-500 text-green-500'
-                : '!bg-red-800 border-red-500 text-red-500'
+                ? 'bg-[#6DB571] text-[#3B9441] border-[#3B9441]'
+                : '!bg-[#E8666F] text-[#FF312E] border-[#FF312E]'
             }`}
           >
-            <div className='w-full flex flex-col items-center gap-1'>
-              <h3 className='text-2xl max-xl:text-xl text-center overflow-hidden text-ellipsis max-w-full break-words font-medium'>
+            <div className='w-full flex flex-col items-center'>
+              <h3 className='text-xl max-xl:text-lg text-center overflow-hidden text-ellipsis max-w-full break-words font-semibold'>
                 {formatToDollars(
                   eventInfo.event.extendedProps.journal.winnings
                 )}
               </h3>
-              <span className='text-white text-lg max-xl:text-base text-center overflow-hidden text-ellipsis max-w-full break-words'>
+              <span className='text-white text-base max-xl:text-sm font-semibold text-center overflow-hidden text-ellipsis max-w-full break-words'>
                 1 trade
               </span>
             </div>
