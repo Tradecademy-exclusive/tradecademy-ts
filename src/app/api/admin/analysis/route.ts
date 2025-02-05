@@ -3,10 +3,11 @@ import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
   try {
-    const { content, publishedBy } = await req.json()
+    const { title, content, publishedBy } = await req.json()
 
     const analysis = await prisma.analysis.create({
       data: {
+        title,
         content,
         publishedBy,
       },

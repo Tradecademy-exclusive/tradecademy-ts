@@ -13,10 +13,13 @@ import { AuthContext } from '@/providers/AuthProvider'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { BsChat } from 'react-icons/bs'
+import { GlobalContext } from '@/providers/GlobalProvider'
+import { MdNotificationsActive } from 'react-icons/md'
 
 export const Sidebar = () => {
   const router = useRouter()
   const { setSession } = useContext(AuthContext)
+  const { setNotificationsOpen } = useContext(GlobalContext)
   const pathname = usePathname()
 
   const logout = async () => {
@@ -334,6 +337,13 @@ export const Sidebar = () => {
         />
       </nav>
       <div className='flex flex-col items-start gap-4 mt-auto w-full'>
+        <button
+          onClick={() => setNotificationsOpen(true)}
+          className='flex items-center gap-3 text-white text-left text-lg'
+        >
+          <MdNotificationsActive className='text-2xl' />
+          Notifications
+        </button>
         <Link
           href='/settings'
           className='flex items-center gap-3 w-full text-left text-lg  text-white'

@@ -6,7 +6,7 @@ interface contextType {
   setNotificationsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const globalContext = createContext<contextType>({
+export const GlobalContext = createContext<contextType>({
   notificationsOpen: false || true,
   setNotificationsOpen: () => false || true,
 })
@@ -14,9 +14,9 @@ const globalContext = createContext<contextType>({
 const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false)
   return (
-    <globalContext.Provider value={{ notificationsOpen, setNotificationsOpen }}>
+    <GlobalContext.Provider value={{ notificationsOpen, setNotificationsOpen }}>
       {children}
-    </globalContext.Provider>
+    </GlobalContext.Provider>
   )
 }
 
