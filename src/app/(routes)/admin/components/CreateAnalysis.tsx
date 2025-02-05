@@ -1,5 +1,13 @@
+'use client'
+
 import { IoCloseOutline } from 'react-icons/io5'
 import TextEditor from './TextEditor'
+import { useContext, useState } from 'react'
+import { AuthContext } from '@/providers/AuthProvider'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
+import axios from 'axios'
+import { RiLoader4Fill } from 'react-icons/ri'
 
 interface CreateAnalysisProps {
   content: string
@@ -14,6 +22,47 @@ const CreateAnalysis = ({
   modalOpen,
   setModalOpen,
 }: CreateAnalysisProps) => {
+  const [title, setTitle] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const { session } = useContext(AuthContext)
+
+  const publishAnalysis = async () => {
+    if (!session?.user) return
+    try {
+      if (!title) {
+        return toast.error('Title is required', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      if (!content) {
+        return toast.error('Content is required', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      setLoading(true)
+
+      const { data } = await axios.post('/api/admin/analysis', {
+        title,
+        content,
+        publishedBy: session.user.username,
+      })
+
+      if (data.analysis) {
+        setTitle('')
+        setContent('')
+        window.location.reload()
+      }
+      setLoading(false)
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+      toast.error('Something went wrong', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
+
   return (
     <div
       className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[999] bg-white rounded-[15px] w-[550px] flex flex-col items-start transition-all duration-200 ${
@@ -37,6 +86,8 @@ const CreateAnalysis = ({
           <input
             type='text'
             id='title'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             className='w-full px-4 py-1 rounded-[5px] outline-none border border-[#0000004D] text-[15px] text-[#00000066] font-medium'
           />
         </div>
@@ -52,8 +103,19 @@ const CreateAnalysis = ({
         >
           Close
         </button>
-        <button className='text-white bg-lightblue border border-lightblue px-8 py-1 rounded-[5px]'>
-          Publish{' '}
+        <button
+          disabled={loading}
+          onClick={publishAnalysis}
+          className='text-white bg-lightblue border border-lightblue px-8 py-1 rounded-[5px]'
+        >
+          {!loading ? (
+            'Publish'
+          ) : (
+            <div className='flex items-center gap-1 text-white'>
+              <RiLoader4Fill className='animate-spin' />
+              Loading
+            </div>
+          )}
         </button>
       </div>
     </div>

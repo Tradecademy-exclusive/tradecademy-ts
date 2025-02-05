@@ -10,6 +10,7 @@ import CreateAnalysis from '../components/CreateAnalysis'
 const AnalysisWrapper = ({ analysis }: { analysis: Analysis[] }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [content, setContent] = useState<string>('')
+
   return (
     <div className='p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5'>
       <CourseHeader page='Analysis' />
