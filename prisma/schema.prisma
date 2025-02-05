@@ -139,6 +139,14 @@ model Journal {
   date          DateTime
 }
 
+model Analysis {
+  id          String   @id @default(uuid())
+  publishedBy String
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 enum enrollStatus {
   Approved
   Cancelled
