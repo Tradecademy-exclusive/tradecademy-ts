@@ -142,6 +142,8 @@ model Journal {
 model Analysis {
   id          String   @id @default(uuid())
   title       String
+  image       String?
+  video       String?
   publishedBy String
   content     String
   createdAt   DateTime @default(now())

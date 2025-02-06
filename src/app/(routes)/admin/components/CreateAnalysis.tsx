@@ -8,6 +8,8 @@ import { toast } from 'react-toastify'
 import Image from 'next/image'
 import axios from 'axios'
 import { RiLoader4Fill } from 'react-icons/ri'
+import UploadAnalysis from './UploadAnalysis'
+import PlyrIo from '@/components/courses/plyrIo'
 
 interface CreateAnalysisProps {
   content: string
@@ -24,6 +26,8 @@ const CreateAnalysis = ({
 }: CreateAnalysisProps) => {
   const [title, setTitle] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const [image, setImage] = useState<string>('')
+  const [video, setVideo] = useState<string>('')
   const { session } = useContext(AuthContext)
 
   const publishAnalysis = async () => {
@@ -65,7 +69,7 @@ const CreateAnalysis = ({
 
   return (
     <div
-      className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[999] bg-white rounded-[15px] w-[550px] flex flex-col items-start transition-all duration-200 ${
+      className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[999] bg-white rounded-[15px] w-[750px] flex flex-col items-start transition-all duration-200 ${
         modalOpen
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
@@ -90,6 +94,37 @@ const CreateAnalysis = ({
             onChange={(e) => setTitle(e.target.value)}
             className='w-full px-4 py-1 rounded-[5px] outline-none border border-[#0000004D] text-[15px] text-[#00000066] font-medium'
           />
+        </div>
+        <div className='w-full flex flex-col items-start gap-1'>
+          <h3 className='font-semibold text-lg'>Upload Analysis</h3>
+          <div className='w-full flex items-center justify-between gap-3'>
+            <div className='flex flex-col items-start gap-2'>
+              <UploadAnalysis label='Upload Image' setFile={setImage} />
+              <UploadAnalysis label='Upload Video' setFile={setVideo} />
+            </div>
+            <div className='w-full flex items-center gap-3'>
+              {image && (
+                <div className='w-1/2 flex flex-col items-end gap-0.5'>
+                  <button
+                    onClick={() => setImage('')}
+                    className='flex items-center gap-0.5 text-sm'
+                  >
+                    <IoCloseOutline className='text-lg' />
+                    remove
+                  </button>
+                  <div className='w-full relative h-[120px] rounded-[5px] overflow-hidden'>
+                    <Image
+                      src={image}
+                      alt='Analysis image'
+                      fill
+                      className='object-cover'
+                    />
+                  </div>
+                </div>
+              )}
+              {<div></div>}
+            </div>
+          </div>
         </div>
         <div className='flex flex-col items-start gap-1 w-full'>
           <h3 className='font-semibold text-lg'>Analysis Content</h3>
