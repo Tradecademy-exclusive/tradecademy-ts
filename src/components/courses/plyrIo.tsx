@@ -12,7 +12,7 @@ const PlyrIo = ({
   type,
 }: {
   source: string
-  type: 'youtube' | 'vimeo' | 'html5'
+  type: 'youtube' | 'vimeo' | 'html5' | null
 }) => {
   const plyrRef = useRef<PlyrInstance | null>(null)
 
@@ -23,8 +23,8 @@ const PlyrIo = ({
         sources: [
           {
             src: source,
-            type: 'video/mp4',
-            provider: type,
+            type: type === 'html5' ? 'video/mp4' : undefined,
+            provider: type === 'youtube' || type === 'vimeo' ? type : undefined,
           },
         ],
       },

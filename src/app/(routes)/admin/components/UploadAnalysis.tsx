@@ -6,7 +6,9 @@ import Image from 'next/image'
 const UploadAnalysis = ({
   label,
   setFile,
+  id,
 }: {
+  id: string
   label: string
   setFile: React.Dispatch<React.SetStateAction<string>>
 }) => {
@@ -37,7 +39,7 @@ const UploadAnalysis = ({
   return (
     <>
       <label
-        htmlFor='file'
+        htmlFor={id}
         className='flex items-cente justify-center gap-1.5 w-[200px] py-2 rounded-[5px] border border-[#B9B0B0] bg-white'
       >
         <div className='translate-y-[3px]'>
@@ -47,7 +49,7 @@ const UploadAnalysis = ({
       </label>
       <input
         type='file'
-        id='file'
+        id={id}
         onChange={handleFileUpload}
         className='opacity-0 pointer-events-none -z-10 absolute invisible'
       />

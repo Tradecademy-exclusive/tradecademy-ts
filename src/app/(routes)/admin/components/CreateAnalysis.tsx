@@ -9,7 +9,6 @@ import Image from 'next/image'
 import axios from 'axios'
 import { RiLoader4Fill } from 'react-icons/ri'
 import UploadAnalysis from './UploadAnalysis'
-import PlyrIo from '@/components/courses/plyrIo'
 
 interface CreateAnalysisProps {
   content: string
@@ -29,6 +28,8 @@ const CreateAnalysis = ({
   const [image, setImage] = useState<string>('')
   const [video, setVideo] = useState<string>('')
   const { session } = useContext(AuthContext)
+
+  console.log('video', video, 'image', image)
 
   const publishAnalysis = async () => {
     if (!session?.user) return
@@ -99,8 +100,16 @@ const CreateAnalysis = ({
           <h3 className='font-semibold text-lg'>Upload Analysis</h3>
           <div className='w-full flex items-center justify-between gap-3'>
             <div className='flex flex-col items-start gap-2'>
-              <UploadAnalysis label='Upload Image' setFile={setImage} />
-              <UploadAnalysis label='Upload Video' setFile={setVideo} />
+              <UploadAnalysis
+                label='Upload Image'
+                setFile={setImage}
+                id='image'
+              />
+              <UploadAnalysis
+                label='Upload Video'
+                setFile={setVideo}
+                id='video'
+              />
             </div>
             <div className='w-full flex items-center gap-3'>
               {image && (
@@ -122,7 +131,18 @@ const CreateAnalysis = ({
                   </div>
                 </div>
               )}
-              {<div></div>}
+              {video && (
+                <div className='w-1/2 flex flex-col items-end gap-0.5'>
+                  <button
+                    onClick={() => setVideo('')}
+                    className='flex items-center gap-0.5 text-sm'
+                  >
+                    <IoCloseOutline className='text-lg' />
+                    remove
+                  </button>
+                  <video src={video} className='w-full h-[120px]' controls />
+                </div>
+              )}
             </div>
           </div>
         </div>
