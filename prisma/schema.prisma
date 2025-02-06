@@ -140,14 +140,36 @@ model Journal {
 }
 
 model Analysis {
-  id          String   @id @default(uuid())
+  id               String             @id @default(uuid())
+  title            String
+  image            String?
+  video            String?
+  publishedBy      String
+  content          String
+  strategy         investmentType     @default(Neutral)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  followupAnalysis followupAnalysis[]
+}
+
+model followupAnalysis {
+  id          String         @id @default(uuid())
   title       String
+  analysis    Analysis       @relation(fields: [analysisId], references: [id])
   image       String?
   video       String?
   publishedBy String
+  strategy    investmentType @default(Neutral)
   content     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  analysisId  String
+}
+
+enum investmentType {
+  Long
+  Neutral
+  Short
 }
 
 enum enrollStatus {

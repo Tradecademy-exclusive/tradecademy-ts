@@ -9,6 +9,8 @@ import {
   Note,
   Enroll,
   Group,
+  Analysis,
+  followupAnalysis,
 } from '@prisma/client'
 import { JwtPayload } from 'jsonwebtoken'
 
@@ -51,6 +53,10 @@ export interface CustomJwtPayload extends JwtPayload {
 export interface EnrollType extends Enroll {
   course: CourseType
   user: User
+}
+
+export interface AnalysisType extends Analysis {
+  followupAnalysis: followupAnalysis[]
 }
 
 export interface MulterRequest extends Request {

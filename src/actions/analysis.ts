@@ -1,12 +1,16 @@
 import prisma from '@/db/prisma'
+import { AnalysisType } from '@/types'
 
 export const getAnalysis = async () => {
   const analysis = await prisma.analysis.findMany({
-    take: 10,
+    take: 100,
+    include: {
+      followupAnalysis: true,
+    },
     orderBy: {
-      createdAt: 'desc',
+      updatedAt: 'desc',
     },
   })
 
-  return analysis
+  return analysis as unknown as AnalysisType[]
 }

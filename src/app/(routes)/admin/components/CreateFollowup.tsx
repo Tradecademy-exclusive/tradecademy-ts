@@ -12,23 +12,23 @@ import { RiLoader4Fill } from 'react-icons/ri'
 import UploadAnalysis from './UploadAnalysis'
 import { FaArrowTrendUp } from 'react-icons/fa6'
 
-interface CreateAnalysisProps {
+interface CreateFollowUpProps {
   content: string
-  modalOpen?: boolean
+  modalOpen?: string
   updateId?: string
   setContent: React.Dispatch<React.SetStateAction<string>>
   setUpdateId?: React.Dispatch<React.SetStateAction<string>>
-  setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  setModalOpen?: React.Dispatch<React.SetStateAction<string>>
 }
 
-const CreateAnalysis = ({
+const CreateFollowUp = ({
   content,
   setContent,
   modalOpen,
   setModalOpen,
   setUpdateId,
   updateId,
-}: CreateAnalysisProps) => {
+}: CreateFollowUpProps) => {
   const [title, setTitle] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const [image, setImage] = useState<string>('')
@@ -46,7 +46,9 @@ const CreateAnalysis = ({
 
   useEffect(() => {
     const initializeAnalysis = async () => {
-      const { data } = await axios.get(`/api/admin/analysis/${updateId}`)
+      const { data } = await axios.get(
+        `/api/admin/analysis/followup/${updateId}`
+      )
       if (data.analysis) {
         setTitle(data.analysis.title)
         setVideo(data.analysis.video || '')
@@ -76,7 +78,8 @@ const CreateAnalysis = ({
 
       setLoading(true)
 
-      const { data } = await axios.post('/api/admin/analysis', {
+      const { data } = await axios.post('/api/admin/analysis/followup', {
+        analysisId: modalOpen,
         title,
         content,
         publishedBy: session.user.username,
@@ -114,7 +117,7 @@ const CreateAnalysis = ({
         })
       }
       setLoading(true)
-      const { data } = await axios.put('/api/admin/analysis', {
+      const { data } = await axios.put('/api/admin/analysis/followup', {
         id: updateId,
         title,
         content,
@@ -151,7 +154,7 @@ const CreateAnalysis = ({
         <IoCloseOutline
           onClick={() => {
             if (setModalOpen) {
-              setModalOpen(false)
+              setModalOpen('')
             }
             if (setUpdateId) {
               setUpdateId('')
@@ -180,12 +183,12 @@ const CreateAnalysis = ({
               <UploadAnalysis
                 label='Upload Image'
                 setFile={setImage}
-                id='image'
+                id='image-followup'
               />
               <UploadAnalysis
                 label='Upload Video'
                 setFile={setVideo}
-                id='video'
+                id='video-followup'
               />
             </div>
             <div className='w-full flex items-center gap-3'>
@@ -263,7 +266,7 @@ const CreateAnalysis = ({
         <button
           onClick={() => {
             if (setModalOpen) {
-              setModalOpen(false)
+              setModalOpen('')
             }
             if (setUpdateId) {
               setUpdateId('')
@@ -296,4 +299,4 @@ const CreateAnalysis = ({
   )
 }
 
-export default CreateAnalysis
+export default CreateFollowUp
