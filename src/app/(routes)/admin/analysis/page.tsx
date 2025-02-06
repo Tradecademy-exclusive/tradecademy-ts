@@ -2,7 +2,7 @@ import { getAnalysis } from '@/actions/analysis'
 import AnalysisWrapper from './Wrapper'
 
 const Analysis = async () => {
-  const analysis = await getAnalysis(100)
+  const analysis = await getAnalysis()
   return <AnalysisWrapper analysis={analysis} />
 }
 

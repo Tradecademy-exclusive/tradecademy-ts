@@ -1,17 +1,10 @@
 import prisma from '@/db/prisma'
 
-export const getAnalysis = async (take: number) => {
+export const getAnalysis = async () => {
   const analysis = await prisma.analysis.findMany({
-    take: take,
+    take: 10,
     orderBy: {
       createdAt: 'desc',
-    },
-    include: {
-      updatedAnalysis: {
-        include: {
-          analysis: true,
-        },
-      },
     },
   })
 

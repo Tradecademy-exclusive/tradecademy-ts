@@ -3,15 +3,13 @@ import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
   try {
-    const { title, content, publishedBy, video, image, strategy } =
-      await req.json()
+    const { title, content, publishedBy, video, image } = await req.json()
 
     const analysis = await prisma.analysis.create({
       data: {
         title,
         content,
         publishedBy,
-        strategy: strategy,
         video: video || null,
         image: image || null,
       },
@@ -25,8 +23,7 @@ export const POST = async (req: Request) => {
 
 export const PUT = async (req: Request) => {
   try {
-    const { title, content, publishedBy, video, image, strategy, id } =
-      await req.json()
+    const { title, content, publishedBy, video, image, id } = await req.json()
 
     const analysis = await prisma.analysis.update({
       where: {
@@ -36,7 +33,6 @@ export const PUT = async (req: Request) => {
         title,
         content,
         publishedBy,
-        strategy,
         video: video || null,
         image: image || null,
       },
