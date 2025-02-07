@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
-import { Analysis } from '@prisma/client'
+import { AnalysisType } from '@/types'
+import { followupAnalysis } from '@prisma/client'
 import axios from 'axios'
 import { format } from 'date-fns'
 import Image from 'next/image'
@@ -15,16 +17,31 @@ interface NotificationsProps {
 }
 
 const Notifications = ({ open, setOpen }: NotificationsProps) => {
-  const [analysis, setAnalysis] = useState<Analysis[]>([])
-  const [analysisCopy, setAnalysisCopy] = useState<Analysis[]>([])
+  const [analysis, setAnalysis] = useState<AnalysisType[]>([])
+  const [analysisCopy, setAnalysisCopy] = useState<AnalysisType[]>([])
   const [selectedMentors, setSelectedMentors] = useState<string[]>([])
 
   useEffect(() => {
     const getAnalysis = async () => {
       const { data } = await axios.get('/api/analysis')
       if (data.analysis) {
-        setAnalysis(data.analysis)
-        setAnalysisCopy(data.analysis)
+        // @ts-ignore
+        const followups = data.analysis.reduce<followupAnalysis[]>(
+          (acc: followupAnalysis[], obj: AnalysisType) => {
+            if (obj.followupAnalysis) {
+              acc = acc.concat(
+                Array.isArray(obj.followupAnalysis)
+                  ? obj.followupAnalysis
+                  : [obj.followupAnalysis]
+              )
+            }
+            return acc
+          },
+          []
+        )
+
+        setAnalysis([...followups, ...data.analysis])
+        setAnalysisCopy([...followups, ...data.analysis])
       }
     }
     getAnalysis()

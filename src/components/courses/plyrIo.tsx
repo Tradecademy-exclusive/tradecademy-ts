@@ -37,8 +37,10 @@ const PlyrIo = ({
 
   useEffect(() => {
     return () => {
-      plyrRef.current?.destroy()
-      plyrRef.current = null
+      if (plyrRef.current) {
+        plyrRef.current.destroy()
+        plyrRef.current = null
+      }
     }
   }, [])
 

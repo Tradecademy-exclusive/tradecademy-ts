@@ -4,9 +4,16 @@ import { NextResponse } from 'next/server'
 export const GET = async () => {
   try {
     const analysis = await prisma.analysis.findMany({
-      take: 10,
+      take: 30,
       orderBy: {
         createdAt: 'desc',
+      },
+      include: {
+        followupAnalysis: {
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
       },
     })
 
