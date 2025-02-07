@@ -25,10 +25,10 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
 
   return (
     <div
-      className={`fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#E3E3E3] z-[999] rounded-[12px] flex flex-col items-start w-[700px] transition-all duration-200 ${
+      className={`fixed h-screen top-0 right-0  z-[999] rounded-l-[12px] flex flex-col items-start w-[450px] transition-all duration-500 bg-[#E4E8F1] ${
         open
-          ? 'opacity-100 pointer-events-none'
-          : 'opacity-0 pointer-events-auto'
+          ? 'translate-x-0 pointer-events-none'
+          : 'translate-x-[500px] pointer-events-auto'
       }`}
     >
       <div className='w-full py-6 px-5 flex items-center justify-between'>
@@ -38,6 +38,11 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
           className='text-3xl cursor-pointer'
         />
       </div>
+      {analysis.length > 0
+        ? analysis.map((obj) => {
+            return <div key={obj.id} className='w-full'></div>
+          })
+        : ''}
     </div>
   )
 }
