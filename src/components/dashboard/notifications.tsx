@@ -118,7 +118,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
                     </span>
                   </div>
                   {obj.image && (
-                    <div className='max-w-[50%] min-w-[50%] max-sm:min-w-full max-sm:max-w-full relative h-full max-sm:h-[200px] rounded-[5px] overflow-hidden'>
+                    <div className='max-w-[50%] min-w-[50%] max-sm:min-w-full max-sm:max-w-full relative h-[120px] max-sm:h-[200px] rounded-[5px] overflow-hidden'>
                       <Image
                         src={obj.image}
                         fill
