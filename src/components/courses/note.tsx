@@ -64,7 +64,7 @@ const Note = ({ lessonId }: NoteProps) => {
           We all know making notes is one of the most important steps.
         </p>
       </div>
-      <div className='relative w-full md:h-[45vh] lg:h-[50vh] xl:h-[60vh] 2xl:h-[75vh] overflow-auto flex flex-col items-start gap-3 h-[400px]'>
+      <div className='relative w-full md:h-[65vh] lg:h-[70vh] xl:h-[75vh] 2xl:h-[80vh] overflow-auto flex flex-col items-start gap-3 h-[400px]'>
         <TldrawSketch
           sessionId={sessionId}
           saveSession={saveNote}
