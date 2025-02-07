@@ -5,6 +5,7 @@ import { Analysis } from '@prisma/client'
 import axios from 'axios'
 import { format } from 'date-fns'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { IoCloseOutline } from 'react-icons/io5'
 
@@ -97,7 +98,8 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
                   : stripHtml(obj.content)
 
               return (
-                <div
+                <Link
+                  href={`/analysis/${obj.id}`}
                   key={obj.id}
                   className='w-full flex items-center justify-between p-4 rounded-[5px] gap-14 hover:bg-[#B1C3F7] cursor-pointer transition-all duration-150 max-sm:flex-col max-sm:items-start max-sm:gap-3'
                 >
@@ -125,7 +127,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
                       />
                     </div>
                   )}
-                </div>
+                </Link>
               )
             })
           : ''}

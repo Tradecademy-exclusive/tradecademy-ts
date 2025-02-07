@@ -5,7 +5,11 @@ export const getAnalysis = async () => {
   const analysis = await prisma.analysis.findMany({
     take: 100,
     include: {
-      followupAnalysis: true,
+      followupAnalysis: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
     },
     orderBy: {
       updatedAt: 'desc',
@@ -13,4 +17,21 @@ export const getAnalysis = async () => {
   })
 
   return analysis as unknown as AnalysisType[]
+}
+
+export const getAnalysisById = async (id: string) => {
+  const analysis = await prisma.analysis.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      followupAnalysis: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
+  })
+
+  return analysis as AnalysisType
 }
