@@ -32,7 +32,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
 
   useEffect(() => {
     if (selectedMentors.length === 0) {
-      return setAnalysis(analysisCopy)
+      return setAnalysisCopy(analysis)
     }
     const filteredByMentors = [...analysis].filter((obj) =>
       selectedMentors.includes(obj.publishedBy)
