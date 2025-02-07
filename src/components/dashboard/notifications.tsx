@@ -52,7 +52,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
 
   return (
     <div
-      className={`fixed h-screen top-0 right-0  z-[999] rounded-l-[12px] flex flex-col items-start w-[650px] transition-all duration-500 bg-[#E4E8F1] overflow-y-auto ${
+      className={`fixed h-screen top-0 right-0  z-[999] rounded-l-[12px] pb-4 flex flex-col items-start w-[650px] transition-all duration-500 bg-[#E4E8F1] overflow-y-auto max-sm:w-full max-sm:rounded-none ${
         open
           ? 'translate-x-0 pointer-events-auto'
           : 'translate-x-[700px] pointer-events-none'
@@ -99,7 +99,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
               return (
                 <div
                   key={obj.id}
-                  className='w-full flex items-ce justify-between p-4 rounded-[5px] gap-14 hover:bg-[#B1C3F7] cursor-pointer transition-all duration-150'
+                  className='w-full flex items-center justify-between p-4 rounded-[5px] gap-14 hover:bg-[#B1C3F7] cursor-pointer transition-all duration-150 max-sm:flex-col max-sm:items-start max-sm:gap-3'
                 >
                   <div className='flex flex-col items-start gap-2'>
                     <h3 className='font-medium'>{obj.title}</h3>
@@ -116,7 +116,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
                     </span>
                   </div>
                   {obj.image && (
-                    <div className='w-full relative h-full rounded-[5px] overflow-hidden'>
+                    <div className='w-full relative h-full max-sm:h-[200px] rounded-[5px] overflow-hidden'>
                       <Image
                         src={obj.image}
                         fill

@@ -12,7 +12,6 @@ import { useContext } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
-import { BsChat } from 'react-icons/bs'
 import { GlobalContext } from '@/providers/GlobalProvider'
 import { MdNotificationsActive } from 'react-icons/md'
 
@@ -188,133 +187,6 @@ export const Sidebar = () => {
         />
         <NavLink
           Icon={
-            <svg
-              width='20'
-              height='20'
-              viewBox='0 0 13 14'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <rect
-                x='0.5'
-                y='0.5'
-                width='12'
-                height='13'
-                rx='1.5'
-                className={`
-                  ${
-                    pathname === '/signals'
-                      ? 'stroke-lightblue'
-                      : 'stroke-white'
-                  }
-                   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='1'
-                y1='9.5'
-                x2='2'
-                y2='9.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='2'
-                y1='8.5'
-                x2='3'
-                y2='8.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='4'
-                y1='8.5'
-                x2='5'
-                y2='8.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='11'
-                y1='5.5'
-                x2='12'
-                y2='5.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='10'
-                y1='4.5'
-                x2='11'
-                y2='4.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='9'
-                y1='5.5'
-                x2='10'
-                y2='5.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='8'
-                y1='6.5'
-                x2='9'
-                y2='6.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='7'
-                y1='7.5'
-                x2='8'
-                y2='7.5'
-                className={`${
-                  pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'
-                }group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='5.99788'
-                y1='6.546'
-                x2='6.99788'
-                y2='6.546'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='5'
-                y1='7.5'
-                x2='6'
-                y2='7.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-              <line
-                x1='3'
-                y1='7.5'
-                x2='4'
-                y2='7.5'
-                className={`
-  ${pathname === '/signals' ? 'stroke-lightblue' : 'stroke-white'}
-   group-hover:stroke-lightblue transition-all duration-300`}
-              />
-            </svg>
-          }
-          label='Signals'
-          href='/signals'
-        />
-        <NavLink
-          Icon={
             <MdOutlineLocalOffer
               className={`text-[23px] group-hover:text-lightblue transition-all duration-300 ${
                 pathname === '/offers' ? 'text-lightblue' : 'text-white'
@@ -323,17 +195,6 @@ export const Sidebar = () => {
           }
           label='Offers'
           href='/offers'
-        />
-        <NavLink
-          Icon={
-            <BsChat
-              className={`text-xl group-hover:text-lightblue transition-all duration-300 ${
-                pathname === '/offers' ? 'text-lightblue' : 'text-white'
-              }`}
-            />
-          }
-          label='Chats'
-          href='/chats'
         />
       </nav>
       <div className='flex flex-col items-start gap-4 mt-auto w-full'>

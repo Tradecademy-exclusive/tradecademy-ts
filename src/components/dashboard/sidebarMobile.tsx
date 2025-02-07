@@ -11,10 +11,13 @@ import { useContext } from 'react'
 import { AuthContext } from '@/providers/AuthProvider'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { MdNotificationsActive } from 'react-icons/md'
+import { GlobalContext } from '@/providers/GlobalProvider'
 
 export const SidebarMobile = () => {
   const router = useRouter()
   const { setSession } = useContext(AuthContext)
+  const { setNotificationsOpen } = useContext(GlobalContext)
   const pathname = usePathname()
 
   const logout = async () => {
@@ -153,132 +156,6 @@ export const SidebarMobile = () => {
           </svg>
         </Link>
 
-        <Link href='/dashboard/analysis' className='group'>
-          <svg
-            width='20'
-            height='20'
-            viewBox='0 0 13 14'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <rect
-              x='0.5'
-              y='0.5'
-              width='12'
-              height='13'
-              rx='1.5'
-              className={`
-                  ${
-                    pathname === '/dashboard/analysis'
-                      ? 'stroke-lightblue'
-                      : 'stroke-white'
-                  }
-                    transition-all duration-300`}
-            />
-            <line
-              x1='1'
-              y1='9.5'
-              x2='2'
-              y2='9.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='2'
-              y1='8.5'
-              x2='3'
-              y2='8.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='4'
-              y1='8.5'
-              x2='5'
-              y2='8.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='11'
-              y1='5.5'
-              x2='12'
-              y2='5.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='10'
-              y1='4.5'
-              x2='11'
-              y2='4.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='9'
-              y1='5.5'
-              x2='10'
-              y2='5.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='8'
-              y1='6.5'
-              x2='9'
-              y2='6.5'
-              className={`
-  ${
-    pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'
-  } transition-all duration-300`}
-            />
-            <line
-              x1='7'
-              y1='7.5'
-              x2='8'
-              y2='7.5'
-              className={`${
-                pathname === '/dashboard/analysis'
-                  ? 'stroke-lightblue'
-                  : 'stroke-white'
-              } transition-all duration-300`}
-            />
-            <line
-              x1='5.99788'
-              y1='6.546'
-              x2='6.99788'
-              y2='6.546'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='5'
-              y1='7.5'
-              x2='6'
-              y2='7.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-            <line
-              x1='3'
-              y1='7.5'
-              x2='4'
-              y2='7.5'
-              className={`
-  ${pathname === '/dashboard/analysis' ? 'stroke-lightblue' : 'stroke-white'}
-    transition-all duration-300`}
-            />
-          </svg>
-        </Link>
         <Link href='/dashboard/offers' className='group'>
           <MdOutlineLocalOffer
             className={`text-[22px] transition-all duration-200 ${
@@ -289,6 +166,12 @@ export const SidebarMobile = () => {
       </nav>
 
       <div className='flex flex-col items-start gap-4 mt-auto w-full'>
+        <button
+          onClick={() => setNotificationsOpen(true)}
+          className='flex items-center gap-3 w-full text-left text-lg  text-white'
+        >
+          <MdNotificationsActive className='text-2xl' />
+        </button>
         <Link
           href='/dashboard/settings'
           className='flex items-center gap-3 w-full text-left text-lg  text-white'
