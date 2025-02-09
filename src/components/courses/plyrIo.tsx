@@ -1,54 +1,54 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef } from 'react'
-import 'plyr-react/plyr.css'
-import dynamic from 'next/dynamic'
-import { APITypes, PlyrInstance, PlyrProps } from 'plyr-react'
+import { MediaPlayer, MediaProvider } from '@vidstack/react'
+import {
+  PlyrLayout,
+  plyrLayoutIcons,
+} from '@vidstack/react/player/layouts/plyr'
+import { PIPButton, Controls } from '@vidstack/react'
 
-const Plyr = dynamic(() => import('plyr-react'), { ssr: false })
+import '@vidstack/react/player/styles/base.css'
+import '@vidstack/react/player/styles/plyr/theme.css'
+import { LuPictureInPicture } from 'react-icons/lu'
+import { RiPictureInPictureExitFill } from 'react-icons/ri'
 
-const PlyrIo = ({
-  source,
-  type,
-}: {
-  source: string
-  type: 'youtube' | 'vimeo' | 'html5' | null
-}) => {
-  const plyrRef = useRef<PlyrInstance | null>(null)
-
-  const videoOptions = useMemo<PlyrProps>(
-    () => ({
-      source: {
-        type: 'video',
-        sources: [
-          {
-            src: source,
-            type: type === 'html5' ? 'video/mp4' : undefined,
-            provider: type === 'youtube' || type === 'vimeo' ? type : undefined,
-          },
-        ],
-      },
-      options: {
-        controls: ['play', 'progress', 'mute', 'volume', 'fullscreen'],
-      },
-    }),
-    [source, type]
-  )
-
-  useEffect(() => {
-    return () => {
-      if (plyrRef.current) {
-        plyrRef.current.destroy()
-        plyrRef.current = null
-      }
-    }
-  }, [])
-
+const PipButton = () => {
   return (
-    <div className='w-full'>
-      <Plyr ref={plyrRef as React.Ref<APITypes>} {...videoOptions} />
-    </div>
+    <PIPButton className='group ring-sky-400 relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-md outline-none ring-inset hover:bg-white/20 data-[focus]:ring-4 aria-hidden:hidden'>
+      <LuPictureInPicture className='w-8 h-8 group-data-[active]:hidden' />
+      <RiPictureInPictureExitFill className='w-8 h-8 hidden group-data-[active]:block' />
+    </PIPButton>
   )
 }
 
-export default PlyrIo
+const customIcons = {
+  ...plyrLayoutIcons,
+  pip: PipButton,
+}
+
+const VideoPlayer = ({ source, cover }: { source: string; cover: string }) => {
+  return (
+    <MediaPlayer src={source}>
+      <MediaProvider />
+      <PlyrLayout
+        thumbnails={cover}
+        icons={customIcons}
+        controls={[
+          'play',
+          'pip',
+          'progress',
+          'current-time',
+          'mute+volume',
+          'settings',
+          'fullscreen',
+        ]}
+      />
+      <Controls.Root>
+        <Controls.Group className='vds-controls-group'></Controls.Group>
+        <PipButton />
+      </Controls.Root>
+    </MediaPlayer>
+  )
+}
+
+export default VideoPlayer

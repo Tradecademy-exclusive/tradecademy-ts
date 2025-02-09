@@ -6,10 +6,7 @@ const WatchLesson = ({ lesson }: { lesson: LessonType }) => {
   return (
     <div className='w-full flex flex-col items-center gap-20'>
       <div className='w-full flex flex-col items-center gap-3.5'>
-        <PlyrIo
-          source={lesson.source}
-          type={lesson.type.toLowerCase() as 'youtube' | 'vimeo' | 'html5'}
-        />
+        <PlyrIo source={lesson.source} cover={lesson.thumbnail || ''} />
       </div>
     </div>
   )
