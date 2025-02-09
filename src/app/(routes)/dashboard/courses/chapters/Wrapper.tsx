@@ -9,6 +9,7 @@ const ChaptersWrapper = ({ course }: { course: CourseType }) => {
           <CourseChapter
             key={chapter.id}
             chapter={chapter}
+            courseId={course.id}
             cover={course.cover}
           />
         ))}

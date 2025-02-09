@@ -4,14 +4,18 @@ import { AuthContext } from '@/providers/AuthProvider'
 import { ChapterType } from '@/types'
 import Image from 'next/image'
 import { useContext } from 'react'
+import { useRouter } from 'next/navigation'
 
 const CourseChapter = ({
   chapter,
   cover,
+  courseId,
 }: {
   chapter: ChapterType
   cover: string
+  courseId: string
 }) => {
+  const router = useRouter()
   const { session } = useContext(AuthContext)
   const completed = chapter.lessons.filter((lesson) =>
     lesson.completed.some((user) => user.id === session?.user.id)
@@ -21,6 +25,16 @@ const CourseChapter = ({
     (completed.length / chapter.lessons.length) *
     100
   ).toFixed(0)
+
+  const goToLastLesson = (chapter: ChapterType) => {
+    const firstNotCompleted = chapter.lessons.find(
+      (lesson) => !lesson.completed.some((user) => user.id === session?.user.id)
+    )
+
+    if (!firstNotCompleted) return
+
+    router.push(`/dashboard/courses/${courseId}?lesson=${firstNotCompleted.id}`)
+  }
 
   return (
     <div className='w-full bg-[#E3E3E3] p-4 flex items-start gap-7 rounded-[20px]'>
@@ -52,8 +66,17 @@ const CourseChapter = ({
           Chapter {chapter.chapter}: {chapter.title}
         </h2>
         <p className='text-sm text-[#000]/60'>{chapter.summary}</p>
-        <button className='text-white bg-lightblue px-7 py-2 rounded-[5px] text-[15px] mt-2.5'>
-          Go to my last video
+        <button
+          onClick={() => {
+            if (Number(completedPercentage) !== 100) {
+              goToLastLesson(chapter)
+            }
+          }}
+          className='text-white bg-lightblue px-7 py-2 rounded-[5px] text-[15px] mt-2.5 '
+        >
+          {Number(completedPercentage) === 100
+            ? 'Completed'
+            : 'Go to my last lesson'}
         </button>
       </div>
     </div>
