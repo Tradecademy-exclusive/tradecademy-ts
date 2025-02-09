@@ -1,3 +1,4 @@
+import VideoPlayer from '@/components/courses/plyrIo'
 import { AnalysisType } from '@/types'
 import { format } from 'date-fns'
 import Image from 'next/image'
@@ -29,6 +30,11 @@ const AnalysisWrapper = ({ analysis }: { analysis: AnalysisType }) => {
                   />
                 </div>
               )}
+
+              {followup.video && (
+                <VideoPlayer source={followup.video} cover='' />
+              )}
+
               <div className='w-full flex items-center justify-center mt-5'>
                 <div
                   dangerouslySetInnerHTML={{ __html: followup.content }}
@@ -57,6 +63,7 @@ const AnalysisWrapper = ({ analysis }: { analysis: AnalysisType }) => {
             />
           </div>
         )}
+        {analysis.video && <VideoPlayer source={analysis.video} cover='' />}
         <div className='w-full flex items-center justify-center mt-5'>
           <div
             dangerouslySetInnerHTML={{ __html: analysis.content }}
