@@ -102,7 +102,7 @@ const PremiumCard = ({
             </p>
           </div>
           <Link
-            href={`/dashboard/courses/${ownsCourse?.id}`}
+            href={`/dashboard/courses/chapters/?id=${ownsCourse?.id}`}
             className={`text-[13px] mt-auto w-full text-center ${
               title === 'Ultimate Course'
                 ? 'bg-white text-lightblue'

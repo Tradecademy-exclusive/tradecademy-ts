@@ -84,7 +84,7 @@ const BasicCard = ({
         </div>
       </div>
       <Link
-        href={`/dashboard/courses/${id}`}
+        href={`/dashboard/courses/chapters/?id=${id}`}
         className='text-[13px] text-center w-full bg-lightblue py-2 rounded-[8px] text-white xl:text-[15px] xl:py-3'
       >
         Begin You're Course

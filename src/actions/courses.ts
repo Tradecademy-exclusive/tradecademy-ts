@@ -41,7 +41,7 @@ export const getCourseById = async (id: string) => {
     },
   })
 
-  return course
+  return course as CourseType
 }
 
 export const getExclusive = async () => {
