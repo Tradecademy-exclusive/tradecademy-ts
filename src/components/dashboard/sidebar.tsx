@@ -6,26 +6,16 @@ import NavLink from './navLink'
 import { usePathname } from 'next/navigation'
 import { BsJournalText } from 'react-icons/bs'
 import { MdOutlineLocalOffer } from 'react-icons/md'
-import { IoExitOutline, IoSettingsOutline } from 'react-icons/io5'
+import { IoSettingsOutline } from 'react-icons/io5'
 import Link from 'next/link'
 import { useContext } from 'react'
-import { AuthContext } from '@/providers/AuthProvider'
-import { useRouter } from 'next/navigation'
-import axios from 'axios'
+
 import { GlobalContext } from '@/providers/GlobalProvider'
 import { MdNotificationsActive } from 'react-icons/md'
 
 export const Sidebar = () => {
-  const router = useRouter()
-  const { setSession } = useContext(AuthContext)
   const { setNotificationsOpen } = useContext(GlobalContext)
   const pathname = usePathname()
-
-  const logout = async () => {
-    await axios.delete('/api/auth')
-    setSession(null)
-    router.replace('/')
-  }
 
   return (
     <div
@@ -206,19 +196,12 @@ export const Sidebar = () => {
           Notifications
         </button>
         <Link
-          href='/settings'
+          href='/dashboard/settings/profile'
           className='flex items-center gap-3 w-full text-left text-lg  text-white'
         >
           <IoSettingsOutline className='text-[23px]' />
           Settings
         </Link>
-        <button
-          onClick={logout}
-          className='flex items-center gap-3 w-full text-left text-lg  text-white'
-        >
-          <IoExitOutline className='text-2xl' />
-          Log Out
-        </button>
       </div>
     </div>
   )

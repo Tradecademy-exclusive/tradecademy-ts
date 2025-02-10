@@ -1,33 +1,18 @@
 import prisma from '@/db/prisma'
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import jwt from 'jsonwebtoken'
-import { CustomJwtPayload } from '@/types'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const PUT = async (req: Request) => {
   try {
-    const { steps, planId } = await req.json()
-    const cookiesStore = await cookies()
-    const token = cookiesStore.get('token')
+    const user = await currentUser()
 
-    if (!token || !token.value) {
+    if (!user) {
       return NextResponse.json(
-        { message: 'Unauthorized request' },
+        { message: 'Anauthorized request' },
         { status: 401 }
       )
     }
-
-    const { id } = jwt.verify(
-      token.value,
-      process.env.JWT_SECRET!
-    ) as CustomJwtPayload
-
-    if (!id) {
-      return NextResponse.json(
-        { message: 'Invalid token provided' },
-        { status: 400 }
-      )
-    }
+    const { steps, planId } = await req.json()
 
     const currentPlan = await prisma.plan.findUnique({
       where: {
@@ -47,7 +32,7 @@ export const PUT = async (req: Request) => {
         steps: currentPlan?.steps,
         User: {
           connect: {
-            id: id,
+            email: user.primaryEmailAddress?.emailAddress,
           },
         },
       },

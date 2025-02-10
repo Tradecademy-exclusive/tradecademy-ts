@@ -96,7 +96,7 @@ const TradingPlan = () => {
       >
         <h2 className='text-xl font-bold'>Current Trading Plan</h2>
         <div className='flex flex-col items-start gap-1 w-full'>
-          {session?.user.plan.steps.map((step, idx) => {
+          {session?.user.plan?.steps.map((step, idx) => {
             return (
               <div key={idx} className='w-full flex items-center'>
                 <span>{idx + 1}.</span>

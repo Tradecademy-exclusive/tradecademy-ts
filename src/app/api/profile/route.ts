@@ -39,6 +39,25 @@ export const PUT = async (req: Request) => {
       )
     }
 
+    const currentUser = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
+    if (!currentUser) {
+      return NextResponse.json(
+        { message: 'Could not find the user' },
+        { status: 400 }
+      )
+    }
+    const passwordMatches = bcrypt.compareSync(password, currentUser.password)
+    if (!passwordMatches) {
+      return NextResponse.json(
+        { message: 'Incorrect password provided.' },
+        { status: 200 }
+      )
+    }
+
     let hashedPassword
     if (password) {
       hashedPassword = await bcrypt.hash(password, 10)
@@ -56,10 +75,7 @@ export const PUT = async (req: Request) => {
       },
     })
 
-    return NextResponse.json(
-      { message: 'Profile updated successfully', user: updatedUser },
-      { status: 200 }
-    )
+    return NextResponse.json({ user: updatedUser }, { status: 200 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
   }

@@ -1,8 +1,6 @@
 import prisma from '@/db/prisma'
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import jwt from 'jsonwebtoken'
-import { CustomJwtPayload } from '@/types'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const POST = async (req: Request) => {
   try {
@@ -14,25 +12,12 @@ export const POST = async (req: Request) => {
       )
     }
 
-    const cookieStore = await cookies()
-    const token = await cookieStore.get('token')
+    const user = await currentUser()
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { message: 'Unauthorized request' },
+        { message: 'Anauthorized request' },
         { status: 401 }
-      )
-    }
-
-    const { id } = jwt.verify(
-      token.value,
-      process.env.JWT_SECRET!
-    ) as CustomJwtPayload
-
-    if (!id) {
-      return NextResponse.json(
-        { message: 'Invalid token provided' },
-        { status: 400 }
       )
     }
 
@@ -43,7 +28,7 @@ export const POST = async (req: Request) => {
       data: {
         completed: {
           connect: {
-            id: id,
+            email: user.primaryEmailAddress?.emailAddress,
           },
         },
       },

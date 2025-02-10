@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify'
 import axios from 'axios'
 import AuthProvider from '@/providers/AuthProvider'
 import GlobalProvider from '@/providers/GlobalProvider'
+import { ClerkProvider } from '@clerk/nextjs'
 
 const monsterrat = Montserrat({
   variable: '--font-geist-sans',
@@ -27,19 +28,21 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${monsterrat.variable} antialiased`}>
-        <AuthProvider>
-          <GlobalProvider>
-            {children}
-            <ToastContainer
-              position='top-right'
-              autoClose={3500}
-              hideProgressBar={false}
-              closeOnClick={false}
-              draggable
-              theme='light'
-            />
-          </GlobalProvider>
-        </AuthProvider>
+        <ClerkProvider>
+          <AuthProvider>
+            <GlobalProvider>
+              {children}
+              <ToastContainer
+                position='top-right'
+                autoClose={3500}
+                hideProgressBar={false}
+                closeOnClick={false}
+                draggable
+                theme='light'
+              />
+            </GlobalProvider>
+          </AuthProvider>
+        </ClerkProvider>
       </body>
     </html>
   )

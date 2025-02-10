@@ -1,26 +1,18 @@
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 import prisma from '@/db/prisma'
-import jwt from 'jsonwebtoken'
-import { CustomJwtPayload } from '@/types'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const POST = async (req: Request) => {
   try {
     const { lessonId, sessionId } = await req.json()
-    const cookieStore = await cookies()
-    const token = cookieStore.get('token')
+    const user = await currentUser()
 
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
         { message: 'Unauthorized Request' },
         { status: 401 }
       )
     }
-
-    const { id } = jwt.verify(
-      token.value,
-      process.env.JWT_SECRET!
-    ) as CustomJwtPayload
 
     const note = await prisma.note.create({
       data: {
@@ -31,7 +23,7 @@ export const POST = async (req: Request) => {
         },
         user: {
           connect: {
-            id: id,
+            email: user.primaryEmailAddress?.emailAddress,
           },
         },
         sessionId: sessionId,
@@ -46,19 +38,14 @@ export const POST = async (req: Request) => {
 
 export const GET = async (req: Request) => {
   try {
-    const cookieStore = await cookies()
-    const token = cookieStore.get('token')
-    if (!token) {
+    const user = await currentUser()
+
+    if (!user) {
       return NextResponse.json(
         { message: 'Unauthorized Request' },
         { status: 401 }
       )
     }
-
-    const { id } = jwt.verify(
-      token.value,
-      process.env.JWT_SECRET!
-    ) as CustomJwtPayload
 
     const { searchParams } = new URL(req.url)
     const lessonId = await searchParams.get('lessonId')
@@ -72,7 +59,9 @@ export const GET = async (req: Request) => {
 
     const note = await prisma.note.findFirst({
       where: {
-        userId: id,
+        user: {
+          email: user.primaryEmailAddress?.emailAddress,
+        },
         lesson: {
           some: {
             id: lessonId,

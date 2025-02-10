@@ -1,7 +1,6 @@
 'use client'
-import { AuthContext } from '@/providers/AuthProvider'
-import { useContext } from 'react'
 import { redirect } from 'next/navigation'
+import { useUser } from '@clerk/nextjs'
 
 const AdminProtection = ({
   children,
@@ -10,17 +9,17 @@ const AdminProtection = ({
   children: React.ReactNode
   admins: string[]
 }) => {
-  const { session, loading } = useContext(AuthContext)
+  const { user, isLoaded } = useUser()
 
-  if (!loading && !session) {
+  if (isLoaded && !user) {
     return redirect('/')
   }
 
-  if (session && !admins.includes(session.user.email)) {
+  if (user && !admins.includes(user.primaryEmailAddress?.emailAddress || '')) {
     return redirect('/dashboard')
   }
 
-  if (!session) {
+  if (!user) {
     return <div></div>
   }
 

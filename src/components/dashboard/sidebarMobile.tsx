@@ -5,26 +5,15 @@ import { Icons } from '../icons'
 import { usePathname } from 'next/navigation'
 import { BsJournalText } from 'react-icons/bs'
 import { MdOutlineLocalOffer } from 'react-icons/md'
-import { IoExitOutline, IoSettingsOutline } from 'react-icons/io5'
+import { IoSettingsOutline } from 'react-icons/io5'
 import Link from 'next/link'
 import { useContext } from 'react'
-import { AuthContext } from '@/providers/AuthProvider'
-import { useRouter } from 'next/navigation'
-import axios from 'axios'
 import { MdNotificationsActive } from 'react-icons/md'
 import { GlobalContext } from '@/providers/GlobalProvider'
 
 export const SidebarMobile = () => {
-  const router = useRouter()
-  const { setSession } = useContext(AuthContext)
   const { setNotificationsOpen } = useContext(GlobalContext)
   const pathname = usePathname()
-
-  const logout = async () => {
-    await axios.delete('/api/auth')
-    setSession(null)
-    router.replace('/')
-  }
 
   return (
     <div
@@ -173,17 +162,11 @@ export const SidebarMobile = () => {
           <MdNotificationsActive className='text-2xl' />
         </button>
         <Link
-          href='/dashboard/settings'
+          href='/dashboard/settings/profile'
           className='flex items-center gap-3 w-full text-left text-lg  text-white'
         >
           <IoSettingsOutline className='text-[23px]' />
         </Link>
-        <button
-          onClick={logout}
-          className='flex items-center gap-3 w-full text-left text-lg  text-white'
-        >
-          <IoExitOutline className='text-2xl' />
-        </button>
       </div>
     </div>
   )
