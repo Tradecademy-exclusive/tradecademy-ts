@@ -1,5 +1,9 @@
+import AdminProtection from './protect'
+
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>
+  const admins = JSON.parse(process.env.ADMINS || '[]')
+
+  return <AdminProtection admins={admins}>{children}</AdminProtection>
 }
 
 export default AdminLayout
