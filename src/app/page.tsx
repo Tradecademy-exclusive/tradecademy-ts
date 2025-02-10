@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import Image from 'next/image'
-import { useState, useLayoutEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { IoCheckmarkOutline } from 'react-icons/io5'
 import { toast } from 'react-toastify'
 import { useContext } from 'react'
@@ -16,7 +16,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState<string>('')
   const [remember, setRemember] = useState<boolean>(false)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!loading && session) {
       router.replace('/dashboard')
     }
@@ -66,6 +66,10 @@ const LoginForm = () => {
         <div className='fixed left-0 top-0 w-full h-full z-[10] blur-xl'></div>
       </div>
     )
+  }
+
+  if (!loading && session) {
+    return <div></div>
   }
 
   return (

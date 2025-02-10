@@ -83,6 +83,19 @@ const SignupForm = () => {
     }
   }
 
+  if (loading) {
+    return (
+      <div className='w-full h-screen flex items-center justify-center relative'>
+        <div className='loader z-[50]'></div>
+        <div className='fixed left-0 top-0 w-full h-full z-[10] blur-xl'></div>
+      </div>
+    )
+  }
+
+  if (!loading && session) {
+    return <div></div>
+  }
+
   return (
     <div className='w-full h-screen flex items-center justify-center'>
       <div className='flex flex-col items-center gap-5'>

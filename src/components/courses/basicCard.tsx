@@ -47,12 +47,12 @@ const BasicCard = ({
 
   return (
     <div
-      className={`w-full bg-[#E3E3E3] rounded-[23px] px-6 py-10 xl:px-8 xl:py-12 flex flex-col items-start gap-3 relative overflow-hidden`}
+      className={`w-full bg-[#E3E3E3] rounded-[23px] px-6 py-10 xl:px-8 xl:py-12 max-md:p-10 max-sm:p-5 flex flex-col items-start gap-3 relative overflow-hidden`}
     >
       {!ownsCourse && <Locked />}
-      <div className='w-full flex items-start gap-4'>
-        <div className='flex flex-col w-1/2 items-start gap-3'>
-          <div className='w-full relative h-[80px] xl:h-[120px] 2xl:h-[170px] rounded-[10px] overflow-hidden'>
+      <div className='w-full flex items-start gap-4 max-md:flex-col max-md:gap-2'>
+        <div className='flex flex-col w-1/2 items-start gap-3 max-md:w-full'>
+          <div className='w-full relative h-[80px] xl:h-[120px] 2xl:h-[170px] max-lg:h-[170px] rounded-[10px] overflow-hidden'>
             <Image
               src={cover}
               fill
@@ -60,7 +60,7 @@ const BasicCard = ({
               className='object-cover'
             />
           </div>
-          <div className='w-full flex flex-col items-end gap-1'>
+          <div className='w-full flex flex-col items-end gap-1 max-md:w-1/2 max-sm:w-full'>
             <div className='w-full relative h-[4px] xl:h-[5px] bg-[#D9D9D9]'>
               <div
                 className='absolute h-full top-0 left-0 bg-lightblue'
@@ -74,11 +74,11 @@ const BasicCard = ({
             </span>
           </div>
         </div>
-        <div className='w-1/2 flex flex-col items-start'>
+        <div className='w-1/2 max-md:w-full flex flex-col items-start'>
           <h2 className='text-[15px] lg:text-base xl:text-lg font-semibold xl:text-[22px] whitespace-nowrap'>
             {title}
           </h2>
-          <p className='text-[11px] text-black/60 xl:text-[13px] py-3'>
+          <p className='text-[11px] text-black/60 xl:text-[13px] max-md:text-[12px] py-3'>
             {trimText(description, 80)}
           </p>
         </div>
