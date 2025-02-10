@@ -12,8 +12,6 @@ const AdminProtection = ({
 }) => {
   const { session, loading } = useContext(AuthContext)
 
-  console.log(admins)
-
   if (!loading && !session) {
     return redirect('/')
   }
