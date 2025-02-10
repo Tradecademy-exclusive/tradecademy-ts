@@ -9,6 +9,7 @@ import Link from 'next/link'
 const TradingPlan = () => {
   const { session, setSession } = useContext(AuthContext)
   const [edit, setEdit] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [editFocus, setEditFocus] = useState<boolean>(false)
   const firstInpRef = useRef<HTMLInputElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
@@ -32,6 +33,7 @@ const TradingPlan = () => {
 
   const updatePlan = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.put('/api/plan', {
         steps: session?.user.plan.steps,
         planId: session?.user.planId,
@@ -51,8 +53,10 @@ const TradingPlan = () => {
         toast.error('Plan has been updated', {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
+        setLoading(false)
       }
     } catch (err) {
+      setLoading(false)
       toast.error('Something went wrong.', {
         icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
       })
@@ -62,6 +66,7 @@ const TradingPlan = () => {
 
   const updateFocusPoint = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.put('/api/focus', {
         focusId: session?.user.focusPointId,
         description: session?.user.focusPoint.description,
@@ -72,7 +77,9 @@ const TradingPlan = () => {
           icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
         })
       }
+      setLoading(false)
     } catch (err) {
+      setLoading(false)
       toast.error('Something went wrong.', {
         icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
       })
@@ -109,6 +116,7 @@ const TradingPlan = () => {
           })}
         </div>
         <button
+          disabled={loading}
           onClick={async () => {
             if (edit) {
               await updatePlan()
@@ -144,6 +152,7 @@ const TradingPlan = () => {
           className='resize-none disabled:bg-transparent outline-lightblue overflow-hidden'
         />
         <button
+          disabled={loading}
           onClick={async () => {
             if (editFocus) {
               await updateFocusPoint()
