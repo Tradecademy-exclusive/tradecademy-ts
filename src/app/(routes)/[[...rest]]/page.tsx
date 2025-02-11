@@ -11,6 +11,14 @@ const SignIn = () => {
   const router = useRouter()
 
   useEffect(() => {
+    if (!localStorage.getItem('pageReloaded')) {
+      localStorage.setItem('pageReloaded', 'true')
+
+      window.location.reload()
+    }
+  }, [])
+
+  useEffect(() => {
     const saveUserToDB = async () => {
       await axios.post('/api/auth/save-user')
     }

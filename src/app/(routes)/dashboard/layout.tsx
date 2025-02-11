@@ -6,11 +6,16 @@ import Header from '@/components/dashboard/header'
 import { SidebarMobile } from '@/components/dashboard/sidebarMobile'
 import OpacityBackground from '@/components/opacityBackground'
 import { GlobalContext } from '@/providers/GlobalProvider'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import Notifications from '@/components/dashboard/notifications'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { notificationsOpen, setNotificationsOpen } = useContext(GlobalContext)
+
+  useEffect(() => {
+    localStorage.removeItem('pageReloaded')
+  }, [])
+
   return (
     <div className='w-full flex items-start gap-5 min-h-screen relative overflow-x-hidden'>
       <OpacityBackground
