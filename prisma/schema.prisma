@@ -128,8 +128,10 @@ model Group {
   id        String   @id @default(uuid())
   name      String
   color     String   @default("black")
-  createdAt DateTime @default(now())
   students  User[]
+  dateFrom  DateTime
+  dateUntil DateTime
+  createdAt DateTime @default(now())
 }
 
 model Journal {

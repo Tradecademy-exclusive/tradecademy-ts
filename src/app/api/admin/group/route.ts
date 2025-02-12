@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
   try {
-    const { students, name, color } = await req.json()
+    const { students, name, color, dateFrom, dateUntil } = await req.json()
 
     const group = await prisma.group.create({
       data: {
@@ -15,6 +15,8 @@ export const POST = async (req: Request) => {
         },
         name,
         color: color,
+        dateFrom: new Date(dateFrom),
+        dateUntil: new Date(dateUntil),
       },
       include: {
         students: {

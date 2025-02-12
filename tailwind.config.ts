@@ -15,7 +15,7 @@ export default {
         out: 'fade-out 0.15s ease-in-out',
         'accordion-down': 'accordion-down 0.3s ease-out',
         'accordion-up': 'accordion-up 0.3s ease-out',
-        shake: 'shake 0.5s ease-in-out infinite',
+        shake: 'shake 0.5s ease-in-out',
       },
       keyframes: {
         spin: {

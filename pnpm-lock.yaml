@@ -113,6 +113,9 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.0.0
+      react-colorful:
+        specifier: ^5.6.1
+        version: 5.6.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-day-picker:
         specifier: 8.10.1
         version: 8.10.1(date-fns@4.1.0)(react@19.0.0)
@@ -3346,6 +3349,12 @@ packages:
       react:
         optional: true
 
+  react-colorful@5.6.1:
+    resolution: {integrity: sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
   react-day-picker@8.10.1:
     resolution: {integrity: sha512-TMx7fNbhLk15eqcMt+7Z7S2KF7mfTId/XJDjKE8f+IUcFn0l08/kI4FiYTL/0yuOLmEcbR4Fwe3GJf/NiiMnPA==}
     peerDependencies:
@@ -4446,17 +4455,17 @@ snapshots:
 
   '@clerk/upgrade@1.2.3(@types/react@19.0.4)':
     dependencies:
-      '@inkjs/ui': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))
-      '@jescalan/ink-markdown': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1)
+      '@inkjs/ui': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))
+      '@jescalan/ink-markdown': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1)
       ejs: 3.1.10
       execa: 9.4.1
       globby: 14.1.0
       gray-matter: 4.0.3
       index-to-position: 0.1.2
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
-      ink-big-text: 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1)
-      ink-gradient: 3.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))
-      ink-link: 4.1.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))
+      ink-big-text: 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1)
+      ink-gradient: 3.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))
+      ink-link: 4.1.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))
       jscodeshift: 17.1.2
       marked: 11.2.0
       meow: 11.0.0
@@ -4650,7 +4659,7 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@inkjs/ui@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))':
+  '@inkjs/ui@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))':
     dependencies:
       chalk: 5.4.1
       cli-spinners: 3.2.0
@@ -4667,7 +4676,7 @@ snapshots:
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
-  '@jescalan/ink-markdown@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1)':
+  '@jescalan/ink-markdown@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1)':
     dependencies:
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
       marked: 11.2.0
@@ -6681,14 +6690,14 @@ snapshots:
 
   index-to-position@0.1.2: {}
 
-  ink-big-text@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1):
+  ink-big-text@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1):
     dependencies:
       cfonts: 3.3.0
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
       prop-types: 15.8.1
       react: 18.3.1
 
-  ink-gradient@3.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0)):
+  ink-gradient@3.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1)):
     dependencies:
       '@types/gradient-string': 1.1.6
       gradient-string: 2.0.2
@@ -6696,7 +6705,7 @@ snapshots:
       prop-types: 15.8.1
       strip-ansi: 7.1.0
 
-  ink-link@4.1.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0)):
+  ink-link@4.1.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1)):
     dependencies:
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
       prop-types: 15.8.1
@@ -7533,6 +7542,11 @@ snapshots:
   react-aptor@2.0.0(react@19.0.0):
     optionalDependencies:
       react: 19.0.0
+
+  react-colorful@5.6.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
   react-day-picker@8.10.1(date-fns@4.1.0)(react@19.0.0):
     dependencies:
