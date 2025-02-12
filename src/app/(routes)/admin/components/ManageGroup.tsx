@@ -35,8 +35,8 @@ const ManageGroup = ({
     const getStudents = async () => {
       const { data } = await axios.get('/api/admin/students')
       if (data.students) {
-        setStudents(data.students)
-        setStudentsCopy(data.students)
+        setStudents(data.students.slice(0, 4))
+        setStudentsCopy(data.students.slice(0, 4))
       }
     }
 
@@ -49,7 +49,7 @@ const ManageGroup = ({
 
   return (
     <div
-      className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] max-h-screen overflow-y-scroll flex flex-col z-[999] items-start rounded-[10px] transition-opacity duration-200 overflow-hidden ${
+      className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] max-h-[100vh] flex flex-col z-[999] items-start rounded-[10px] transition-opacity duration-200 overflow-hidden ${
         opened
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
@@ -64,7 +64,7 @@ const ManageGroup = ({
           className='text-3xl cursor-pointer'
         />
       </div>
-      <div className='w-full px-5 py-4 flex flex-col items-start gap-4 bg-[#D9D9D9]'>
+      <div className='w-full px-5 py-4 flex flex-col items-start gap-4 bg-[#D9D9D9] overflow-y-auto'>
         <div className='w-full flex flex-col items-start gap-1.5'>
           <label htmlFor='name' className='font-semibold'>
             Group Name
@@ -128,8 +128,7 @@ const ManageGroup = ({
               return (
                 <div
                   key={student.id}
-                  className='bg-white px-2.5 py-1.5 rounded-[5px] flex 
-items-center gap-3 animate-shake'
+                  className='bg-white px-2.5 py-1.5 rounded-[5px] flex items-center gap-3 animate-shake'
                   style={{
                     animationDelay: `${idx / 10}s`,
                   }}
@@ -158,6 +157,17 @@ items-center gap-3 animate-shake'
             })}
           </div>
         </div>
+      </div>
+      <div className='bg-[#1D1D1D] py-7 px-6 rounded-b-[10px] flex items-center justify-between gap-2 w-full'>
+        <button
+          onClick={() => setOpened(false)}
+          className='px-7 py-2 rounded-[5px] bg-transparent text-white border border-white'
+        >
+          Cancel
+        </button>
+        <button className='px-7 py-2 rounded-[5px] bg-lightblue text-white border border-lightblue'>
+          Add to group
+        </button>
       </div>
     </div>
   )

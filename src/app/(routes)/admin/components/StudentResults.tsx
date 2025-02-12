@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 import { FaPlus, FaMinus } from 'react-icons/fa'
 import { BiLoaderAlt } from 'react-icons/bi'
+
 interface StudentResultsProps {
   students: UserType[]
   searchValue: string
@@ -25,19 +26,21 @@ const StudentResults = ({
 }: StudentResultsProps) => {
   useEffect(() => {
     if (!searchValue) {
-      setStudentsCopy(students.slice(0, 6))
+      setStudentsCopy(students.slice(0, 4))
     }
 
-    const filteredStudents = [...students].filter((student) => {
-      const matchedEmail = student.email
-        .toLowerCase()
-        .includes(searchValue.toLowerCase())
-      const matchedUsername = student.username
-        .toLowerCase()
-        .includes(searchValue.toLowerCase())
+    const filteredStudents = [...students]
+      .filter((student) => {
+        const matchedEmail = student.email
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
+        const matchedUsername = student.username
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
 
-      return matchedEmail || matchedUsername
-    })
+        return matchedEmail || matchedUsername
+      })
+      .slice(0, 4)
 
     setStudentsCopy(filteredStudents)
   }, [searchValue])
