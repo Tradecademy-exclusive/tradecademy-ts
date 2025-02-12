@@ -16,7 +16,7 @@ const AnalysisWrapper = ({ analysis }: { analysis: AnalysisType }) => {
               <div className='flex flex-col items-start gap-1'>
                 <h2 className='text-xl font-semibold'>{followup.title}</h2>
                 <span className='text-[15px] text-[#000000B2]'>
-                  By {followup.publishedBy} Mentor{' '}
+                  By {followup.mentor.username} Mentor{' '}
                   {format(followup.createdAt, 'MM-dd-yy h:mma')}
                 </span>
               </div>
@@ -49,7 +49,7 @@ const AnalysisWrapper = ({ analysis }: { analysis: AnalysisType }) => {
         <div className='flex flex-col items-start gap-1'>
           <h2 className='text-xl font-semibold'>{analysis.title}</h2>
           <span className='text-[15px] text-[#000000B2]'>
-            By {analysis.publishedBy} Mentor{' '}
+            By {analysis.mentor.username} Mentor{' '}
             {format(analysis.createdAt, 'MM-dd-yy h:mma')}
           </span>
         </div>

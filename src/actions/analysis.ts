@@ -41,17 +41,5 @@ export const getAnalysisById = async (id: string) => {
     },
   })
 
-  if (!analysis) {
-    const analysis = await prisma.followupAnalysis.findUnique({
-      include: {
-        mentor: true,
-      },
-      where: {
-        id,
-      },
-    })
-    return analysis
-  }
-
   return analysis as AnalysisType
 }

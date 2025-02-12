@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
-import { AnalysisType } from '@/types'
+import { AnalysisType, followupAnalysisType } from '@/types'
 import { followupAnalysis } from '@prisma/client'
 import axios from 'axios'
 import { format } from 'date-fns'
@@ -102,7 +102,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
 
       <div className='w-full flex flex-col items-start gap-2 px-3'>
         {analysisCopy.length > 0
-          ? analysisCopy.map((obj) => {
+          ? analysisCopy.map((obj: followupAnalysisType | AnalysisType) => {
               const stripHtml = (html: string): string => {
                 const doc: Document = new DOMParser().parseFromString(
                   html,
@@ -118,7 +118,9 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
 
               return (
                 <Link
-                  href={`/analysis/${obj.id}`}
+                  href={`/analysis/${
+                    'analysisId' in obj ? obj.analysisId : obj.id
+                  }`}
                   key={obj.id}
                   className='w-full flex items-center justify-between p-4 rounded-[5px] gap-14 hover:bg-[#B1C3F7] cursor-pointer transition-all duration-150 max-sm:flex-col max-sm:items-start max-sm:gap-3'
                 >

@@ -9,7 +9,11 @@ export const GET = async () => {
         createdAt: 'desc',
       },
       include: {
+        mentor: true,
         followupAnalysis: {
+          include: {
+            mentor: true,
+          },
           orderBy: {
             createdAt: 'desc',
           },
