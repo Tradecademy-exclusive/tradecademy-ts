@@ -79,7 +79,7 @@ const CreateAnalysis = ({
       const { data } = await axios.post('/api/admin/analysis', {
         title,
         content,
-        publishedBy: session.user.username,
+        userId: session.user.id,
         video,
         image,
         strategy,
@@ -118,7 +118,7 @@ const CreateAnalysis = ({
         id: updateId,
         title,
         content,
-        publishedBy: session.user.username,
+        userId: session.user.id,
         video,
         image,
         strategy,

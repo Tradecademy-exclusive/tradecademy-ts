@@ -8,25 +8,27 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  username      String         @unique
-  email         String         @unique
-  password      String
-  picture       String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  planId        String
-  focusPointId  String
-  IP            String?
-  groupId       String?
-  courses       Course[]       @relation("UserAccessedCourses")
-  Enroll        Enroll[]
-  Note          Note[]
-  previousPlans PreviousPlan[]
-  focusPoint    FocusPoint     @relation(fields: [focusPointId], references: [id])
-  Group         Group?         @relation(fields: [groupId], references: [id])
-  plan          Plan           @relation(fields: [planId], references: [id])
-  completed     Lesson[]       @relation("UserCompletedLessons")
+  id               String             @id @default(cuid())
+  username         String             @unique
+  email            String             @unique
+  password         String
+  picture          String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  planId           String
+  focusPointId     String
+  IP               String?
+  groupId          String?
+  courses          Course[]           @relation("UserAccessedCourses")
+  Enroll           Enroll[]
+  Note             Note[]
+  previousPlans    PreviousPlan[]
+  focusPoint       FocusPoint         @relation(fields: [focusPointId], references: [id])
+  Group            Group?             @relation(fields: [groupId], references: [id])
+  plan             Plan               @relation(fields: [planId], references: [id])
+  completed        Lesson[]           @relation("UserCompletedLessons")
+  Analysis         Analysis[]
+  followupAnalysis followupAnalysis[]
 }
 
 model signupToken {
@@ -144,26 +146,28 @@ model Analysis {
   title            String
   image            String?
   video            String?
-  publishedBy      String
+  mentor           User?              @relation(fields: [mentorId], references: [id])
   content          String
   strategy         investmentType     @default(Neutral)
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   followupAnalysis followupAnalysis[]
+  mentorId         String?
 }
 
 model followupAnalysis {
-  id          String         @id @default(uuid())
-  title       String
-  analysis    Analysis       @relation(fields: [analysisId], references: [id])
-  image       String?
-  video       String?
-  publishedBy String
-  strategy    investmentType @default(Neutral)
-  content     String
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  analysisId  String
+  id         String         @id @default(uuid())
+  title      String
+  analysis   Analysis       @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  image      String?
+  video      String?
+  mentor     User?          @relation(fields: [mentorId], references: [id])
+  strategy   investmentType @default(Neutral)
+  content    String
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  analysisId String
+  mentorId   String?
 }
 
 enum investmentType {

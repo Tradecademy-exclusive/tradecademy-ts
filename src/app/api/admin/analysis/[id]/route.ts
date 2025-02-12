@@ -11,6 +11,9 @@ export const GET = async (
       where: {
         id,
       },
+      include: {
+        mentor: true,
+      },
     })
 
     return NextResponse.json({ analysis }, { status: 200 })

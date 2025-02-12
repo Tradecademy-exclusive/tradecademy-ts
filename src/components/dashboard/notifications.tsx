@@ -52,12 +52,14 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
       return setAnalysisCopy(analysis)
     }
     const filteredByMentors = [...analysis].filter((obj) =>
-      selectedMentors.includes(obj.publishedBy)
+      selectedMentors.includes(obj.mentor.username)
     )
     setAnalysisCopy(filteredByMentors)
   }, [selectedMentors])
 
-  const uniquePublishedBy = [...new Set(analysis.map((obj) => obj.publishedBy))]
+  const uniquePublishedBy = [
+    ...new Set(analysis.map((obj) => obj.mentor.username)),
+  ]
 
   const selectMentor = (mentor: string) => {
     const isSelected = [...selectedMentors].find((name) => name === mentor)
@@ -130,7 +132,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
                       />
                     </div>
                     <span className='text-sm text-[#000000dc]'>
-                      By {obj.publishedBy} Mentor{' '}
+                      By {obj.mentor.username} Mentor{' '}
                       {format(obj.createdAt, 'MM-dd-yy h:mma')}
                     </span>
                   </div>

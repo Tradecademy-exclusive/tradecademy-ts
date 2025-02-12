@@ -55,8 +55,13 @@ export interface EnrollType extends Enroll {
   user: User
 }
 
+export interface followupAnalysisType extends followupAnalysis {
+  mentor: User
+}
+
 export interface AnalysisType extends Analysis {
-  followupAnalysis: followupAnalysis[]
+  followupAnalysis: followupAnalysisType[]
+  mentor: User
 }
 
 export interface MulterRequest extends Request {

@@ -27,7 +27,7 @@ interface CourseHeaderProps {
 const CourseHeader = ({ page, buttons }: CourseHeaderProps) => {
   const pathname = usePathname()
   return (
-    <div className='w-full fixed top-0 left-0 px-10 h-[200px] bg-gradient-to-b from-[#90a7ee] to-transparent z-50 max-lg:h-[280px]'>
+    <div className='w-full absolute top-0 left-0 px-10 h-[200px] bg-gradient-to-b from-[#90a7ee] to-transparent z-50 max-lg:h-[280px]'>
       <div className='absolute w-full top-0 left-0' />
       <div className='w-full flex flex-col items-start gap-5 mt-16'>
         <div className='w-full flex items-center justify-between max-lg:flex-col max-lg:items-start max-lg:gap-6'>

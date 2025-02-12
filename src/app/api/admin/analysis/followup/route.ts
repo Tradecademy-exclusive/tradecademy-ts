@@ -3,14 +3,19 @@ import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
   try {
-    const { title, content, publishedBy, video, image, analysisId } =
+    const { title, content, userId, video, image, strategy, analysisId } =
       await req.json()
 
     const analysis = await prisma.followupAnalysis.create({
       data: {
         title,
         content,
-        publishedBy,
+        mentor: {
+          connect: {
+            id: userId,
+          },
+        },
+        strategy,
         video: video || null,
         image: image || null,
         analysis: {
@@ -29,7 +34,8 @@ export const POST = async (req: Request) => {
 
 export const PUT = async (req: Request) => {
   try {
-    const { title, content, publishedBy, video, image, id } = await req.json()
+    const { title, content, userId, video, image, strategy, id } =
+      await req.json()
 
     const analysis = await prisma.followupAnalysis.update({
       where: {
@@ -38,7 +44,12 @@ export const PUT = async (req: Request) => {
       data: {
         title,
         content,
-        publishedBy,
+        mentor: {
+          connect: {
+            id: userId,
+          },
+        },
+        strategy,
         video: video || null,
         image: image || null,
       },

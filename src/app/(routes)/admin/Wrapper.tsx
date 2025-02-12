@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { CourseType, GroupType } from '@/types'
+import { CourseType, EnrollType, GroupType } from '@/types'
 import CourseHeader from './components/CourseHeader'
 import { FiPlus } from 'react-icons/fi'
 import CoursesTable from './components/CoursesTable'
@@ -43,7 +43,7 @@ const Wrapper = async ({
           </div>
         </div>
         <div className='w-full flex items-start gap-12 mb-5 max-lg:gap-6 max-md:flex-col'>
-          <RevenueChart enrollments={enrollments} />
+          <RevenueChart enrollments={enrollments as EnrollType[]} />
           <div className='w-[450px] flex flex-col items-center rounded-[10px] overflow-hidden h-[480px] max-lg:h-[410px] max-lg:w-[420px] border border-[#B9B0B0B2] overflow-y-auto max-md:w-full'>
             <div className='flex items-center justify-between w-full py-6 px-6 border-b mb-3 border-[#B9B0B0B2] bg-[#F0F0F0 max-sm:flex-col max-sm:items-start max-sm:gap-3'>
               <div className='flex flex-col items-start max-lg:hidden max-md:flex'>
@@ -101,7 +101,7 @@ const Wrapper = async ({
                         color: group.color,
                       }}
                     >
-                      {percentage.toFixed(0)}% Complete
+                      {Number(percentage.toFixed(0)) || 0}% Complete
                     </span>
                   </div>
                 )
