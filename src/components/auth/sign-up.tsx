@@ -58,16 +58,6 @@ export default function SignUpPage() {
                       <Clerk.FieldError className='block text-sm text-destructive' />
                     </Clerk.Field>
 
-                    <Clerk.Field name='password' className='space-y-2'>
-                      <Clerk.Label asChild>
-                        <Label>Password</Label>
-                      </Clerk.Label>
-                      <Clerk.Input type='password' required asChild>
-                        <Input />
-                      </Clerk.Input>
-                      <Clerk.FieldError className='block text-sm text-destructive' />
-                    </Clerk.Field>
-
                     <div className='grid grid-cols-2 gap-x-4'>
                       <Clerk.Connection name='apple' asChild>
                         <Button

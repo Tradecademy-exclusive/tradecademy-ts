@@ -115,48 +115,6 @@ export default function SignInPage() {
               </SignIn.Step>
 
               <SignIn.Step name='verifications'>
-                <SignIn.Strategy name='password'>
-                  <Card className='w-full sm:w-96'>
-                    <CardHeader>
-                      <CardTitle>Check your email</CardTitle>
-                      <CardDescription>
-                        Enter the verification code sent to your email
-                      </CardDescription>
-                      <p className='text-sm text-muted-foreground'>
-                        Welcome back <SignIn.SafeIdentifier />
-                      </p>
-                    </CardHeader>
-                    <CardContent className='grid gap-y-4'>
-                      <Clerk.Field name='password' className='space-y-2'>
-                        <Clerk.Label asChild>
-                          <Label>Password</Label>
-                        </Clerk.Label>
-                        <Clerk.Input type='password' asChild>
-                          <Input />
-                        </Clerk.Input>
-                        <Clerk.FieldError className='block text-sm text-destructive' />
-                      </Clerk.Field>
-                    </CardContent>
-                    <CardFooter>
-                      <div className='grid w-full gap-y-4'>
-                        <SignIn.Action submit asChild>
-                          <Button disabled={isGlobalLoading}>
-                            <Clerk.Loading>
-                              {(isLoading) => {
-                                return isLoading ? (
-                                  <Icons.spinner className='size-4 animate-spin' />
-                                ) : (
-                                  'Continue'
-                                )
-                              }}
-                            </Clerk.Loading>
-                          </Button>
-                        </SignIn.Action>
-                      </div>
-                    </CardFooter>
-                  </Card>
-                </SignIn.Strategy>
-
                 <SignIn.Strategy name='email_code'>
                   <Card className='w-full sm:w-96'>
                     <CardHeader>
