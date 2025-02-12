@@ -20,9 +20,10 @@ export default function CalendarDropdown({
           {selectedDate ? selectedDate.toDateString() : 'Pick a date'}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-auto p-2'>
+      <PopoverContent className='w-auto p-2 !z-[999999]'>
         <Calendar
           mode='single'
+          className=''
           selected={selectedDate}
           onSelect={setSelectedDate}
         />

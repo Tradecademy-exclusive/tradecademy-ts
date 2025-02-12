@@ -9,6 +9,9 @@ import { UserType } from '@/types'
 import axios from 'axios'
 import { IoSearch } from 'react-icons/io5'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import CalendarDropdown from '@/components/ui/calendar-dropdown'
+import { RiLoader4Fill } from 'react-icons/ri'
 
 interface ManageGroupProps {
   opened: boolean
@@ -26,6 +29,70 @@ const ManageGroup = ({
   const [selectedStudents, setSelectedStudents] = useState<UserType[]>([])
   const [students, setStudents] = useState<UserType[]>([])
   const [studentsCopy, setStudentsCopy] = useState<UserType[]>([])
+  const [name, setName] = useState<string>('')
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined)
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined)
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const createGroup = async () => {
+    try {
+      if (!name) {
+        return toast.error('Group name must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      if (!color) {
+        return toast.error('Group color must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      if (!endDate) {
+        return toast.error('Group end date must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      if (!startDate) {
+        return toast.error('Group start date must be provided', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      if (selectedStudents.length < 1) {
+        return toast.error('Group must have a student', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+
+      setLoading(true)
+
+      const { data } = await axios.post('/api/admin/group', {
+        students: selectedStudents,
+        name,
+        color,
+        dateFrom: startDate,
+        dateUntil: endDate,
+      })
+
+      setLoading(false)
+      if (data.group) {
+        setStudents([])
+        setEndDate(undefined)
+        setStartDate(undefined)
+        setName('')
+        setSearchValue('')
+        window.location.reload()
+      }
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+      return toast.error('Something went wrong', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
+  }
 
   useEffect(() => {
     if (selectedStudentsInstance) {
@@ -72,32 +139,54 @@ const ManageGroup = ({
           <input
             id='name'
             type='text'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder='Name your group'
             className='w-full rounded-[5px] px-4 py-1.5 text-[15px] border border-[#0000004D] text-[#00000066] placeholder:text-[#00000066] font-medium outline-none'
           />
         </div>
+
         <div className='w-full flex flex-col items-start gap-1.5'>
           <h4 className='font-semibold'>Group Color</h4>
-          <div className='w-full flex items-start gap-4'>
-            <HexColorPicker
-              color={color}
-              onChange={setColor}
-              className='min-w-[200px]'
-            />
-            <div className='w-full flex flex-col items-start gap-1'>
-              <label htmlFor='hex-input' className='font-medium'>
-                Input Hex Color
-              </label>
-              <input
-                id='hex-input'
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-                type='text'
-                className='w-full text-[15px] outline-none rounded-[5px] py-1 px-4 border border-[#0000004D] text-[#00000066]'
+          <div className='w-full flex items-start gap-7'>
+            <div className='flex flex-col items-start gap-3'>
+              <HexColorPicker
+                color={color}
+                onChange={setColor}
+                className='min-w-[250px]'
               />
+              <div className='w-full flex flex-col items-start gap-1'>
+                <label htmlFor='hex-input' className='font-medium'>
+                  Input Hex Color
+                </label>
+                <input
+                  id='hex-input'
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                  type='text'
+                  className='w-full text-[15px] outline-none rounded-[5px] py-1 px-4 border border-[#0000004D] text-[#00000066]'
+                />
+              </div>
+            </div>
+            <div className='flex flex-col items-start gap-5'>
+              <div className='flex flex-col items-start gap-1.5'>
+                <h4 className='font-semibold'>Start Date</h4>
+                <CalendarDropdown
+                  selectedDate={startDate}
+                  setSelectedDate={setStartDate}
+                />
+              </div>
+              <div className='flex flex-col items-start gap-1.5'>
+                <h4 className='font-semibold'>End Date</h4>
+                <CalendarDropdown
+                  selectedDate={endDate}
+                  setSelectedDate={setEndDate}
+                />
+              </div>
             </div>
           </div>
         </div>
+
         <div className='w-full flex flex-col items-start gap-1.5'>
           <label htmlFor='student' className='font-semibold'>
             Student
@@ -122,7 +211,7 @@ const ManageGroup = ({
           studentsCopy={studentsCopy}
         />
         <div className='w-full flex flex-col items-start gap-4 mt-4'>
-          <h4 className='text-sm font-medium'>Selected Student</h4>
+          <h4 className='text-sm font-medium'>Selected Students</h4>
           <div className='w-full flex items-center flex-wrap gap-3'>
             {selectedStudents.map((student, idx) => {
               return (
@@ -161,12 +250,23 @@ const ManageGroup = ({
       <div className='bg-[#1D1D1D] py-7 px-6 rounded-b-[10px] flex items-center justify-between gap-2 w-full'>
         <button
           onClick={() => setOpened(false)}
-          className='px-7 py-2 rounded-[5px] bg-transparent text-white border border-white'
+          className='px-7 py-2 rounded-[5px] bg-transparent text-white border border-white text-[15px]'
         >
           Cancel
         </button>
-        <button className='px-7 py-2 rounded-[5px] bg-lightblue text-white border border-lightblue'>
-          Add to group
+        <button
+          disabled={loading}
+          onClick={createGroup}
+          className='px-7 py-2 rounded-[5px] bg-lightblue text-white border border-lightblue text-[15px]'
+        >
+          {loading ? (
+            <div className='flex items-center gap-2'>
+              <RiLoader4Fill className='text-lg animate-spin' />
+              Loading
+            </div>
+          ) : (
+            'Add to group'
+          )}
         </button>
       </div>
     </div>
