@@ -53,7 +53,7 @@ export const PUT = async (req: Request) => {
       },
     })
 
-    return NextResponse.json({ updatedGroup }, { status: 201 })
+    return NextResponse.json({ group: updatedGroup }, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
   }

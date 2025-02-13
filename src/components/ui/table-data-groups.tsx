@@ -121,7 +121,7 @@ export function DataTableGroups({
     <div className='w-full p-5'>
       <div className='flex items-center py-4 max-lg:flex-col max-lg:items-start max-lg:gap-3'>
         <Input
-          placeholder='Filter emails...'
+          placeholder='Filter groups...'
           onChange={(event) => {
             const value = event.target.value.toLowerCase()
             setSearch(value)

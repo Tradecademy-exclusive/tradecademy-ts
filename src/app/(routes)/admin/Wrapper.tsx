@@ -69,8 +69,8 @@ const Wrapper = async ({
                 }, 0)
 
                 const percentage =
-                  (totalCompleted / (totalLessons * group.students.length)) *
-                  100
+                  (totalCompleted * 100) /
+                  (totalLessons * group.students.length)
 
                 return (
                   <div

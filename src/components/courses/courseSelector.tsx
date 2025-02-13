@@ -80,6 +80,8 @@ const CourseSelector = ({
                               newUrl.searchParams.set('lesson', lesson.id)
 
                               window.history.pushState({}, '', newUrl)
+                              window.location.reload()
+
                               setOpen(false)
                             }}
                             className='w-full flex items-center justify-between px-3 py-3.5 group bg-[#292929]'

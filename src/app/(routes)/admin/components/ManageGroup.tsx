@@ -14,8 +14,10 @@ import CalendarDropdown from '@/components/ui/calendar-dropdown'
 import { RiLoader4Fill } from 'react-icons/ri'
 
 interface ManageGroupProps {
-  opened: boolean
-  setOpened: React.Dispatch<React.SetStateAction<boolean>>
+  opened?: boolean
+  setOpened?: React.Dispatch<React.SetStateAction<boolean>>
+  updateId?: string
+  setUpdateId?: React.Dispatch<React.SetStateAction<string>>
   selectedStudentsInstance?: UserType[]
 }
 
@@ -23,6 +25,8 @@ const ManageGroup = ({
   opened,
   setOpened,
   selectedStudentsInstance,
+  updateId,
+  setUpdateId,
 }: ManageGroupProps) => {
   const [color, setColor] = useState<string>('#1336EA')
   const [searchValue, setSearchValue] = useState<string>('')
@@ -33,6 +37,23 @@ const ManageGroup = ({
   const [startDate, setStartDate] = useState<Date | undefined>(undefined)
   const [endDate, setEndDate] = useState<Date | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (updateId) {
+      const getGroup = async () => {
+        const { data } = await axios.get(`/api/admin/group/${updateId}`)
+        if (data.group) {
+          const { group } = data
+          setColor(group.color)
+          setSelectedStudents(group.students)
+          setName(group.name)
+          setStartDate(new Date(group.dateFrom))
+          setEndDate(new Date(group.dateUntil))
+        }
+      }
+      getGroup()
+    }
+  }, [updateId])
 
   const createGroup = async () => {
     try {
@@ -68,22 +89,43 @@ const ManageGroup = ({
 
       setLoading(true)
 
-      const { data } = await axios.post('/api/admin/group', {
-        students: selectedStudents,
-        name,
-        color,
-        dateFrom: startDate,
-        dateUntil: endDate,
-      })
+      if (!updateId) {
+        const { data } = await axios.post('/api/admin/group', {
+          students: selectedStudents,
+          name,
+          color,
+          dateFrom: startDate,
+          dateUntil: endDate,
+        })
 
-      setLoading(false)
-      if (data.group) {
-        setStudents([])
-        setEndDate(undefined)
-        setStartDate(undefined)
-        setName('')
-        setSearchValue('')
-        window.location.reload()
+        setLoading(false)
+        if (data.group) {
+          setStudents([])
+          setEndDate(undefined)
+          setStartDate(undefined)
+          setName('')
+          setSearchValue('')
+          window.location.reload()
+        }
+      } else {
+        const { data } = await axios.put('/api/admin/group', {
+          id: updateId,
+          students: selectedStudents,
+          name,
+          color,
+          dateFrom: startDate,
+          dateUntil: endDate,
+        })
+
+        setLoading(false)
+        if (data.group) {
+          setStudents([])
+          setEndDate(undefined)
+          setStartDate(undefined)
+          setName('')
+          setSearchValue('')
+          window.location.reload()
+        }
       }
     } catch (err) {
       setLoading(false)
@@ -116,8 +158,8 @@ const ManageGroup = ({
 
   return (
     <div
-      className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] max-h-[100vh] flex flex-col z-[999] items-start rounded-[10px] transition-opacity duration-200 overflow-hidden ${
-        opened
+      className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] max-h-[100vh] flex flex-col z-[999] items-start rounded-[10px] transition-opacity duration-300 overflow-hidden ${
+        opened || updateId
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
       }`}
@@ -126,7 +168,12 @@ const ManageGroup = ({
         <h3 className='text-[15px] font-semibold'>Add Group</h3>
         <IoCloseOutline
           onClick={() => {
-            setOpened(false)
+            if (setOpened) {
+              setOpened(false)
+            }
+            if (setUpdateId) {
+              setUpdateId('')
+            }
           }}
           className='text-3xl cursor-pointer'
         />
@@ -249,7 +296,14 @@ const ManageGroup = ({
       </div>
       <div className='bg-[#1D1D1D] py-7 px-6 rounded-b-[10px] flex items-center justify-between gap-2 w-full'>
         <button
-          onClick={() => setOpened(false)}
+          onClick={() => {
+            if (setOpened) {
+              setOpened(false)
+            }
+            if (setUpdateId) {
+              setUpdateId('')
+            }
+          }}
           className='px-7 py-2 rounded-[5px] bg-transparent text-white border border-white text-[15px]'
         >
           Cancel
@@ -264,6 +318,8 @@ const ManageGroup = ({
               <RiLoader4Fill className='text-lg animate-spin' />
               Loading
             </div>
+          ) : updateId ? (
+            'Update Group'
           ) : (
             'Add to group'
           )}

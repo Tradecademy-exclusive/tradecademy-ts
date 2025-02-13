@@ -1,19 +1,35 @@
 'use client'
 
-import { GroupType } from '@/types'
+import { CourseType, GroupType } from '@/types'
 import CourseHeader from '../components/CourseHeader'
 import { DataTableGroups } from '@/components/ui/table-data-groups'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
-import { format } from 'date-fns'
 import { LuPlus } from 'react-icons/lu'
 import { useState } from 'react'
 import OpacityBackground from '@/components/opacityBackground'
 import ManageGroup from '../components/ManageGroup'
+import { BiDotsHorizontalRounded } from 'react-icons/bi'
 
-const GroupsWrapper = ({ groups }: { groups: GroupType[] }) => {
+const GroupsWrapper = ({
+  groups,
+  courses,
+}: {
+  groups: GroupType[]
+  courses: CourseType[]
+}) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [groupUpdateId, setGroupUpdateId] = useState<string>('')
+
+  const totalLessons = courses.reduce((acc, course) => {
+    return (
+      acc +
+      course.chapters.reduce((total, chapter) => {
+        return total + chapter.lessons.length
+      }, 0)
+    )
+  }, 0)
 
   const columns: ColumnDef<GroupType>[] = [
     {
@@ -41,39 +57,77 @@ const GroupsWrapper = ({ groups }: { groups: GroupType[] }) => {
     {
       id: 'group',
       accessorKey: 'name',
-      header: 'group',
+      header: 'Group',
       cell: ({ row }) => {
         return <h3 className='font-bold'>{row.original.name}</h3>
       },
     },
     {
-      id: 'Date from/until',
-      accessorKey: 'Date from/until',
-      header: 'Date from/until',
+      accessorKey: 'Date From/Until',
+      header: 'Date From/Until',
       cell: ({ row }) => {
-        const dateFrom = row.original.createdAt.toDateString()
-        return <h4 className='text-sm'>{dateFrom}</h4>
-      },
-    },
-    {
-      id: 'date',
-      accessorKey: 'createdAt',
-      header: 'Registration Date',
-      cell: ({ row }) => {
-        const date = row.original.createdAt
+        const dateFrom = row.original.dateFrom
+          .toLocaleDateString()
+          .replaceAll('/', '-')
+        const dateUntil = row.original.dateUntil
+          .toLocaleDateString()
+          .replaceAll('/', '-')
         return (
-          <h4 className='text-sm font-light'>
-            <span className='hidden lg:block'>
-              {format(date, 'MMMM dd, yyyy h:mm a')}
-            </span>
-            <span className='hidden max-lg:block'>
-              {date.toLocaleDateString()}
-            </span>
+          <h4 className='text-sm'>
+            {dateFrom} to {dateUntil}
           </h4>
         )
       },
     },
-
+    {
+      id: 'Progress',
+      accessorKey: 'Progress',
+      header: 'Progress',
+      cell: ({ row }) => {
+        const totalCompleted = row.original.students.reduce((acc, student) => {
+          return acc + student.completed.length
+        }, 0)
+        const percentage =
+          (totalCompleted * 100) / (totalLessons * row.original.students.length)
+        return (
+          <div className='flex items-center gap-3'>
+            <div className='w-[120px] h-[6px] rounded-full bg-[#D9D9D9] flex items-start justify-start overflow-hidden'>
+              <div
+                className='h-full rounded-full'
+                style={{
+                  width: `${percentage}%`,
+                  background: row.original.color,
+                }}
+              />
+            </div>
+            <span className='font-medium'>
+              {Number(percentage.toFixed(0)) || 0}%
+            </span>
+          </div>
+        )
+      },
+    },
+    {
+      accessorKey: 'Students',
+      header: 'Students',
+      cell: ({ row }) => {
+        const studentsCount = row.original.students.length
+        return <h4 className='text-sm font-medium'>{studentsCount}</h4>
+      },
+    },
+    {
+      id: 'Update',
+      accessorKey: '',
+      cell: ({ row }) => {
+        const id = row.original.id
+        return (
+          <BiDotsHorizontalRounded
+            onClick={() => setGroupUpdateId(id)}
+            className='cursor-pointer text-4xl text-[#8B8787]'
+          />
+        )
+      },
+    },
     {
       id: 'Details',
       accessorKey: '',
@@ -95,12 +149,14 @@ const GroupsWrapper = ({ groups }: { groups: GroupType[] }) => {
     <div>
       <CourseHeader page='Groups' />
       <OpacityBackground
-        opened={modalOpen}
+        opened={modalOpen || !!groupUpdateId}
         close={() => {
           setModalOpen(false)
+          setGroupUpdateId('')
         }}
       />
       <ManageGroup opened={modalOpen} setOpened={setModalOpen} />
+      <ManageGroup updateId={groupUpdateId} setUpdateId={setGroupUpdateId} />
       <div className='w-full mt-[200px] max-lg:mt-[280px] p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5 flex flex-col items-start gap-6'>
         <div className='w-full h-[2px] bg-[#F0F0F0]' />
         <div className='w-full flex flex-col items-end gap-1'>
