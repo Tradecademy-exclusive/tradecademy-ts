@@ -1,25 +1,30 @@
 'use client'
 
-import { UserType } from '@/types'
+import { GroupType, UserType } from '@/types'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { IoIosSearch } from 'react-icons/io'
 import { IoCloseOutline } from 'react-icons/io5'
 import StudentResults from './StudentResults'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import { RiLoader4Fill } from 'react-icons/ri'
 
 interface AddStudentProps {
   groupId: string
   setGroupId: React.Dispatch<React.SetStateAction<string>>
+  group: GroupType
 }
 
-const AddStudent = ({ groupId, setGroupId }: AddStudentProps) => {
+const AddStudent = ({ groupId, setGroupId, group }: AddStudentProps) => {
   const [students, setStudents] = useState<UserType[]>([])
   const [studentsCopy, setStudentsCopy] = useState<UserType[]>([])
   const [selectedStudents, setSelectedStudents] = useState<UserType[]>([])
   const [searchValue, setSearchValue] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
+    setSelectedStudents(group.students)
     const getStudents = async () => {
       const { data } = await axios.get('/api/admin/students')
       if (data.students) {
@@ -28,10 +33,39 @@ const AddStudent = ({ groupId, setGroupId }: AddStudentProps) => {
       }
     }
     getStudents()
-  }, [])
+  }, [group.students])
 
   const removeStudent = (id: string) => {
     setSelectedStudents((prev) => prev.filter((stud) => stud.id !== id))
+  }
+
+  const addToGroup = async () => {
+    try {
+      if (selectedStudents.length < 1) {
+        return toast.error('At least 1 student must be selected.', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      setLoading(true)
+      const { data } = await axios.put('/api/admin/group', {
+        id: group.id,
+        color: group.color,
+        name: group.name,
+        students: selectedStudents,
+      })
+
+      setLoading(false)
+      if (data.group) {
+        setSearchValue('')
+        window.location.reload()
+      }
+    } catch (err) {
+      setLoading(false)
+      console.log(err)
+      toast.error('Something went wrong', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+    }
   }
 
   return (
@@ -118,8 +152,19 @@ const AddStudent = ({ groupId, setGroupId }: AddStudentProps) => {
         >
           Close
         </button>
-        <button className='px-10 py-1.5 rounded-[5px] bg-lightblue border border-lightblue text-[15px] text-white'>
-          Add to group
+        <button
+          disabled={loading}
+          onClick={addToGroup}
+          className='px-10 py-1.5 rounded-[5px] bg-lightblue border border-lightblue text-[15px] text-white'
+        >
+          {loading ? (
+            <div className='flex items-center gap-1.5'>
+              <RiLoader4Fill className='animate-spin text-lg' />
+              Loading
+            </div>
+          ) : (
+            'Add to group'
+          )}
         </button>
       </div>
     </div>

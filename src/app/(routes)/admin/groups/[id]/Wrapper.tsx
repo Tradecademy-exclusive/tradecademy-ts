@@ -37,7 +37,7 @@ const GroupWrapper = ({ group, courses }: GroupWrapperProps) => {
     <div>
       <CourseHeader page={group.name} />
       <OpacityBackground opened={!!groupId} close={() => setGroupId('')} />
-      <AddStudent groupId={groupId} setGroupId={setGroupId} />
+      <AddStudent groupId={groupId} setGroupId={setGroupId} group={group} />
       <div className='w-full flex flex-col items-start gap-7 p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5 mt-[200px] max-lg:mt-[280px]'>
         <div className='w-full h-[2px] bg-[#c9c5c550]' />
         <Table className='border-separate border-spacing-y-4 h-full max-md:border-spacing-y-2'>
