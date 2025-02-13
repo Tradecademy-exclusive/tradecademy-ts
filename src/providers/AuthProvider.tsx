@@ -33,8 +33,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     getSession()
   }, [])
 
-  console.log(session)
-
   return (
     <AuthContext.Provider value={{ session, setSession, loading, setLoading }}>
       {children}

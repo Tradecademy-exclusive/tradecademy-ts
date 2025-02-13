@@ -53,7 +53,7 @@ export function DataTableGroups({
 
   const [search, setSearch] = React.useState<string>('')
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
-    new Date()
+    new Date(new Date().setFullYear(new Date().getFullYear() + 2, 0, 1))
   )
 
   const table = useReactTable({
@@ -91,7 +91,7 @@ export function DataTableGroups({
       key: 'date',
       filterFn: (item: GroupType) => {
         if (!selectedDate) return true
-        const itemDate = new Date(item.createdAt)
+        const itemDate = new Date(item.dateFrom)
 
         const selectedDateWithoutTime = new Date(selectedDate)
         selectedDateWithoutTime.setHours(0, 0, 0, 0)
@@ -113,7 +113,7 @@ export function DataTableGroups({
         filteredData = filteredData.filter(filter.filterFn)
       }
     })
-
+    console.log(filteredData)
     setDataCopy(filteredData)
   }, [search, selectedDate])
 

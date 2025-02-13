@@ -135,7 +135,7 @@ const GroupsWrapper = ({
         const id = row.original.id
         return (
           <Link
-            href={`/admin/students/${id}`}
+            href={`/admin/groups/${id}`}
             className='text-sm font-semibold px-10 py-2 rounded-full bg-[#B1C3F7] text-lightblue'
           >
             Details

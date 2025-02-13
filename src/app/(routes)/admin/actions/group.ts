@@ -19,3 +19,21 @@ export const getGroups = async () => {
 
   return groups as GroupType[]
 }
+
+export const getGroupById = async (id: string) => {
+  const group = await prisma.group.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      students: {
+        include: {
+          completed: true,
+          courses: true,
+        },
+      },
+    },
+  })
+
+  return group as GroupType
+}
