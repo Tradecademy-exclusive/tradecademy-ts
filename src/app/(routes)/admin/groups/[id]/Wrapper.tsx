@@ -1,3 +1,5 @@
+'use client'
+
 import { CourseType, GroupType } from '@/types'
 import {
   Table,
@@ -10,6 +12,9 @@ import {
 import CourseHeader from '../../components/CourseHeader'
 import Link from 'next/link'
 import { FiPlus } from 'react-icons/fi'
+import OpacityBackground from '@/components/opacityBackground'
+import AddStudent from '../../components/AddStudent'
+import { useState } from 'react'
 
 interface GroupWrapperProps {
   group: GroupType
@@ -17,6 +22,8 @@ interface GroupWrapperProps {
 }
 
 const GroupWrapper = ({ group, courses }: GroupWrapperProps) => {
+  const [groupId, setGroupId] = useState<string>('')
+
   const totalLessons = courses.reduce((acc, course) => {
     return (
       acc +
@@ -29,6 +36,8 @@ const GroupWrapper = ({ group, courses }: GroupWrapperProps) => {
   return (
     <div>
       <CourseHeader page={group.name} />
+      <OpacityBackground opened={!!groupId} close={() => setGroupId('')} />
+      <AddStudent groupId={groupId} setGroupId={setGroupId} />
       <div className='w-full flex flex-col items-start gap-7 p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5 mt-[200px] max-lg:mt-[280px]'>
         <div className='w-full h-[2px] bg-[#c9c5c550]' />
         <Table className='border-separate border-spacing-y-4 h-full max-md:border-spacing-y-2'>
@@ -100,7 +109,10 @@ const GroupWrapper = ({ group, courses }: GroupWrapperProps) => {
           </TableBody>
         </Table>
         <div className='w-full flex items-center justify-end'>
-          <button className='bg-[#B1C3F7] text-lightblue px-9 py-2 text-[15px] flex items-center gap-1.5 rounded-full font-semibold'>
+          <button
+            onClick={() => setGroupId(group.id)}
+            className='bg-[#B1C3F7] text-lightblue px-9 py-2 text-[15px] flex items-center gap-1.5 rounded-full font-semibold'
+          >
             <FiPlus className='text-xl' />
             Add Student
           </button>

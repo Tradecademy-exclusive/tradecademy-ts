@@ -144,7 +144,7 @@ const ManageGroup = ({
     const getStudents = async () => {
       const { data } = await axios.get('/api/admin/students')
       if (data.students) {
-        setStudents(data.students.slice(0, 4))
+        setStudents(data.students.slice(0))
         setStudentsCopy(data.students.slice(0, 4))
       }
     }
