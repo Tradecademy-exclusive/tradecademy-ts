@@ -6,7 +6,7 @@ const PreviousPlansWrapper = ({
   previousPlans: PreviousPlan[] | null
 }) => {
   return (
-    <div className='w-full flex flex-col items-start gap-4 p-10 max-lg:p-5 max-md:p-4 max-sm:p-3 overflow-y-auto h-[85vh]'>
+    <div className='w-full flex flex-col items-start gap-4 px-10 py-2 max-lg:p-5 max-md:p-4 max-sm:p-3 overflow-y-auto h-[85vh]'>
       {previousPlans && previousPlans.length > 0 ? (
         previousPlans.map((plan) => (
           <div

@@ -19,6 +19,7 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { format } from 'date-fns'
 import React from 'react'
 import { FaCheck } from 'react-icons/fa'
+import Image from 'next/image'
 
 const Card = ({
   count,
@@ -78,6 +79,33 @@ const StudentWrapper = ({
     <div className='p-10 max-lg:p-5 max-md:p-4 max-sm:p-2.5'>
       <CourseHeader page='Students' />
       <div className='mt-[200px] max-lg:mt-[280px] w-full flex flex-col items-start gap-8 border-t border-[#B9B0B0B2] p-4'>
+        <div className='flex items-center gap-5'>
+          <div className='min-w-[70px] max-w-[70px] h-[70px] rounded-full relative overflow-hidden'>
+            <Image
+              src={student.picture || '/default_image.png'}
+              fill
+              alt='student image'
+              className='object-cover'
+            />
+          </div>
+          <div className='flex gap-5 items-end flex-wrap'>
+            <div className='flex flex-col items-start gap-1'>
+              <h3 className='font-semibold text-lg'>{student.username}</h3>
+              <span className='text-sm'>
+                Email: <span className='font-medium'>{student.email}</span>
+              </span>
+            </div>
+            <span className='text-sm'>
+              Registered at:{' '}
+              <span className='font-medium'>
+                {student.createdAt.toDateString()}
+              </span>
+            </span>
+            <span className='text-sm'>
+              IP address: <span className='font-medium'>{student.IP}</span>
+            </span>
+          </div>
+        </div>
         <div className='w-full grid grid-cols-4 gap-5 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1'>
           <Card
             progress='Enrolled Courses'

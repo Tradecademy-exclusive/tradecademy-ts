@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { NextResponse } from 'next/server'
 import prisma from '@/db/prisma'
 import { currentUser } from '@clerk/nextjs/server'
 
-export const POST = async () => {
+export const POST = async (req: Request) => {
   try {
     const user = await currentUser()
 
@@ -14,6 +15,10 @@ export const POST = async () => {
     const username = user.username || user.firstName || 'Unknown'
 
     let dbUser = await prisma.user.findUnique({ where: { email } })
+
+    const forwardedFor = req.headers.get('x-forwarded-for')
+    // @ts-ignore
+    const ip = forwardedFor ? forwardedFor.split(',')[0] : req.ip || 'Unknown'
 
     if (!dbUser) {
       const createdPlan = await prisma.plan.create({
@@ -48,7 +53,7 @@ export const POST = async () => {
           picture: user.imageUrl,
           planId: createdPlan.id,
           focusPointId: focusPoint.id,
-          IP: 'Unknown',
+          IP: ip,
           password: 'defaultPassword',
         },
       })
