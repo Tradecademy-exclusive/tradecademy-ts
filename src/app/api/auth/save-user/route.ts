@@ -11,10 +11,29 @@ export const POST = async (req: Request) => {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
     }
 
-    const email = user.emailAddresses[0].emailAddress
+    const email =
+      user.emailAddresses[0].emailAddress ||
+      user.primaryEmailAddress?.emailAddress
     const username = user.username || user.firstName || 'Unknown'
 
     let dbUser = await prisma.user.findUnique({ where: { email } })
+
+    if (dbUser?.username !== username || dbUser.picture !== user.imageUrl) {
+      const updatedUser = await prisma.user.update({
+        where: {
+          email,
+        },
+        data: {
+          username,
+          picture: user.imageUrl,
+        },
+      })
+
+      return NextResponse.json(
+        { message: 'User saved successfully', user: updatedUser },
+        { status: 200 }
+      )
+    }
 
     const forwardedFor = req.headers.get('x-forwarded-for')
     // @ts-ignore
@@ -49,7 +68,7 @@ export const POST = async (req: Request) => {
         data: {
           id: user.id,
           username,
-          email,
+          email: email as string,
           picture: user.imageUrl,
           planId: createdPlan.id,
           focusPointId: focusPoint.id,
