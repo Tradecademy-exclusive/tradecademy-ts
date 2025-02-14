@@ -87,16 +87,18 @@ model Lesson {
 }
 
 model Plan {
-  id    String   @id @default(uuid())
-  steps String[]
-  User  User[]
+  id        String   @id @default(uuid())
+  steps     String[]
+  User      User[]
+  createdAt DateTime @default(now())
 }
 
 model PreviousPlan {
-  id     String   @id @default(uuid())
-  steps  String[]
-  userId String?
-  User   User?    @relation(fields: [userId], references: [id])
+  id        String   @id @default(uuid())
+  steps     String[]
+  userId    String?
+  User      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model FocusPoint {

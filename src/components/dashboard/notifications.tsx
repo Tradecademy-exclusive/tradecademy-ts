@@ -52,13 +52,13 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
       return setAnalysisCopy(analysis)
     }
     const filteredByMentors = [...analysis].filter((obj) =>
-      selectedMentors.includes(obj.mentor.username)
+      selectedMentors.includes(obj.mentor?.username)
     )
     setAnalysisCopy(filteredByMentors)
   }, [selectedMentors])
 
   const uniquePublishedBy = [
-    ...new Set(analysis.map((obj) => obj.mentor.username)),
+    ...new Set(analysis.map((obj) => obj.mentor?.username)),
   ]
 
   const selectMentor = (mentor: string) => {
@@ -87,9 +87,9 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
       </div>
 
       <div className='w-full flex items-center gap-4 flex-wrap px-8 mb-5 mt-2'>
-        {uniquePublishedBy.map((mentor) => (
+        {uniquePublishedBy.map((mentor, idx) => (
           <button
-            key={mentor}
+            key={mentor || idx}
             onClick={() => selectMentor(mentor)}
             className={`bg-white transition-all duration-200 text-black px-5 py-1.5 rounded-[5px] text-[15px] ${
               selectedMentors.includes(mentor) && '!bg-[#B1C3F7]'
@@ -134,7 +134,7 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
                       />
                     </div>
                     <span className='text-sm text-[#000000dc]'>
-                      By {obj.mentor.username} Mentor{' '}
+                      By {obj.mentor?.username} Mentor{' '}
                       {format(obj.createdAt, 'MM-dd-yy h:mma')}
                     </span>
                   </div>
