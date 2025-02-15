@@ -1,6 +1,7 @@
 'use client'
 import { redirect } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
+import AdminProvider from './AdminProvider'
 
 const AdminProtection = ({
   children,
@@ -23,7 +24,7 @@ const AdminProtection = ({
     return <div></div>
   }
 
-  return <>{children}</>
+  return <AdminProvider>{children}</AdminProvider>
 }
 
 export default AdminProtection

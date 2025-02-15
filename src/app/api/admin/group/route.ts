@@ -65,6 +65,14 @@ export const GET = async () => {
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        students: {
+          include: {
+            courses: true,
+            completed: true,
+          },
+        },
+      },
     })
 
     return NextResponse.json({ groups }, { status: 200 })

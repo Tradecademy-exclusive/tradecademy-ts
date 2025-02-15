@@ -1,7 +1,7 @@
 'use client'
 import { SessionType } from '@/types'
 import axios from 'axios'
-import { createContext, useState, useLayoutEffect } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 interface AuthContextType {
   session: null | SessionType
@@ -21,7 +21,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<SessionType | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const getSession = async () => {
       const { data } = await axios.get('/api/auth')
       if (data.session) {

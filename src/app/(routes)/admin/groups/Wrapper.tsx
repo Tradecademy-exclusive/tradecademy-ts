@@ -1,24 +1,20 @@
 'use client'
 
-import { CourseType, GroupType } from '@/types'
+import { GroupType } from '@/types'
 import CourseHeader from '../components/CourseHeader'
 import { DataTableGroups } from '@/components/ui/table-data-groups'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColumnDef } from '@tanstack/react-table'
 import Link from 'next/link'
 import { LuPlus } from 'react-icons/lu'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import OpacityBackground from '@/components/opacityBackground'
 import ManageGroup from '../components/ManageGroup'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import { AdminContext } from '../AdminProvider'
 
-const GroupsWrapper = ({
-  groups,
-  courses,
-}: {
-  groups: GroupType[]
-  courses: CourseType[]
-}) => {
+const GroupsWrapper = ({ groups }: { groups: GroupType[] }) => {
+  const { courses } = useContext(AdminContext)
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [groupUpdateId, setGroupUpdateId] = useState<string>('')
 

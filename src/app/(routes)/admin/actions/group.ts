@@ -11,7 +11,6 @@ export const getGroups = async () => {
         },
       },
     },
-    take: 4,
     orderBy: {
       createdAt: 'asc',
     },

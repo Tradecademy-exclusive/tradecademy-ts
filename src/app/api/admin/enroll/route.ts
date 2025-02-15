@@ -71,3 +71,23 @@ export const PUT = async (req: Request) => {
     return NextResponse.json({ error: err }, { status: 500 })
   }
 }
+
+export const GET = async () => {
+  try {
+    const enrollments = await prisma.enroll.findMany({
+      where: {
+        status: 'Approved',
+      },
+      include: {
+        user: true,
+        course: true,
+      },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    })
+    return NextResponse.json({ enrollments }, { status: 200 })
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 })
+  }
+}

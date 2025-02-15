@@ -1,19 +1,19 @@
+'use client'
+
 import Link from 'next/link'
-import { CourseType, EnrollType, GroupType } from '@/types'
+import { EnrollType, GroupType } from '@/types'
 import CourseHeader from './components/CourseHeader'
 import { FiPlus } from 'react-icons/fi'
 import CoursesTable from './components/CoursesTable'
 import RevenueChart from './components/RevenueChart'
-import { getEnrollments } from './actions/enrollments'
+import { useContext } from 'react'
+import { AdminContext } from './AdminProvider'
 
-const Wrapper = async ({
-  courses,
-  groups,
-}: {
-  courses: CourseType[]
-  groups: GroupType[]
-}) => {
-  const enrollments = await getEnrollments(true)
+const Wrapper = ({ groups }: { groups: GroupType[] }) => {
+  const { courses, enrollments } = useContext(AdminContext)
+
+  if (!courses || !enrollments) return <div></div>
+
   const totalLessons = courses.reduce((acc, course) => {
     return (
       acc +

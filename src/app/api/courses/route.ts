@@ -7,7 +7,11 @@ export const GET = async () => {
       include: {
         chapters: {
           include: {
-            lessons: true,
+            lessons: {
+              include: {
+                completed: true,
+              },
+            },
           },
         },
       },
