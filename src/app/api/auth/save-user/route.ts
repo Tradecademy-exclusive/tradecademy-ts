@@ -18,7 +18,10 @@ export const POST = async (req: Request) => {
 
     let dbUser = await prisma.user.findUnique({ where: { email } })
 
-    if (dbUser?.username !== username || dbUser.picture !== user.imageUrl) {
+    if (
+      dbUser &&
+      (dbUser.username !== username || dbUser.picture !== user.imageUrl)
+    ) {
       const updatedUser = await prisma.user.update({
         where: {
           email,

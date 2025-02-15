@@ -25,7 +25,11 @@ const CoursesWrapper = () => {
             </Link>
           </div>
           <div className='p-5 w-full h-[65vh]'>
-            <CoursesTable courses={courses} />
+            {courses && courses.length !== 0 ? (
+              <CoursesTable courses={courses!} />
+            ) : (
+              <div className='w-full text-center'>No results.</div>
+            )}
           </div>
         </div>
       </div>

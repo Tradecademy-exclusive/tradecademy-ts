@@ -13,7 +13,15 @@ export const GET = async (
         id,
       },
       include: {
-        chapters: true,
+        chapters: {
+          include: {
+            lessons: {
+              include: {
+                completed: true,
+              },
+            },
+          },
+        },
       },
     })
 
@@ -33,6 +41,17 @@ export const PUT = async (
     const updatedCourse = await prisma.course.update({
       where: {
         id,
+      },
+      include: {
+        chapters: {
+          include: {
+            lessons: {
+              include: {
+                completed: true,
+              },
+            },
+          },
+        },
       },
       data,
     })

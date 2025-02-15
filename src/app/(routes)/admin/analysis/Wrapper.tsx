@@ -61,59 +61,67 @@ const AnalysisWrapper = ({ analysis }: { analysis: AnalysisType[] }) => {
             Create Analysis
           </button>
         </div>
-        <div className='w-full px-10 flex flex-col items-start gap-3'>
-          {analysis.map((obj) => (
-            <div
-              key={obj.id}
-              className='w-full flex flex-col items-start gap-1'
-            >
-              <div className='w-full bg-white border border-[#B9B0B0] rounded-[5px] py-3 px-6 flex items-center justify-between max-lg:flex-col max-lg:items-start max-lg:gap-5 shadow-evenLight'>
-                <div className='flex items-center gap-14'>
-                  <div className='flex flex-col items-start gap-1.5'>
-                    <h3 className='font-semibold text-[15px]'>{obj.title}</h3>
-                    <h3 className='font-semibold text-[15px]'>
-                      {obj.mentor.username}
-                    </h3>
+        <div className='w-full px-10 flex flex-col items-start gap-3 relative'>
+          {analysis.length > 0 ? (
+            analysis.map((obj) => (
+              <div
+                key={obj.id}
+                className='w-full flex flex-col items-start gap-1'
+              >
+                <div className='w-full bg-white border border-[#B9B0B0] rounded-[5px] py-3 px-6 flex items-center justify-between max-lg:flex-col max-lg:items-start max-lg:gap-5 shadow-evenLight'>
+                  <div className='flex items-center gap-14'>
+                    <div className='flex flex-col items-start gap-1.5'>
+                      <h3 className='font-semibold text-[15px]'>{obj.title}</h3>
+                      <h3 className='font-semibold text-[15px]'>
+                        {obj.mentor.username}
+                      </h3>
+                    </div>
+                    <button
+                      onClick={() => setUpdateAnalysisId(obj.id)}
+                      className='bg-lightblue text-white text-sm font-medium px-10 py-2.5 rounded-[5px]'
+                    >
+                      Update
+                    </button>
                   </div>
                   <button
-                    onClick={() => setUpdateAnalysisId(obj.id)}
-                    className='bg-lightblue text-white text-sm font-medium px-10 py-2.5 rounded-[5px]'
+                    onClick={() => setFollowupOpen(obj.id)}
+                    className='bg-lightblue text-white text-sm font-medium px-10 py-2.5 rounded-[5px] flex items-center gap-1'
                   >
-                    Update
+                    <FiPlus className='text-xl' />
+                    Follow Up
                   </button>
                 </div>
-                <button
-                  onClick={() => setFollowupOpen(obj.id)}
-                  className='bg-lightblue text-white text-sm font-medium px-10 py-2.5 rounded-[5px] flex items-center gap-1'
-                >
-                  <FiPlus className='text-xl' />
-                  Follow Up
-                </button>
-              </div>
-              <div className='w-full flex flex-col items-start gap-1.5 pl-5'>
-                {obj.followupAnalysis.length > 0 &&
-                  obj.followupAnalysis.map((item) => (
-                    <div
-                      key={item.id}
-                      className='w-full flex items-center justify-between px-5 py-2.5 bg-white border border-[#B9B0B0] rounded-[5px] shadow-evenLight'
-                    >
-                      <div className='flex flex-col items-start gap-1'>
-                        <h3 className='text-sm font-semibold'>{item.title}</h3>
-                        <h3 className='text-sm font-semibold'>
-                          {item.mentor.username}
-                        </h3>
-                      </div>
-                      <button
-                        onClick={() => setUpdateFollowupId(item.id)}
-                        className='bg-lightblue text-white text-[13px] font-medium px-10 py-2.5 rounded-[5px]'
+                <div className='w-full flex flex-col items-start gap-1.5 pl-5'>
+                  {obj.followupAnalysis.length > 0 &&
+                    obj.followupAnalysis.map((item) => (
+                      <div
+                        key={item.id}
+                        className='w-full flex items-center justify-between px-5 py-2.5 bg-white border border-[#B9B0B0] rounded-[5px] shadow-evenLight'
                       >
-                        Update
-                      </button>
-                    </div>
-                  ))}
+                        <div className='flex flex-col items-start gap-1'>
+                          <h3 className='text-sm font-semibold'>
+                            {item.title}
+                          </h3>
+                          <h3 className='text-sm font-semibold'>
+                            {item.mentor.username}
+                          </h3>
+                        </div>
+                        <button
+                          onClick={() => setUpdateFollowupId(item.id)}
+                          className='bg-lightblue text-white text-[13px] font-medium px-10 py-2.5 rounded-[5px]'
+                        >
+                          Update
+                        </button>
+                      </div>
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+              No analysis found.
+            </span>
+          )}
         </div>
       </div>
     </div>

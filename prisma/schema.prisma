@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -19,16 +20,16 @@ model User {
   focusPointId     String
   IP               String?
   groupId          String?
-  courses          Course[]           @relation("UserAccessedCourses")
+  Analysis         Analysis[]
   Enroll           Enroll[]
   Note             Note[]
   previousPlans    PreviousPlan[]
   focusPoint       FocusPoint         @relation(fields: [focusPointId], references: [id])
   Group            Group?             @relation(fields: [groupId], references: [id])
   plan             Plan               @relation(fields: [planId], references: [id])
-  completed        Lesson[]           @relation("UserCompletedLessons")
-  Analysis         Analysis[]
   followupAnalysis followupAnalysis[]
+  courses          Course[]           @relation("UserAccessedCourses")
+  completed        Lesson[]           @relation("UserCompletedLessons")
 }
 
 model signupToken {
@@ -53,8 +54,8 @@ model Course {
   learn           String     @default("")
   publishedCourse publicType @default(Published)
   chapters        Chapter[]
-  user            User[]     @relation("UserAccessedCourses")
   Enroll          Enroll[]
+  user            User[]     @relation("UserAccessedCourses")
 }
 
 model Chapter {
@@ -89,16 +90,16 @@ model Lesson {
 model Plan {
   id        String   @id @default(uuid())
   steps     String[]
-  User      User[]
   createdAt DateTime @default(now())
+  User      User[]
 }
 
 model PreviousPlan {
   id        String   @id @default(uuid())
   steps     String[]
   userId    String?
-  User      User?    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
 }
 
 model FocusPoint {
@@ -130,10 +131,10 @@ model Group {
   id        String   @id @default(uuid())
   name      String
   color     String   @default("black")
-  students  User[]
   dateFrom  DateTime
   dateUntil DateTime
   createdAt DateTime @default(now())
+  students  User[]
 }
 
 model Journal {
@@ -150,28 +151,28 @@ model Analysis {
   title            String
   image            String?
   video            String?
-  mentor           User?              @relation(fields: [mentorId], references: [id])
   content          String
   strategy         investmentType     @default(Neutral)
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
-  followupAnalysis followupAnalysis[]
   mentorId         String?
+  mentor           User?              @relation(fields: [mentorId], references: [id])
+  followupAnalysis followupAnalysis[]
 }
 
 model followupAnalysis {
   id         String         @id @default(uuid())
   title      String
-  analysis   Analysis       @relation(fields: [analysisId], references: [id], onDelete: Cascade)
   image      String?
   video      String?
-  mentor     User?          @relation(fields: [mentorId], references: [id])
   strategy   investmentType @default(Neutral)
   content    String
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
   analysisId String
   mentorId   String?
+  analysis   Analysis       @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  mentor     User?          @relation(fields: [mentorId], references: [id])
 }
 
 enum investmentType {

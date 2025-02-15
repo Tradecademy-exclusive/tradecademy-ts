@@ -20,6 +20,8 @@ import UpdateChapter from '../../components/EditChapter'
 import DeleteLesson from '../../components/DeleteLesson'
 import DeleteChapter from '../../components/DeleteChapter'
 import DeleteCourse from '../../components/DeleteCourse'
+import { useContext } from 'react'
+import { AdminContext } from '../../AdminProvider'
 
 interface LessonComponentsObj {
   Component: React.ComponentType<any>
@@ -28,6 +30,7 @@ interface LessonComponentsObj {
 }
 
 const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
+  const { setCourses } = useContext(AdminContext)
   const router = useRouter()
   // chapter id
   const [lessonOpen, setLessonOpen] = useState<string>('')
@@ -124,6 +127,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
         duration: duration,
       })
       if (data.course) {
+        setCourses((prev) => [...prev!, data.course])
         setLoading(false)
         router.push('/admin/courses')
         toast.error('Course has been published', {

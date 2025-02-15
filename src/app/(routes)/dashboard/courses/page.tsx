@@ -3,9 +3,14 @@ import { getCourses } from '@/actions/courses'
 import BasicCard from '@/components/courses/basicCard'
 import PremiumCard from '@/components/courses/premiumCard'
 import { CourseType } from '@/types'
+import { notFound } from 'next/navigation'
 
 const CoursesPage = async () => {
   const courses = await getCourses()
+
+  if (courses.length === 0) {
+    return notFound()
+  }
 
   const basicCourses = courses.sort((a, b) => a.price - b.price).slice(0, 2)
   const premiumCourses = courses

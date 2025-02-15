@@ -101,57 +101,59 @@ const Notifications = ({ open, setOpen }: NotificationsProps) => {
       </div>
 
       <div className='w-full flex flex-col items-start gap-2 px-3'>
-        {analysisCopy.length > 0
-          ? analysisCopy.map((obj: followupAnalysisType | AnalysisType) => {
-              const stripHtml = (html: string): string => {
-                const doc: Document = new DOMParser().parseFromString(
-                  html,
-                  'text/html'
-                )
-                return doc.body.textContent || ''
-              }
-
-              const truncatedText =
-                stripHtml(obj.content).length > 100
-                  ? stripHtml(obj.content).substring(0, 100) + '...'
-                  : stripHtml(obj.content)
-
-              return (
-                <Link
-                  href={`/analysis/${
-                    'analysisId' in obj ? obj.analysisId : obj.id
-                  }`}
-                  key={obj.id}
-                  className='w-full flex items-center justify-between p-4 rounded-[5px] gap-14 hover:bg-[#B1C3F7] cursor-pointer transition-all duration-150 max-sm:flex-col max-sm:items-start max-sm:gap-3'
-                >
-                  <div className='flex flex-col items-start gap-2'>
-                    <h3 className='font-medium'>{obj.title}</h3>
-                    <div className='text-sm text-[#000000B2]'>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: truncatedText,
-                        }}
-                      />
-                    </div>
-                    <span className='text-sm text-[#000000dc]'>
-                      By {obj.mentor?.username} Mentor{' '}
-                      {format(obj.createdAt, 'MM-dd-yy h:mma')}
-                    </span>
-                  </div>
-                  {obj.image && (
-                    <div className='max-w-[50%] min-w-[50%] max-sm:min-w-full max-sm:max-w-full relative h-[120px] max-sm:h-[200px] rounded-[5px] overflow-hidden'>
-                      <Image
-                        src={obj.image}
-                        fill
-                        alt='analysis image'
-                        className='object-cover'
-                      />
-                    </div>
-                  )}
-                </Link>
+        {analysisCopy.length > 0 ? (
+          analysisCopy.map((obj: followupAnalysisType | AnalysisType) => {
+            const stripHtml = (html: string): string => {
+              const doc: Document = new DOMParser().parseFromString(
+                html,
+                'text/html'
               )
-            })
-          : ''}
+              return doc.body.textContent || ''
+            }
+
+            const truncatedText =
+              stripHtml(obj.content).length > 100
+                ? stripHtml(obj.content).substring(0, 100) + '...'
+                : stripHtml(obj.content)
+
+            return (
+              <Link
+                href={`/analysis/${
+                  'analysisId' in obj ? obj.analysisId : obj.id
+                }`}
+                key={obj.id}
+                className='w-full flex items-center justify-between p-4 rounded-[5px] gap-14 hover:bg-[#B1C3F7] cursor-pointer transition-all duration-150 max-sm:flex-col max-sm:items-start max-sm:gap-3'
+              >
+                <div className='flex flex-col items-start gap-2'>
+                  <h3 className='font-medium'>{obj.title}</h3>
+                  <div className='text-sm text-[#000000B2]'>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: truncatedText,
+                      }}
+                    />
+                  </div>
+                  <span className='text-sm text-[#000000dc]'>
+                    By {obj.mentor?.username} Mentor{' '}
+                    {format(obj.createdAt, 'MM-dd-yy h:mma')}
+                  </span>
+                </div>
+                {obj.image && (
+                  <div className='max-w-[50%] min-w-[50%] max-sm:min-w-full max-sm:max-w-full relative h-[120px] max-sm:h-[200px] rounded-[5px] overflow-hidden'>
+                    <Image
+                      src={obj.image}
+                      fill
+                      alt='analysis image'
+                      className='object-cover'
+                    />
+                  </div>
+                )}
+              </Link>
+            )
+          })
+        ) : (
+          <div className='w-full text-center'>No Analysis Found</div>
+        )}
       </div>
     </div>
   )

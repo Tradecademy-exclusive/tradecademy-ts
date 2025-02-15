@@ -38,8 +38,12 @@ const Wrapper = ({ groups }: { groups: GroupType[] }) => {
               Create New Course
             </Link>
           </div>
-          <div className='px-5 py-3 w-full'>
-            <CoursesTable courses={courses.slice(0, 4)} />
+          <div className='px-5 py-3 w-full min-h-[15vh]'>
+            {courses && courses.length !== 0 ? (
+              <CoursesTable courses={courses.slice(0, 4)} />
+            ) : (
+              <div className='w-full text-center'>No results.</div>
+            )}
           </div>
         </div>
         <div className='w-full flex items-start gap-12 mb-5 max-lg:gap-6 max-md:flex-col'>
@@ -62,50 +66,59 @@ const Wrapper = ({ groups }: { groups: GroupType[] }) => {
               </Link>
             </div>
 
-            <div className='grid grid-cols-2 place-content-center gap-4 p-3'>
-              {groups.map((group) => {
-                const totalCompleted = group.students.reduce((acc, student) => {
-                  return acc + student.completed.length
-                }, 0)
+            <div className='grid grid-cols-2 place-content-center gap-4 p-3 relative'>
+              {groups.length > 0 ? (
+                groups.slice(0, 4).map((group) => {
+                  const totalCompleted = group.students.reduce(
+                    (acc, student) => {
+                      return acc + student.completed.length
+                    },
+                    0
+                  )
 
-                const percentage =
-                  (totalCompleted * 100) /
-                  (totalLessons * group.students.length)
+                  const percentage =
+                    (totalCompleted * 100) /
+                    (totalLessons * group.students.length)
 
-                return (
-                  <div
-                    key={group.id}
-                    className='w-[180px] h-[165px] rounded-[10px] p-3 flex flex-col items-start gap-4 drop-shadow-md bg-white max-lg:h-[140px] max-lg:w-[160px]'
-                  >
-                    <h3 className='text-lg font-semibold max-lg:text-base'>
-                      {group.name}
-                    </h3>
-                    <div className='h-[8px] rounded-full w-full overflow-hidden relative'>
-                      <div
-                        className='w-full absolute top-0 left-0 h-full opacity-10 z-[1]'
-                        style={{
-                          background: `${group.color}`,
-                        }}
-                      />
-                      <div
-                        className='absolute top-0 left-0 h-full z-[10] rounded-full'
-                        style={{
-                          width: `${percentage}%`,
-                          background: `${group.color}`,
-                        }}
-                      />
-                    </div>
-                    <span
-                      className='text-sm opacity-50'
-                      style={{
-                        color: group.color,
-                      }}
+                  return (
+                    <div
+                      key={group.id}
+                      className='w-[180px] h-[165px] rounded-[10px] p-3 flex flex-col items-start gap-4 drop-shadow-md bg-white max-lg:h-[140px] max-lg:w-[160px]'
                     >
-                      {Number(percentage.toFixed(0)) || 0}% Complete
-                    </span>
-                  </div>
-                )
-              })}
+                      <h3 className='text-lg font-semibold max-lg:text-base'>
+                        {group.name}
+                      </h3>
+                      <div className='h-[8px] rounded-full w-full overflow-hidden relative'>
+                        <div
+                          className='w-full absolute top-0 left-0 h-full opacity-10 z-[1]'
+                          style={{
+                            background: `${group.color}`,
+                          }}
+                        />
+                        <div
+                          className='absolute top-0 left-0 h-full z-[10] rounded-full'
+                          style={{
+                            width: `${percentage}%`,
+                            background: `${group.color}`,
+                          }}
+                        />
+                      </div>
+                      <span
+                        className='text-sm opacity-50'
+                        style={{
+                          color: group.color,
+                        }}
+                      >
+                        {Number(percentage.toFixed(0)) || 0}% Complete
+                      </span>
+                    </div>
+                  )
+                })
+              ) : (
+                <span className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap'>
+                  No Results.
+                </span>
+              )}
             </div>
           </div>
         </div>

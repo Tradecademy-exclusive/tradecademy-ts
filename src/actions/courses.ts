@@ -1,5 +1,6 @@
 import prisma from '@/db/prisma'
 import { CourseType } from '@/types'
+import { currentUser } from '@clerk/nextjs/server'
 
 export const getCourses = async () => {
   const courses = await prisma.course.findMany({
@@ -46,9 +47,19 @@ export const getCourseById = async (id: string) => {
 }
 
 export const getExclusive = async () => {
+  const user = await currentUser()
   const courses = await prisma.course.findMany({
     orderBy: {
       price: 'desc',
+    },
+    where: {
+      user: {
+        some: {
+          email:
+            user?.primaryEmailAddress?.emailAddress ||
+            user?.emailAddresses[0].emailAddress,
+        },
+      },
     },
     take: 2,
   })
