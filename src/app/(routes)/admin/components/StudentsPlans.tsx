@@ -1,13 +1,17 @@
 'use client'
 
 import { UserType } from '@/types'
+import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
+import Image from 'next/image'
 
 const StudentsPlans = ({ student }: { student: UserType }) => {
   const [focusPoint, setFocusPoint] = useState<string>(
     student.focusPoint.description
   )
   const [editing, setEditing] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
@@ -23,6 +27,30 @@ const StudentsPlans = ({ student }: { student: UserType }) => {
       textareaRef.current?.focus()
     }
   }, [editing])
+
+  const updateFocusPoint = async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.put('/api/focus', {
+        focusId: student.focusPointId,
+        description: focusPoint,
+      })
+      if (data.updatedFocusPoint) {
+        toast.error('Update Successful', {
+          icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+        })
+      }
+      setLoading(false)
+      setEditing(false)
+    } catch (err) {
+      setLoading(false)
+      setEditing(false)
+      toast.error('Something went wrong.', {
+        icon: <Image src='/tc_icon.svg' alt='' height={25} width={25} />,
+      })
+      console.error('error:', err)
+    }
+  }
 
   return (
     <div className='w-full flex flex-col gap-6'>
@@ -47,9 +75,12 @@ const StudentsPlans = ({ student }: { student: UserType }) => {
           className='resize-none text-[15px] h-[100px] w-full disabled:bg-transparent py-1.5 rounded-[5px] focus:outline-lightblue'
         />
         <button
+          disabled={loading}
           onClick={() => {
             if (!editing) {
               setEditing(true)
+            } else {
+              updateFocusPoint()
             }
           }}
           className='bg-lightblue text-white px-16 py-1.5 rounded-[5px] text-[15px] mt-1'
