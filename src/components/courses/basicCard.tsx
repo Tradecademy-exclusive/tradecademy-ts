@@ -70,7 +70,7 @@ const BasicCard = ({
               />
             </div>
             <span className='text-[12px] text-[#606060] xl:text-sm'>
-              {completionPercentage}% Complete
+              {completionPercentage || 0}% Complete
             </span>
           </div>
         </div>

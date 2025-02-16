@@ -20,6 +20,7 @@ import { format } from 'date-fns'
 import React from 'react'
 import { FaCheck } from 'react-icons/fa'
 import Image from 'next/image'
+import StudentsPlans from '../../components/StudentsPlans'
 
 const Card = ({
   count,
@@ -128,7 +129,6 @@ const StudentWrapper = ({
             icon={<IoNewspaperOutline className='text-white text-[23px]' />}
           />
         </div>
-
         <div className='w-full flex flex-col items-start gap-3.5'>
           <h4 className='text-lg font-semibold'>Course</h4>
           <Table className='border-spacing-4'>
@@ -247,6 +247,7 @@ const StudentWrapper = ({
             </TableBody>
           </Table>
         </div>
+        <StudentsPlans student={student as UserType} />
       </div>
     </div>
   )

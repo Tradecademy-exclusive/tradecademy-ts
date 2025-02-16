@@ -1,24 +1,39 @@
-/* eslint-disable no-var */
-import { PrismaClient } from '@prisma/client/edge'
+import { PrismaClient } from '@prisma/client/edge' // Import from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-declare global {
-  var cachedPrisma: PrismaClient
+import 'server-only'
+
+const createStandardPrismaClient = () => {
+  return new PrismaClient({
+    log:
+      process.env.NODE_ENV === 'development'
+        ? ['query', 'error', 'warn']
+        : ['error'],
+  })
 }
 
-let prisma: PrismaClient
-
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient({
-    log: ['error'],
-  }).$extends(withAccelerate()) as unknown as PrismaClient
-} else {
-  if (!global.cachedPrisma) {
-    global.cachedPrisma = new PrismaClient({
-      log: ['error'],
-    }).$extends(withAccelerate()) as unknown as PrismaClient
-  }
-
-  prisma = global.cachedPrisma
+const createAcceleratedPrismaClient = () => {
+  return new PrismaClient({
+    log:
+      process.env.NODE_ENV === 'development'
+        ? ['query', 'error', 'warn']
+        : ['error'],
+  }).$extends(withAccelerate())
 }
 
-export default prisma
+type PrismaClientAccelerated = ReturnType<typeof createAcceleratedPrismaClient>
+
+const globalForPrisma = globalThis as unknown as {
+  standardPrisma: PrismaClient | undefined
+  acceleratedPrisma: PrismaClientAccelerated | undefined
+}
+
+const db = globalForPrisma.standardPrisma ?? createStandardPrismaClient()
+const acceleratedDb =
+  globalForPrisma.acceleratedPrisma ?? createAcceleratedPrismaClient()
+
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.standardPrisma = db
+  globalForPrisma.acceleratedPrisma = acceleratedDb
+}
+
+export default acceleratedDb
