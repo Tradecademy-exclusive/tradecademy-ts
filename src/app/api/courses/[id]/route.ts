@@ -56,10 +56,6 @@ export const PUT = async (
       data,
     })
 
-    await prisma.$accelerate.invalidate({
-      tags: ['courses_findMany'],
-    })
-
     return NextResponse.json({ updatedCourse }, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })

@@ -31,10 +31,6 @@ export const POST = async (req: Request) => {
       },
     })
 
-    await prisma.$accelerate.invalidate({
-      tags: ['courses_findMany'],
-    })
-
     return NextResponse.json({ course }, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
@@ -75,10 +71,6 @@ export const PUT = async (req: Request) => {
       },
     })
 
-    await prisma.$accelerate.invalidate({
-      tags: ['courses_findMany'],
-    })
-
     return NextResponse.json({ course }, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
@@ -101,10 +93,6 @@ export const DELETE = async (req: Request) => {
       where: {
         id,
       },
-    })
-
-    await prisma.$accelerate.invalidate({
-      tags: ['courses_findMany'],
     })
 
     return NextResponse.json({ deletedCourse }, { status: 200 })

@@ -1,5 +1,6 @@
-import { PrismaClient } from '@prisma/client/edge' // Import from '@prisma/client/edge'
+import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
+
 import 'server-only'
 
 const createStandardPrismaClient = () => {

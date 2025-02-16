@@ -15,10 +15,6 @@ export const GET = async () => {
           },
         },
       },
-      cacheStrategy: {
-        ttl: 7200,
-        tags: ['courses_findMany'],
-      },
     })
 
     return NextResponse.json({ courses }, { status: 200 })
