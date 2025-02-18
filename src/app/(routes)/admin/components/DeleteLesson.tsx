@@ -8,15 +8,17 @@ import { toast } from 'react-toastify'
 const DeleteLesson = ({
   lessonId,
   setLessonId,
+  courseId,
 }: {
   lessonId: string
+  courseId: string
   setLessonId: React.Dispatch<React.SetStateAction<string>>
 }) => {
   const router = useRouter()
   const deleteLesson = async () => {
     try {
       const { data } = await axios.delete(
-        `/api/admin/courses/lesson?id=${lessonId}`
+        `/api/admin/courses/lesson?id=${lessonId}?courseId=${courseId}`
       )
 
       if (data.deletedLesson) {

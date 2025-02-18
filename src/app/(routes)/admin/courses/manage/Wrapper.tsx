@@ -55,10 +55,12 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
   const [deleteChapterId, setDeleteChapterId] = useState<string>('')
   const [deleting, setDeleting] = useState<boolean>(false)
   const [deleteCourseId, setDeleteCourseId] = useState<string>('')
+  const [courseById, setCourseById] = useState<CourseType | null>(null)
 
   useEffect(() => {
     if (courses && courses[0]) {
       const course = courses[0]
+      setCourseById(course)
       setTitle(course.title)
       setDescription(course.description)
       setMaxStudents(course.maxStudents.toString())
@@ -81,6 +83,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
           close: () => setLessonId(''),
           attachments,
           setAttachments,
+          courseId: courseById?.id || '',
           image,
           setImage,
         },
@@ -92,6 +95,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
           order,
           opened: lessonOpen,
           close: () => setLessonOpen(''),
+          courseId: courseById?.id || '',
           attachments,
           setAttachments,
           image,
@@ -100,7 +104,7 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
         active: !!lessonOpen,
       },
     ]
-  }, [lessonId, lessonOpen, attachments, image, order])
+  }, [lessonId, lessonOpen, attachments, image, order, courseById?.id])
 
   const publishCourse = async () => {
     try {
@@ -236,7 +240,11 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
           </div>
         ))}
 
-      <DeleteLesson lessonId={deleteLessonId} setLessonId={setDeleteLessonId} />
+      <DeleteLesson
+        courseId={courseById?.id || ''}
+        lessonId={deleteLessonId}
+        setLessonId={setDeleteLessonId}
+      />
       <DeleteChapter
         chapterId={deleteChapterId}
         setChapterId={setDeleteChapterId}

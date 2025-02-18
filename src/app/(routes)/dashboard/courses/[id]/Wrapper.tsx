@@ -172,6 +172,7 @@ const Wrapper = ({ course }: { course: CourseType }) => {
       setMarking(true)
       const { data } = await axios.post('/api/courses/lesson/complete', {
         lessonId: lessonId,
+        courseId: course.id,
       })
       if (data.completed) {
         setCompleted((prev) => {
@@ -211,7 +212,8 @@ const Wrapper = ({ course }: { course: CourseType }) => {
         <div className='flex items-center gap-5'>
           <p className='text-white text-[15px]'>
             Your Progress: <strong>{completed.length}</strong> of{' '}
-            <strong>{lessonsCount}</strong> ( {completionPercentage}% )
+            <strong>{lessonsCount}</strong> ({' '}
+            {Number(completionPercentage.toFixed(0)) || 0}% )
           </p>
           <button
             disabled={isCompleted || marking}

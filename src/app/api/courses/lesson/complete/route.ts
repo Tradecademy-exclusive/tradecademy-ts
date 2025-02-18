@@ -5,7 +5,7 @@ import { redis } from '@/lib/redis'
 
 export const POST = async (req: Request) => {
   try {
-    const { lessonId } = await req.json()
+    const { lessonId, courseId } = await req.json()
     if (!lessonId) {
       return NextResponse.json(
         { message: 'Please provide a lesson id' },
@@ -40,8 +40,11 @@ export const POST = async (req: Request) => {
       },
     })
 
-    await redis.del('client_courses')
-    await redis.del(`profile-${email}`)
+    await redis.del([
+      'client_courses',
+      `course-${courseId}`,
+      `profile-${email}`,
+    ])
 
     return NextResponse.json({ completed }, { status: 201 })
   } catch (err) {

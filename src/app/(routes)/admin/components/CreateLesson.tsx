@@ -21,6 +21,7 @@ const CreateLesson = ({
   setAttachments,
   setImage,
   attachments,
+  courseId,
 }: {
   opened: string
   close: () => void
@@ -29,6 +30,7 @@ const CreateLesson = ({
   attachments: string[]
   setAttachments: React.Dispatch<React.SetStateAction<string[]>>
   setImage: React.Dispatch<React.SetStateAction<string>>
+  courseId: string
 }) => {
   const router = useRouter()
   const [title, setTitle] = useState<string>('')
@@ -54,6 +56,7 @@ const CreateLesson = ({
         type,
         attachments: attachments,
         order,
+        courseId,
       })
 
       if (data.createdLesson) {

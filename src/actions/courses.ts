@@ -37,6 +37,12 @@ export const getCourses = async () => {
 }
 
 export const getCourseById = async (id: string) => {
+  const cachedValue = await redis.get(`course-${id}`)
+
+  if (cachedValue) {
+    return JSON.parse(cachedValue) as CourseType
+  }
+
   const course = await prisma.course.findUnique({
     where: {
       id: id,
@@ -54,6 +60,10 @@ export const getCourseById = async (id: string) => {
       },
     },
   })
+
+  if (course) {
+    await redis.set(`course-${course?.id}`, JSON.stringify(course), 'EX', 1800)
+  }
 
   return course as CourseType
 }

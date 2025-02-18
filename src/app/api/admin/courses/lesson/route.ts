@@ -14,6 +14,7 @@ export const POST = async (req: Request) => {
       chapterId,
       order,
       type,
+      courseId,
     } = await req.json()
 
     const createdLesson = await prisma.lesson.create({
@@ -35,7 +36,7 @@ export const POST = async (req: Request) => {
 
     revalidatePath('/admin/courses')
 
-    await redis.del('courses')
+    await redis.del(['courses', 'client_courses', `course-${courseId}`])
 
     return NextResponse.json({ createdLesson }, { status: 201 })
   } catch (err) {
@@ -48,6 +49,7 @@ export const PUT = async (req: Request) => {
     const body = await req.json()
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
+    const courseId = searchParams.get('courseId')
 
     if (!id) {
       return NextResponse.json(
@@ -65,6 +67,8 @@ export const PUT = async (req: Request) => {
 
     revalidatePath('/admin/courses')
 
+    await redis.del(['courses', 'client_courses', `course-${courseId}`])
+
     return NextResponse.json({ updatedLesson }, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })
@@ -75,6 +79,7 @@ export const DELETE = async (req: Request) => {
   try {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
+    const courseId = searchParams.get('courseId')
 
     if (!id) {
       return NextResponse.json(
@@ -89,7 +94,7 @@ export const DELETE = async (req: Request) => {
       },
     })
 
-    await redis.del('courses')
+    await redis.del(['courses', 'client_courses', `course-${courseId}`])
 
     return NextResponse.json({ deletedLesson }, { status: 200 })
   } catch (err) {

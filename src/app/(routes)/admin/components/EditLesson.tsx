@@ -22,6 +22,7 @@ const EditLesson = ({
   attachments,
   setAttachments,
   setImage,
+  courseId,
 }: {
   opened: string
   close: () => void
@@ -29,6 +30,7 @@ const EditLesson = ({
   attachments: string[]
   setAttachments: React.Dispatch<React.SetStateAction<string[]>>
   setImage: React.Dispatch<React.SetStateAction<string>>
+  courseId: string
 }) => {
   const router = useRouter()
   const [title, setTitle] = useState<string>('')
@@ -64,7 +66,7 @@ const EditLesson = ({
       }
       setUploading(true)
       const { data } = await axios.put(
-        `/api/admin/courses/lesson?id=${opened}`,
+        `/api/admin/courses/lesson?id=${opened}&&courseId=${courseId}`,
         {
           title,
           content,

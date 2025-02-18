@@ -8,6 +8,7 @@ const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
     return <Wrapper courses={null} />
   }
   const course = await getCourseById(id)
+
   return <Wrapper courses={[course] as unknown as CourseType[]} />
 }
 

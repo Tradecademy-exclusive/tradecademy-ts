@@ -67,6 +67,8 @@ export const PUT = async (req: Request) => {
           },
         },
       })
+
+      await redis.del(`profile-${email}`)
     }
 
     await redis.del('enrollments')
