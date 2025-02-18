@@ -31,7 +31,11 @@ const CourseChapter = ({
       (lesson) => !lesson.completed.some((user) => user.id === session?.user.id)
     )
 
-    if (!firstNotCompleted) return
+    if (!firstNotCompleted) {
+      const lastLesson = chapter.lessons[chapter.lessons.length - 1]
+      router.push(`/dashboard/courses/${courseId}?lesson=${lastLesson.id}`)
+      return
+    }
 
     router.push(`/dashboard/courses/${courseId}?lesson=${firstNotCompleted.id}`)
   }
@@ -68,9 +72,7 @@ const CourseChapter = ({
         <p className='text-sm text-[#000]/60'>{chapter.summary}</p>
         <button
           onClick={() => {
-            if (Number(completedPercentage) !== 100) {
-              goToLastLesson(chapter)
-            }
+            goToLastLesson(chapter)
           }}
           className='text-white bg-lightblue px-7 py-2 rounded-[5px] text-[15px] mt-2.5 '
         >

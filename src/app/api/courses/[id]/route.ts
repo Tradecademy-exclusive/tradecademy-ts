@@ -19,6 +19,7 @@ export const GET = async (
             lessons: {
               include: {
                 completed: true,
+                chapter: true,
               },
             },
           },
@@ -49,6 +50,7 @@ export const PUT = async (
             lessons: {
               include: {
                 completed: true,
+                chapter: true,
               },
             },
           },

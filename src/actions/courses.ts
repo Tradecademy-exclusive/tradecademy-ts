@@ -4,7 +4,7 @@ import { currentUser } from '@clerk/nextjs/server'
 import { redis } from '@/lib/redis'
 
 export const getCourses = async () => {
-  const cachedValue = await redis.get('courses')
+  const cachedValue = await redis.get('client_courses')
 
   if (cachedValue) {
     return JSON.parse(cachedValue) as CourseType[]
@@ -14,7 +14,9 @@ export const getCourses = async () => {
     orderBy: {
       createdAt: 'asc',
     },
-
+    where: {
+      publishedCourse: 'Published',
+    },
     include: {
       chapters: {
         include: {
@@ -29,7 +31,7 @@ export const getCourses = async () => {
     },
   })
 
-  await redis.set('courses', JSON.stringify(courses))
+  await redis.set('client_courses', JSON.stringify(courses), 'EX', 7200)
 
   return courses as CourseType[]
 }

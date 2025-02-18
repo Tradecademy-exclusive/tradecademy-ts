@@ -1,18 +1,22 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/db/prisma'
 import { currentUser } from '@clerk/nextjs/server'
+import { redis } from '@/lib/redis'
 
 export const POST = async (req: Request) => {
   try {
-    const { lessonId, sessionId } = await req.json()
     const user = await currentUser()
-
     if (!user) {
       return NextResponse.json(
-        { message: 'Unauthorized Request' },
+        { message: 'Anauthorized request' },
         { status: 401 }
       )
     }
+    const email =
+      user?.primaryEmailAddress?.emailAddress ||
+      user?.emailAddresses[0].emailAddress
+
+    const { lessonId, sessionId } = await req.json()
 
     const note = await prisma.note.create({
       data: {
@@ -23,12 +27,15 @@ export const POST = async (req: Request) => {
         },
         user: {
           connect: {
-            email: user.primaryEmailAddress?.emailAddress,
+            email,
           },
         },
         sessionId: sessionId,
       },
     })
+
+    await redis.del(`profile-${email}`)
+    await redis.del('client_courses')
 
     return NextResponse.json({ note }, { status: 201 })
   } catch (err) {

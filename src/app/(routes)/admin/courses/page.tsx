@@ -9,6 +9,7 @@ import { AdminContext } from '../AdminProvider'
 
 const CoursesWrapper = () => {
   const { courses } = useContext(AdminContext)
+
   return (
     <div className='relative bg-[#F0F0F0] min-h-screen overflow-y-auto'>
       <CourseHeader page='Courses' />

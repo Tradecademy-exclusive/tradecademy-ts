@@ -14,13 +14,15 @@ export const POST = async (req: Request) => {
     }
 
     const user = await currentUser()
-
     if (!user) {
       return NextResponse.json(
         { message: 'Anauthorized request' },
         { status: 401 }
       )
     }
+    const email =
+      user?.primaryEmailAddress?.emailAddress ||
+      user?.emailAddresses[0].emailAddress
 
     const completed = await prisma.lesson.update({
       where: {
@@ -38,7 +40,8 @@ export const POST = async (req: Request) => {
       },
     })
 
-    await redis.del('courses')
+    await redis.del('client_courses')
+    await redis.del(`profile-${email}`)
 
     return NextResponse.json({ completed }, { status: 201 })
   } catch (err) {
