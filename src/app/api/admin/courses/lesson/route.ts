@@ -1,6 +1,7 @@
 import prisma from '@/db/prisma'
 import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
+import { redis } from '@/lib/redis'
 
 export const POST = async (req: Request) => {
   try {
@@ -33,6 +34,8 @@ export const POST = async (req: Request) => {
     })
 
     revalidatePath('/admin/courses')
+
+    await redis.del('courses')
 
     return NextResponse.json({ createdLesson }, { status: 201 })
   } catch (err) {
@@ -85,6 +88,8 @@ export const DELETE = async (req: Request) => {
         id,
       },
     })
+
+    await redis.del('courses')
 
     return NextResponse.json({ deletedLesson }, { status: 200 })
   } catch (err) {

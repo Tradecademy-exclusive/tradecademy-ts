@@ -1,8 +1,15 @@
 import prisma from '@/db/prisma'
 import { CourseType } from '@/types'
 import { currentUser } from '@clerk/nextjs/server'
+import { redis } from '@/lib/redis'
 
 export const getCourses = async () => {
+  const cachedValue = await redis.get('courses')
+
+  if (cachedValue) {
+    return JSON.parse(cachedValue) as CourseType[]
+  }
+
   const courses = await prisma.course.findMany({
     orderBy: {
       createdAt: 'asc',
@@ -21,6 +28,9 @@ export const getCourses = async () => {
       },
     },
   })
+
+  await redis.set('courses', JSON.stringify(courses))
+
   return courses as CourseType[]
 }
 

@@ -1,6 +1,7 @@
 import { Course } from '@prisma/client'
 import prisma from '@/db/prisma'
 import { NextResponse } from 'next/server'
+import { redis } from '@/lib/redis'
 
 export const GET = async (
   _: Request,
@@ -55,6 +56,8 @@ export const PUT = async (
       },
       data,
     })
+
+    await redis.del('courses')
 
     return NextResponse.json({ updatedCourse }, { status: 201 })
   } catch (err) {

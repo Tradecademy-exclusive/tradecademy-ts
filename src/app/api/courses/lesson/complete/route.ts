@@ -1,6 +1,7 @@
 import prisma from '@/db/prisma'
 import { NextResponse } from 'next/server'
 import { currentUser } from '@clerk/nextjs/server'
+import { redis } from '@/lib/redis'
 
 export const POST = async (req: Request) => {
   try {
@@ -36,6 +37,8 @@ export const POST = async (req: Request) => {
         completed: true,
       },
     })
+
+    await redis.del('courses')
 
     return NextResponse.json({ completed }, { status: 201 })
   } catch (err) {

@@ -89,6 +89,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      ioredis:
+        specifier: ^5.5.0
+        version: 5.5.0
       joi:
         specifier: ^17.13.3
         version: 17.13.3
@@ -656,6 +659,9 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       ink: '>=5'
+
+  '@ioredis/commands@1.2.0':
+    resolution: {integrity: sha512-Sx1pU8EM64o2BrqNpEO1CNLtKQwyhuXuqyfH7oGKCk+1a33d2r5saW8zNwm3j6BTExtjrv2BxTgzzkMwts6vGg==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1848,6 +1854,10 @@ packages:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
+  cluster-key-slot@1.1.2:
+    resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
+    engines: {node: '>=0.10.0'}
+
   code-excerpt@4.0.0:
     resolution: {integrity: sha512-xxodCmBen3iy2i0WtAK8FlFNrRzjUqjRsMfho58xT/wvZU1YTM3fCnRjcy1gJPMepaRlgm/0e6w8SpWHpn3/cA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -2028,6 +2038,10 @@ packages:
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
+
+  denque@2.1.0:
+    resolution: {integrity: sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw==}
+    engines: {node: '>=0.10'}
 
   dequal@2.0.3:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
@@ -2586,6 +2600,10 @@ packages:
     resolution: {integrity: sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==}
     engines: {node: '>=12'}
 
+  ioredis@5.5.0:
+    resolution: {integrity: sha512-7CutT89g23FfSa8MDoIFs2GYYa0PaNiW/OrT+nRyjRXHDZd17HmIgy+reOQ/yhh72NznNjGuS8kbCAcA4Ro4mw==}
+    engines: {node: '>=12.22.0'}
+
   is-accessor-descriptor@1.0.1:
     resolution: {integrity: sha512-YBUanLI8Yoihw923YeFUS5fs0fF2f5TSFTNiYAAzhhDscDa3lEqYuz1pDOEP5KvX94I9ey3vsqjJcLVFVU+3QA==}
     engines: {node: '>= 0.10'}
@@ -2905,8 +2923,14 @@ packages:
     resolution: {integrity: sha512-gvVijfZvn7R+2qyPX8mAuKcFGDf6Nc61GdvGafQsHL0sBIxfKzA+usWn4GFC/bk+QdwPUD4kWFJLhElipq+0VA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
+  lodash.defaults@4.2.0:
+    resolution: {integrity: sha512-qjxPLHd3r5DnsdGacqOMU6pb/avJzdh9tFX2ymgoZE27BmjXrNy/y4LoaiTeAb+O3gL8AfpJGtqfX/ae2leYYQ==}
+
   lodash.includes@4.3.0:
     resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
+
+  lodash.isarguments@3.1.0:
+    resolution: {integrity: sha512-chi4NHZlZqZD18a0imDHnZPrDeBbTtVN7GXMwuGdRH9qotxAjYs3aVLKc7zNOG9eddR5Ksd8rvFEBc9SsggPpg==}
 
   lodash.isboolean@3.0.3:
     resolution: {integrity: sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==}
@@ -3562,6 +3586,14 @@ packages:
     resolution: {integrity: sha512-tYkDkVVtYkSVhuQ4zBgfvciymHaeuel+zFKXShfDnFP5SyVEP7qo70Rf1jTOTCx3vGNAbnEi/xFkcfQVMIBWag==}
     engines: {node: '>=12'}
 
+  redis-errors@1.2.0:
+    resolution: {integrity: sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==}
+    engines: {node: '>=4'}
+
+  redis-parser@3.0.0:
+    resolution: {integrity: sha512-DJnGAeenTdpMEH6uAJRK/uiyEIH9WVsUmoLwzudwGJUwZPp80PDBWPHXSAGNPwNvIXAbe7MSUB1zQFugFml66A==}
+    engines: {node: '>=4'}
+
   reflect.getprototypeof@1.0.10:
     resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
     engines: {node: '>= 0.4'}
@@ -3768,6 +3800,9 @@ packages:
   stack-utils@2.0.6:
     resolution: {integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==}
     engines: {node: '>=10'}
+
+  standard-as-callback@2.1.0:
+    resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
 
   std-env@3.8.0:
     resolution: {integrity: sha512-Bc3YwwCB+OzldMxOXJIIvC6cPRWr/LxOp48CdQTOkPyk/t4JWWJbrilwBd7RJzKV8QW7tJkcgAmeuLLJugl5/w==}
@@ -4513,17 +4548,17 @@ snapshots:
 
   '@clerk/upgrade@1.2.3(@types/react@19.0.4)':
     dependencies:
-      '@inkjs/ui': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))
-      '@jescalan/ink-markdown': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1)
+      '@inkjs/ui': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))
+      '@jescalan/ink-markdown': 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1)
       ejs: 3.1.10
       execa: 9.4.1
       globby: 14.1.0
       gray-matter: 4.0.3
       index-to-position: 0.1.2
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
-      ink-big-text: 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1)
-      ink-gradient: 3.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))
-      ink-link: 4.1.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))
+      ink-big-text: 2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1)
+      ink-gradient: 3.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))
+      ink-link: 4.1.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))
       jscodeshift: 17.1.2
       marked: 11.2.0
       meow: 11.0.0
@@ -4717,13 +4752,15 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@inkjs/ui@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))':
+  '@inkjs/ui@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))':
     dependencies:
       chalk: 5.4.1
       cli-spinners: 3.2.0
       deepmerge: 4.3.1
       figures: 6.1.0
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
+
+  '@ioredis/commands@1.2.0': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -4734,7 +4771,7 @@ snapshots:
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
-  '@jescalan/ink-markdown@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1)':
+  '@jescalan/ink-markdown@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1)':
     dependencies:
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
       marked: 11.2.0
@@ -5980,6 +6017,8 @@ snapshots:
 
   clsx@2.1.1: {}
 
+  cluster-key-slot@1.1.2: {}
+
   code-excerpt@4.0.0:
     dependencies:
       convert-to-spaces: 2.0.1
@@ -6134,6 +6173,8 @@ snapshots:
       is-descriptor: 1.0.3
 
   delayed-stream@1.0.0: {}
+
+  denque@2.1.0: {}
 
   dequal@2.0.3: {}
 
@@ -6793,14 +6834,14 @@ snapshots:
 
   index-to-position@0.1.2: {}
 
-  ink-big-text@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1))(react@18.3.1):
+  ink-big-text@2.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0))(react@18.3.1):
     dependencies:
       cfonts: 3.3.0
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
       prop-types: 15.8.1
       react: 18.3.1
 
-  ink-gradient@3.0.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1)):
+  ink-gradient@3.0.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0)):
     dependencies:
       '@types/gradient-string': 1.1.6
       gradient-string: 2.0.2
@@ -6808,7 +6849,7 @@ snapshots:
       prop-types: 15.8.1
       strip-ansi: 7.1.0
 
-  ink-link@4.1.0(ink@5.1.0(@types/react@19.0.4)(react@18.3.1)):
+  ink-link@4.1.0(ink@5.1.0(@types/react@19.0.4)(react@19.0.0)):
     dependencies:
       ink: 5.1.0(@types/react@19.0.4)(react@18.3.1)
       prop-types: 15.8.1
@@ -6854,6 +6895,20 @@ snapshots:
       side-channel: 1.1.0
 
   internmap@2.0.3: {}
+
+  ioredis@5.5.0:
+    dependencies:
+      '@ioredis/commands': 1.2.0
+      cluster-key-slot: 1.1.2
+      debug: 4.4.0
+      denque: 2.1.0
+      lodash.defaults: 4.2.0
+      lodash.isarguments: 3.1.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
+      standard-as-callback: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
 
   is-accessor-descriptor@1.0.1:
     dependencies:
@@ -7187,7 +7242,11 @@ snapshots:
     dependencies:
       p-locate: 6.0.0
 
+  lodash.defaults@4.2.0: {}
+
   lodash.includes@4.3.0: {}
+
+  lodash.isarguments@3.1.0: {}
 
   lodash.isboolean@3.0.3: {}
 
@@ -7835,6 +7894,12 @@ snapshots:
       indent-string: 5.0.0
       strip-indent: 4.0.0
 
+  redis-errors@1.2.0: {}
+
+  redis-parser@3.0.0:
+    dependencies:
+      redis-errors: 1.2.0
+
   reflect.getprototypeof@1.0.10:
     dependencies:
       call-bind: 1.0.8
@@ -8093,6 +8158,8 @@ snapshots:
   stack-utils@2.0.6:
     dependencies:
       escape-string-regexp: 2.0.0
+
+  standard-as-callback@2.1.0: {}
 
   std-env@3.8.0: {}
 
