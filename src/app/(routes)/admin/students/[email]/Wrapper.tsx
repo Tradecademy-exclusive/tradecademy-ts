@@ -99,7 +99,7 @@ const StudentWrapper = ({
             <span className='text-sm'>
               Registered at:{' '}
               <span className='font-medium'>
-                {student.createdAt.toDateString()}
+                {new Date(student.createdAt).toDateString()}
               </span>
             </span>
             <span className='text-sm'>

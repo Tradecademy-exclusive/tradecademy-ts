@@ -31,7 +31,7 @@ export const GET = async () => {
       },
     })
 
-    await redis.set('courses', JSON.stringify(courses))
+    await redis.set('courses', JSON.stringify(courses), 'EX', 3600 * 24)
 
     return NextResponse.json({ courses }, { status: 200 })
   } catch (err) {

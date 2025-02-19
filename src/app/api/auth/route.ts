@@ -29,18 +29,22 @@ export const GET = async () => {
         email: user.primaryEmailAddress?.emailAddress,
       },
       include: {
+        focusPoint: true,
+        plan: true,
+        previousPlans: true,
         courses: {
           include: {
             chapters: {
               include: {
-                lessons: true,
+                lessons: {
+                  include: {
+                    completed: true,
+                  },
+                },
               },
             },
           },
         },
-        plan: true,
-        previousPlans: true,
-        focusPoint: true,
         completed: true,
       },
     })

@@ -13,10 +13,12 @@ const UpdateChapter = ({
   opened,
   setOpened,
   id,
+  courseId,
 }: {
   opened: string
   setOpened: React.Dispatch<React.SetStateAction<string>>
   id: string
+  courseId: string
 }) => {
   const router = useRouter()
   const [title, setTitle] = useState<string>('')
@@ -47,6 +49,7 @@ const UpdateChapter = ({
         id,
         title,
         summary,
+        courseId,
       })
       if (data.updatedChapter) {
         toast.error('Chapter has been updated', {

@@ -6,9 +6,6 @@ export const getStudents = async () => {
     include: {
       courses: true,
     },
-    cacheStrategy: {
-      ttl: 120,
-    },
   })
   return students as UserType[]
 }

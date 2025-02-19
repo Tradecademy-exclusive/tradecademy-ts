@@ -1,4 +1,5 @@
 import prisma from '@/db/prisma'
+import { redis } from '@/lib/redis'
 import { NextResponse } from 'next/server'
 
 export const POST = async (req: Request) => {
@@ -19,6 +20,8 @@ export const POST = async (req: Request) => {
         image: image || null,
       },
     })
+
+    await redis.del(['client_analysis', 'analysis'])
 
     return NextResponse.json({ analysis }, { status: 201 })
   } catch (err) {
@@ -48,6 +51,9 @@ export const PUT = async (req: Request) => {
         image: image || null,
       },
     })
+
+    await redis.del(['client_analysis', 'analysis'])
+
     return NextResponse.json({ analysis }, { status: 201 })
   } catch (err) {
     return NextResponse.json({ error: err }, { status: 500 })

@@ -16,7 +16,28 @@ export const POST = async (req: Request) => {
       user.primaryEmailAddress?.emailAddress
     const username = user.username || user.firstName || 'Unknown'
 
-    let dbUser = await prisma.user.findUnique({ where: { email } })
+    let dbUser = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        focusPoint: true,
+        plan: true,
+        previousPlans: true,
+        courses: {
+          include: {
+            chapters: {
+              include: {
+                lessons: {
+                  include: {
+                    completed: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        completed: true,
+      },
+    })
 
     if (
       dbUser &&
@@ -29,6 +50,25 @@ export const POST = async (req: Request) => {
         data: {
           username,
           picture: user.imageUrl,
+        },
+        include: {
+          focusPoint: true,
+          plan: true,
+          previousPlans: true,
+          courses: {
+            include: {
+              chapters: {
+                include: {
+                  lessons: {
+                    include: {
+                      completed: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          completed: true,
         },
       })
 
@@ -77,6 +117,25 @@ export const POST = async (req: Request) => {
           focusPointId: focusPoint.id,
           IP: ip,
           password: 'defaultPassword',
+        },
+        include: {
+          focusPoint: true,
+          plan: true,
+          previousPlans: true,
+          courses: {
+            include: {
+              chapters: {
+                include: {
+                  lessons: {
+                    include: {
+                      completed: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          completed: true,
         },
       })
     }

@@ -1,4 +1,5 @@
 import prisma from '@/db/prisma'
+import { redis } from '@/lib/redis'
 import { NextResponse } from 'next/server'
 
 export const GET = async (
@@ -15,6 +16,8 @@ export const GET = async (
         mentor: true,
       },
     })
+
+    await redis.del(['client_analysis', 'analysis'])
 
     return NextResponse.json({ analysis }, { status: 200 })
   } catch (err) {

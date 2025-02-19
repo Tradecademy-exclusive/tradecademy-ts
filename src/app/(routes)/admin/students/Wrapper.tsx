@@ -84,10 +84,10 @@ const Students = ({ students }: { students: UserType[] }) => {
       id: 'Details',
       accessorKey: '',
       cell: ({ row }) => {
-        const id = row.original.id
+        const email = row.original.email
         return (
           <Link
-            href={`/admin/students/${id}`}
+            href={`/admin/students/${email}`}
             className='text-sm font-semibold px-10 py-2 rounded-full bg-[#B1C3F7] text-lightblue'
           >
             Details

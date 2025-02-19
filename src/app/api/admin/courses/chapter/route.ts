@@ -58,7 +58,7 @@ export const POST = async (req: Request) => {
       })
     }
 
-    await redis.del('courses')
+    await redis.del(['courses', 'client_courses', `course-${courseId}`])
 
     return NextResponse.json({ createdChapter }, { status: 201 })
   } catch (err) {
@@ -74,7 +74,7 @@ export const PUT = async (req: Request) => {
       return NextResponse.json({ message: 'Invalid payload' }, { status: 400 })
     }
 
-    const { title, summary, id } = body
+    const { title, summary, id, courseId } = body
 
     if (!title) {
       return NextResponse.json(
@@ -96,7 +96,7 @@ export const PUT = async (req: Request) => {
       },
     })
 
-    await redis.del('courses')
+    await redis.del(['courses', 'client_courses', `course-${courseId}`])
 
     return NextResponse.json({ updatedChapter }, { status: 201 })
   } catch (err) {
@@ -108,6 +108,7 @@ export const DELETE = async (req: Request) => {
   try {
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
+    const courseId = searchParams.get('courseId')
 
     if (!id) {
       return NextResponse.json(
@@ -122,7 +123,7 @@ export const DELETE = async (req: Request) => {
       },
     })
 
-    await redis.del('courses')
+    await redis.del(['courses', 'client_courses', `course-${courseId}`])
 
     return NextResponse.json({ deletedChapter }, { status: 200 })
   } catch (err) {

@@ -4,9 +4,11 @@ import StudentWrapper from './Wrapper'
 import prisma from '@/db/prisma'
 import { EnrollType } from '@/types'
 
-const StudentPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params
-  const student = await getStudentById(id)
+const StudentPage = async ({ params }: { params: { email: string } }) => {
+  await params
+  const email = decodeURIComponent(params.email)
+
+  const student = await getStudentById(email)
 
   if (!student) {
     return notFound()

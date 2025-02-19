@@ -217,12 +217,13 @@ const Wrapper = ({ courses }: { courses: CourseType[] | null }) => {
             opened={chapterOpen}
             setOpened={setChapterOpen}
             length={courses[0].chapters.length}
-            courseId={courses[0].id}
+            courseId={courseById?.id || ''}
           />
           <UpdateChapter
             id={chapterId}
             opened={chapterId}
             setOpened={setChapterId}
+            courseId={courseById?.id || ''}
           />
         </>
       )}
