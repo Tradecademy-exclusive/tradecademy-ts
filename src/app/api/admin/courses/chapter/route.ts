@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/db/prisma'
 import { redis } from '@/lib/redis'
+import protectAdmin from '../../protect'
 
 export const POST = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
     const body = await req.json()
 
     if (!body || typeof body !== 'object') {
@@ -68,6 +73,10 @@ export const POST = async (req: Request) => {
 
 export const PUT = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
     const body = await req.json()
 
     if (!body || typeof body !== 'object') {
@@ -106,6 +115,10 @@ export const PUT = async (req: Request) => {
 
 export const DELETE = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
     const { searchParams } = new URL(req.url)
     const id = searchParams.get('id')
     const courseId = searchParams.get('courseId')

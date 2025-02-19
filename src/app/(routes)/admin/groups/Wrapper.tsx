@@ -18,7 +18,7 @@ const GroupsWrapper = ({ groups }: { groups: GroupType[] }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [groupUpdateId, setGroupUpdateId] = useState<string>('')
 
-  const totalLessons = courses.reduce((acc, course) => {
+  const totalLessons = courses!.reduce((acc, course) => {
     return (
       acc +
       course.chapters.reduce((total, chapter) => {
@@ -62,10 +62,10 @@ const GroupsWrapper = ({ groups }: { groups: GroupType[] }) => {
       accessorKey: 'Date From/Until',
       header: 'Date From/Until',
       cell: ({ row }) => {
-        const dateFrom = row.original.dateFrom
+        const dateFrom = new Date(row.original.dateFrom)
           .toLocaleDateString()
           .replaceAll('/', '-')
-        const dateUntil = row.original.dateUntil
+        const dateUntil = new Date(row.original.dateUntil)
           .toLocaleDateString()
           .replaceAll('/', '-')
         return (

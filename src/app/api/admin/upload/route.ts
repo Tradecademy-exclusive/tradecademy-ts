@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import path from 'path'
 import fs from 'fs'
+import protectAdmin from '../protect'
 
 export const config = {
   api: {
@@ -10,6 +11,11 @@ export const config = {
 
 export const POST = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
+
     const formData = await req.formData()
     const file = formData.get('image')
 

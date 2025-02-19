@@ -97,7 +97,7 @@ const GroupWrapper = ({ group, courses }: GroupWrapperProps) => {
                   </TableCell>
                   <TableCell>
                     <Link
-                      href={`/admin/students/${student.id}`}
+                      href={`/admin/students/${student.email}`}
                       className='text-[15px] px-9 py-2 rounded-full font-semibold text-lightblue bg-[#B1C3F7]'
                     >
                       Details

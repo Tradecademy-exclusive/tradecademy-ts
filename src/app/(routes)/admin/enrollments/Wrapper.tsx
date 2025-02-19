@@ -182,7 +182,7 @@ const Enrollments = ({ enrollments }: { enrollments: EnrollType[] }) => {
 
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href={`/admin/students/${enrollment.user.id}`}>
+                <Link href={`/admin/students/${enrollment.user.email}`}>
                   View student details
                 </Link>
               </DropdownMenuItem>

@@ -2,9 +2,15 @@ import prisma from '@/db/prisma'
 import { enrollStatus, User } from '@prisma/client'
 import { NextResponse } from 'next/server'
 import { redis } from '@/lib/redis'
+import protectAdmin from '../protect'
 
 export const POST = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
+
     const { students, courseId }: { students: User[]; courseId: string } =
       await req.json()
 
@@ -33,6 +39,11 @@ export const POST = async (req: Request) => {
 
 export const PUT = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
+
     const {
       status,
       id,
@@ -81,6 +92,11 @@ export const PUT = async (req: Request) => {
 
 export const GET = async () => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
+
     const cachedValue = await redis.get('enrollments')
 
     if (cachedValue) {

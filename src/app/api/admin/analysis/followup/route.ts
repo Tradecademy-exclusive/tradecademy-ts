@@ -1,9 +1,14 @@
 import prisma from '@/db/prisma'
 import { redis } from '@/lib/redis'
 import { NextResponse } from 'next/server'
+import protectAdmin from '../../protect'
 
 export const POST = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
     const { title, content, userId, video, image, strategy, analysisId } =
       await req.json()
 
@@ -37,6 +42,10 @@ export const POST = async (req: Request) => {
 
 export const PUT = async (req: Request) => {
   try {
+    const response = await protectAdmin()
+    if (response) {
+      return response
+    }
     const { title, content, userId, video, image, strategy, id } =
       await req.json()
 

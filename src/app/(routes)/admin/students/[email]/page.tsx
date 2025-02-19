@@ -5,10 +5,10 @@ import prisma from '@/db/prisma'
 import { EnrollType } from '@/types'
 
 const StudentPage = async ({ params }: { params: { email: string } }) => {
-  await params
-  const email = decodeURIComponent(params.email)
+  const { email } = await params
+  const decodedEmal = decodeURIComponent(email)
 
-  const student = await getStudentById(email)
+  const student = await getStudentById(decodedEmal)
 
   if (!student) {
     return notFound()

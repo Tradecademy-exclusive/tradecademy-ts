@@ -31,7 +31,12 @@ export const GET = async () => {
       },
     })
 
-    await redis.set('client_analysis', JSON.stringify(analysis))
+    await redis.set(
+      'client_analysis',
+      JSON.stringify(analysis),
+      'EX',
+      3600 * 24
+    )
 
     return NextResponse.json({ analysis }, { status: 200 })
   } catch (err) {

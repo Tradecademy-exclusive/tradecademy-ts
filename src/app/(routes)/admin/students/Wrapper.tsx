@@ -58,7 +58,7 @@ const Students = ({ students }: { students: UserType[] }) => {
       accessorKey: 'createdAt',
       header: 'Registration Date',
       cell: ({ row }) => {
-        const date = row.original.createdAt
+        const date = new Date(row.original.createdAt)
         return (
           <h4 className='text-sm font-light'>
             <span className='hidden lg:block'>
