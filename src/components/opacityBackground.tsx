@@ -5,7 +5,6 @@ const OpacityBackground = ({
   opened: boolean
   close: () => void
 }) => {
-  console.log('bg')
   return (
     <div
       onClick={close}
